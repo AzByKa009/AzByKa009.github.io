@@ -1,0 +1,921 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alexey Taranukha</title>
+<meta name="description" content="Трейдер по золоту и серебру (XAUUSD / XAGUSD) и владелец агентства digital-услуг. Показываю путь как есть — вместе с минусами.">
+<meta name="theme-color" content="#0A0A0B">
+<link rel="canonical" href="https://azbyka009.github.io/">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Алексей Тарануха">
+<meta property="og:title" content="Алексей Тарануха — трейдер и агентство digital-услуг">
+<meta property="og:description" content="Трейдер по золоту и серебру (XAUUSD / XAGUSD) и владелец агентства digital-услуг. Показываю путь как есть — вместе с минусами.">
+<meta property="og:url" content="https://azbyka009.github.io/">
+<meta property="og:image" content="https://azbyka009.github.io/og.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Алексей Тарануха — трейдер по золоту и серебру">
+<meta property="og:locale" content="ru_RU">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Алексей Тарануха — трейдер и агентство digital-услуг">
+<meta name="twitter:description" content="Трейдер по золоту и серебру (XAUUSD / XAGUSD) и владелец агентства digital-услуг. Показываю путь как есть — вместе с минусами.">
+<meta name="twitter:image" content="https://azbyka009.github.io/og.png">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📈</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Unbounded:wght@500;700;800;900&display=swap">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<style>
+:root{
+  --void:#000000;
+  --coal:#0A0A0B;
+  --graphite:#131316;
+  --slate:#1B1B1F;
+  --edge:#2A2A2F;
+  --edge-soft:#1E1E22;
+  --white:#FFFFFF;
+  --silver:#F0F0F0;
+  --steel:rgba(255,255,255,.74);
+  --dim:rgba(255,255,255,.48);
+  --r:18px;
+  --ember:#FF0000;
+  --profit:#00E85F;
+  --pad:clamp(18px,5vw,52px);
+}
+*{box-sizing:border-box}
+
+html{scroll-behavior:smooth}
+body{
+  background:#171717;
+  color:var(--silver);
+  font-family:Manrope,"Segoe UI",system-ui,sans-serif;
+  font-size:15px;line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+
+/* дымка: чёрный сверху, графит ниже */
+.bg-field{
+  position:fixed;inset:0;z-index:-2;pointer-events:none;
+  background:
+    radial-gradient(90% 55% at 50% -8%,rgba(255,255,255,.09),transparent 62%),
+    linear-gradient(180deg,#000 0%,#000 22%,#0B0B0C 46%,#131314 72%,#171717 100%);
+}
+.grain{
+  position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.32;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/></filter><rect width='140' height='140' filter='url(%23n)' opacity='.45'/></svg>");
+}
+
+.wrap{max-width:1200px;margin:0 auto;padding:0 var(--pad)}
+
+/* ---------- типографика ---------- */
+h1,.disp{font-family:Unbounded,Manrope,sans-serif;margin:0;text-wrap:balance}
+h2,h3{font-family:Manrope,sans-serif;margin:0;text-wrap:balance}
+p{margin:0}
+.mono{font-family:"JetBrains Mono",ui-monospace,Consolas,monospace;font-variant-numeric:tabular-nums}
+.eyebrow{font-family:Manrope,sans-serif;font-weight:700;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+
+/* серебристый перелив, как на купюре */
+.shine{
+  background:linear-gradient(100deg,#7E8288 0%,#FFFFFF 18%,#C9CDD3 34%,#6E7279 50%,#FFFFFF 68%,#B4B8BF 84%,#75797F 100%);
+  background-size:280% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:sweep 9s linear infinite;
+}
+@keyframes sweep{0%{background-position:0% 50%}100%{background-position:280% 50%}}
+
+h1{
+  font-size:clamp(30px,6.6vw,82px);font-weight:800;line-height:.9;
+  letter-spacing:-.04em;text-transform:uppercase;
+}
+h2{font-size:clamp(21px,2.9vw,36px);font-weight:800;line-height:1.08;letter-spacing:-.025em;text-transform:uppercase;color:var(--white)}
+h3{font-size:16px;font-weight:700;line-height:1.28;letter-spacing:-.01em;color:var(--white)}
+.lead{font-size:clamp(14.5px,1.15vw,16px);color:var(--steel);line-height:1.62;max-width:58ch}
+
+/* ---------- прелоадер ---------- */
+#pre{
+  position:fixed;inset:0;z-index:200;background:#000;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;
+  transition:opacity .7s ease,visibility .7s;
+}
+#pre.gone{opacity:0;visibility:hidden}
+#pre .num{font-family:Unbounded,sans-serif;font-weight:800;font-size:clamp(40px,9vw,92px);letter-spacing:-.05em;line-height:1;color:#fff;font-variant-numeric:tabular-nums}
+#pre .bar{width:min(240px,54vw);height:1px;background:#232327;position:relative;overflow:hidden}
+#pre .bar i{position:absolute;inset:0;background:#fff;transform-origin:left;transform:scaleX(0)}
+#pre .lbl{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.34em;text-transform:uppercase;color:#5C5F65}
+
+/* ---------- reveal (только когда JS жив) ---------- */
+.js .rv{opacity:0;transform:translateY(26px);transition:opacity .9s cubic-bezier(.16,.8,.3,1),transform .9s cubic-bezier(.16,.8,.3,1)}
+.js .rv.in{opacity:1;transform:none}
+.js .rv.d1{transition-delay:.09s}.js .rv.d2{transition-delay:.18s}.js .rv.d3{transition-delay:.27s}
+
+/* ---------- nav ---------- */
+nav{position:sticky;top:0;z-index:60;background:rgba(0,0,0,.7);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--edge-soft)}
+.nav-in{max-width:1200px;margin:0 auto;padding:15px var(--pad);display:flex;align-items:center;justify-content:space-between;gap:18px}
+.brand{font-family:Unbounded,sans-serif;font-weight:800;font-size:14px;letter-spacing:.1em;color:var(--white);text-decoration:none}
+.nav-links{display:flex;gap:28px}
+.nav-links a{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--steel);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--white)}
+.nav-cta{
+  font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:500;
+  color:#000;background:var(--white);padding:11px 20px;border-radius:999px;text-decoration:none;white-space:nowrap;
+  transition:box-shadow .25s,transform .25s;
+}
+.nav-cta:hover{box-shadow:0 0 30px rgba(255,255,255,.55);transform:translateY(-1px) scale(1.03)}
+a:focus-visible,button:focus-visible{outline:1px solid var(--white);outline-offset:4px}
+
+/* ---------- hero ---------- */
+.hero{padding:clamp(44px,7vw,92px) 0 clamp(30px,4vw,46px);position:relative}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,.85fr);gap:clamp(28px,5vw,72px);align-items:center}
+.hero-copy{min-width:0}
+.hero-photo{aspect-ratio:4/5;align-self:center}
+.hero-meta{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:clamp(24px,4vw,40px)}
+.chip{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--edge);border-radius:999px;padding:8px 15px;font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--steel);background:rgba(255,255,255,.02)}
+.chip i{width:5px;height:5px;border-radius:50%;background:var(--white);display:block;box-shadow:0 0 9px rgba(255,255,255,.9)}
+.chip i.em{background:var(--ember);box-shadow:0 0 10px rgba(255,0,0,.9);animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+
+.hero h1{margin-bottom:clamp(22px,3.5vw,34px)}
+.hero-sub{
+  font-family:Unbounded,sans-serif;font-weight:500;text-transform:uppercase;
+  font-size:clamp(13px,1.25vw,16.5px);line-height:1.45;letter-spacing:.01em;color:var(--white);
+  max-width:30ch;margin-bottom:20px;font-weight:700;
+}
+.hero-sub span{color:var(--dim)}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:clamp(26px,4vw,38px)}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:15px 26px;
+  font-family:Manrope,sans-serif;font-size:12.5px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;
+  text-decoration:none;background:var(--white);color:#000;border:1px solid var(--white);border-radius:999px;
+  transition:box-shadow .3s,transform .3s;
+}
+.btn{position:relative;isolation:isolate}
+.btn::after{content:"";position:absolute;inset:-40%;z-index:-1;pointer-events:none;filter:blur(26px);
+  background:radial-gradient(closest-side,rgba(255,255,255,.55),transparent 74%);opacity:0;transition:opacity .45s ease}
+.btn:hover::after{opacity:1}
+.btn:hover{box-shadow:0 0 46px rgba(255,255,255,.5);transform:translateY(-3px) scale(1.02)}
+.btn.ghost{background:transparent;color:var(--white);border-color:var(--edge)}
+.btn.ghost:hover{border-color:var(--white);box-shadow:0 0 34px rgba(255,255,255,.2)}
+.btn.ghost::after{background:radial-gradient(closest-side,rgba(255,255,255,.3),transparent 74%)}
+
+/* бегущая строка */
+.marquee{border-top:1px solid var(--edge-soft);border-bottom:1px solid var(--edge-soft);overflow:hidden;padding:15px 0;margin-top:clamp(34px,5vw,56px)}
+.marquee-track{display:flex;gap:44px;width:max-content;animation:slide 34s linear infinite}
+.marquee span{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:var(--dim);white-space:nowrap;display:flex;align-items:center;gap:44px}
+.marquee span::after{content:"";width:4px;height:4px;background:var(--edge);display:block;flex:none}
+@keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ---------- статистика ---------- */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--edge-soft)}
+.stat{padding:clamp(26px,4vw,44px) 22px clamp(26px,4vw,44px) 0;display:flex;flex-direction:column;gap:9px}
+.stat + .stat{border-left:1px solid var(--edge-soft);padding-left:22px}
+.stat .v{font-family:Unbounded,sans-serif;font-weight:900;letter-spacing:-.05em;line-height:.94;font-size:clamp(25px,3.1vw,42px);color:var(--white);font-variant-numeric:tabular-nums}
+
+.stat .k{font-size:13px;color:var(--steel);line-height:1.42;max-width:23ch}
+
+/* ---------- секции ---------- */
+section{padding:clamp(64px,10vw,132px) 0;border-bottom:1px solid var(--edge-soft)}
+.sec-head{display:flex;flex-direction:column;gap:15px;margin-bottom:clamp(32px,5vw,54px)}
+.sec-head .eyebrow{display:flex;align-items:center;gap:11px}
+.sec-head .eyebrow::before{content:"";width:26px;height:1px;background:var(--steel);display:block}
+
+/* философия */
+.manifesto{display:flex;flex-direction:column;gap:clamp(26px,4vw,42px)}
+.claim{
+  font-family:Unbounded,sans-serif;font-weight:700;text-transform:uppercase;
+  font-size:clamp(17px,2.1vw,27px);line-height:1.18;letter-spacing:-.02em;color:var(--white);
+  padding-bottom:clamp(24px,4vw,38px);border-bottom:1px solid var(--edge-soft);max-width:22ch;
+}
+.claim.right{align-self:flex-end;text-align:right;max-width:20ch}
+.claim em{font-style:normal;color:var(--dim)}
+
+/* фото-лента */
+.gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(10px,1.6vw,18px);margin-top:clamp(30px,4vw,48px)}
+.ph{
+  position:relative;overflow:hidden;background:var(--graphite);border:1px solid var(--edge-soft);border-radius:var(--r);
+  display:flex;align-items:center;justify-content:center;
+  background-image:repeating-linear-gradient(135deg,rgba(255,255,255,.028) 0 1px,transparent 1px 13px);
+  transition:transform .5s cubic-bezier(.16,.8,.3,1),border-color .5s;
+}
+
+.ph.tall{aspect-ratio:3/4}
+.ph.wide{aspect-ratio:4/3}
+.ph img{width:100%;height:100%;object-fit:cover;display:block}
+.ph.life img{filter:contrast(1.04) saturate(1.04);transition:transform .8s cubic-bezier(.16,.8,.3,1),filter .5s ease}
+.ph.life{position:relative;isolation:isolate;transition:box-shadow .5s ease,border-color .5s ease,transform .5s cubic-bezier(.16,.8,.3,1)}
+.ph.life::after{
+  content:"";position:absolute;inset:-26%;z-index:-1;pointer-events:none;filter:blur(34px);
+  background:radial-gradient(closest-side,rgba(255,255,255,.34),rgba(255,255,255,.10) 55%,transparent 78%);
+  opacity:0;transition:opacity .5s ease;
+}
+.ph.life:hover::after{opacity:1}
+.ph.life:hover img{transform:scale(1.055);filter:contrast(1.06) saturate(1.12) brightness(1.05)}
+.ph.life:hover{transform:translateY(-4px);border-color:rgba(255,255,255,.55);
+  box-shadow:0 0 0 1px rgba(255,255,255,.22),0 0 40px rgba(255,255,255,.26),0 0 110px rgba(255,255,255,.10)}
+.ph.chart{aspect-ratio:4/3;background:#0F0F11}
+.ph.chart img{object-fit:cover;object-position:center;filter:contrast(1.04) brightness(.96) saturate(.95);transition:transform .8s cubic-bezier(.16,.8,.3,1),filter .5s ease}
+.ph.chart{transition:box-shadow .5s ease,border-color .5s ease,transform .5s cubic-bezier(.16,.8,.3,1)}
+.ph.chart:hover img{transform:scale(1.04);filter:contrast(1.06) brightness(1.02) saturate(1)}
+.ph.chart:hover{transform:translateY(-4px);border-color:rgba(255,255,255,.42);
+  box-shadow:0 0 0 1px rgba(255,255,255,.16),0 0 34px rgba(255,255,255,.18)}
+.ph .cap{
+  position:absolute;left:0;right:0;bottom:0;padding:26px 14px 12px;
+  background:linear-gradient(0deg,rgba(0,0,0,.92) 12%,rgba(0,0,0,.5) 55%,transparent);
+  font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.06em;color:var(--silver);line-height:1.45;
+}
+.ph .cap b{color:var(--white);font-weight:500}
+.ph .hint{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);text-align:center;padding:0 14px;line-height:1.7}
+.ph .tag{position:absolute;left:11px;top:11px;font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--steel);border:1px solid var(--edge);padding:4px 8px;background:rgba(0,0,0,.72)}
+
+/* кто я */
+.about{display:block}
+.about-text{display:flex;flex-direction:column;gap:21px}
+.about-text p{color:var(--steel);font-size:15px;line-height:1.72;max-width:56ch}
+.about-text strong{color:var(--white);font-weight:500}
+
+
+
+/* метод */
+.method{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--edge-soft);border:1px solid var(--edge-soft)}
+.m{background:var(--coal);padding:30px 26px;display:flex;flex-direction:column;gap:11px;transition:background .35s}
+.m{position:relative;transition:background .4s ease,box-shadow .45s ease,transform .45s cubic-bezier(.16,.8,.3,1)}
+.m:hover{background:var(--graphite);transform:translateY(-3px);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.14),0 0 36px -12px rgba(255,255,255,.2)}
+.m .tag{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.22em;color:var(--steel);text-transform:uppercase}
+.m p{font-size:14.5px;color:var(--steel);line-height:1.58}
+
+.spec{margin-top:clamp(30px,4vw,48px);border-top:1px solid var(--edge)}
+.row{display:grid;grid-template-columns:200px minmax(0,1fr);gap:26px;padding:18px 0;border-bottom:1px solid var(--edge-soft);align-items:baseline}
+.row dt{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
+.row dd{margin:0;font-size:15px;color:var(--silver)}
+.row dd b{color:var(--white);font-family:"JetBrains Mono",monospace;font-weight:500}
+/* единственный цветной акцент: сами металлы */
+.metal{font-family:"JetBrains Mono",monospace;font-weight:500;letter-spacing:.02em;white-space:nowrap}
+.metal.au{
+  background:linear-gradient(96deg,#8A6A22 0%,#F3D486 26%,#FFF3CE 44%,#D9AE44 62%,#F0CE7C 82%,#9C7A2A 100%);
+  background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:sweep 7s linear infinite;
+  filter:drop-shadow(0 0 12px rgba(233,190,94,.42));
+}
+.metal.ag{
+  background:linear-gradient(96deg,#767C85 0%,#E4EAF1 26%,#FFFFFF 44%,#A9B2BD 62%,#DCE4EC 82%,#7C838C 100%);
+  background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:sweep 7s linear infinite .6s;
+  filter:drop-shadow(0 0 12px rgba(214,226,238,.34));
+}
+.sep{color:var(--dim);padding:0 10px}
+
+/* услуги */
+.services{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(12px,1.6vw,18px)}
+.svc{background:var(--coal);border:1px solid var(--edge-soft);border-radius:var(--r);padding:30px 28px;display:flex;flex-direction:column;gap:11px}
+.svc{position:relative;transition:background .4s ease,box-shadow .45s ease,transform .45s cubic-bezier(.16,.8,.3,1)}
+.svc:hover{background:var(--graphite);transform:translateY(-3px);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.16),0 0 40px -12px rgba(255,255,255,.24)}
+.svc .idx{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.24em;color:var(--dim);text-transform:uppercase}
+.svc p{font-size:14.5px;color:var(--steel);line-height:1.6}
+.niches{margin-top:28px;font-size:15px;color:var(--steel);max-width:70ch}
+.niches b{color:var(--white);font-weight:500}
+
+/* канал */
+.channel{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.8fr);gap:clamp(28px,5vw,60px);align-items:center}
+.feed-item{padding:20px 0;border-bottom:1px solid var(--edge-soft);display:flex;gap:18px;align-items:baseline}
+.feed-item:first-child{border-top:1px solid var(--edge-soft)}
+.feed-item b{font-family:Manrope,sans-serif;font-size:13px;font-weight:800;min-width:140px;text-transform:uppercase;color:var(--white);letter-spacing:-.01em}
+.feed-item span{font-size:14.5px;color:var(--steel);line-height:1.55}
+.cta-card{
+  border-radius:var(--r);border:1px solid var(--edge);background:linear-gradient(165deg,var(--slate),var(--coal));
+  padding:clamp(28px,4vw,42px);display:flex;flex-direction:column;gap:17px;
+  position:relative;isolation:isolate;
+  transition:transform .5s cubic-bezier(.16,.8,.3,1),border-color .5s ease,box-shadow .5s ease;
+}
+.cta-card::after{
+  content:"";position:absolute;inset:-22%;z-index:-1;pointer-events:none;filter:blur(40px);
+  background:radial-gradient(closest-side,rgba(255,255,255,.30),rgba(255,255,255,.08) 58%,transparent 80%);
+  opacity:0;transition:opacity .55s ease;
+}
+.cta-card:hover::after{opacity:1}
+.cta-card:hover{transform:translateY(-6px) scale(1.012);border-color:rgba(255,255,255,.5);
+  box-shadow:0 0 46px -6px rgba(255,255,255,.24)}
+.cta-card .big{font-family:Unbounded,sans-serif;font-weight:800;font-size:clamp(24px,2.8vw,36px);letter-spacing:-.04em;line-height:1.04;color:var(--white)}
+.cta-card .cap{font-size:14px;color:var(--steel);line-height:1.5}
+.cta-card .rule{padding-top:17px;border-top:1px solid var(--edge);font-size:14px;color:var(--silver);line-height:1.55}
+.cta-card .rule b{color:var(--white);font-weight:500}
+
+/* принципы */
+.creed{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 48px;list-style:none;padding:0;margin:0}
+.creed li{padding:16px 0;border-bottom:1px solid var(--edge-soft);font-size:14.5px;color:var(--silver);display:flex;gap:16px;align-items:baseline;line-height:1.5}
+.creed li::before{content:"";width:5px;height:5px;background:var(--white);flex:none;transform:translateY(-3px);box-shadow:0 0 8px rgba(255,255,255,.6)}
+
+/* контакты */
+.contact{border-bottom:0}
+.contact-grid{display:flex;flex-wrap:wrap;gap:34px 60px;justify-content:space-between;align-items:flex-end}
+.links{display:flex;flex-direction:column;gap:9px}
+.links .lbl{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--dim);margin-top:16px}
+.links a{color:var(--white);text-decoration:none;font-family:"JetBrains Mono",monospace;font-size:17px;width:fit-content;border-bottom:1px solid var(--edge);padding-bottom:5px;transition:border-color .25s,text-shadow .25s}
+.links a:hover{border-color:var(--white);text-shadow:0 0 18px rgba(255,255,255,.6)}
+.now{font-size:14.5px;color:var(--steel);max-width:36ch;line-height:1.6}
+.now b{color:var(--white);font-weight:500}
+
+footer{padding:28px 0 52px;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;border-top:1px solid var(--edge-soft);margin-top:clamp(44px,6vw,70px)}
+footer p{font-size:12.5px;color:var(--dim);max-width:56ch;line-height:1.55}
+
+@media (max-width:880px){
+  .nav-links{display:none}
+  .hero-grid{grid-template-columns:1fr}
+  .hero-photo{max-width:320px;order:-1}
+  .about{grid-template-columns:1fr}
+  .method{grid-template-columns:1fr}
+  .channel{grid-template-columns:1fr}
+  .creed{grid-template-columns:1fr}
+  .row{grid-template-columns:1fr;gap:6px}
+  .claim.right{align-self:flex-start;text-align:left}
+  .gallery{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:620px){
+  .gallery{grid-template-columns:1fr!important}
+  .ph.chart{aspect-ratio:16/11}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .stat{padding:20px 14px 20px 0}
+  .stat + .stat{padding-left:0;border-left:0}
+  .stat:nth-child(2n){padding-left:16px;border-left:1px solid var(--edge-soft)}
+  .stat:nth-child(-n+2){border-bottom:1px solid var(--edge-soft)}
+  .services{grid-template-columns:1fr}
+  .feed-item{flex-direction:column;gap:5px}
+  .feed-item b{min-width:0}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .js .rv{opacity:1;transform:none}
+  #pre{display:none}
+}
+
+/* ---- эссе о трейдинге ---- */
+.tr-essay{display:flex;flex-direction:column;gap:clamp(22px,3vw,34px)}
+.big-quote{
+  font-family:Unbounded,sans-serif;font-weight:700;text-transform:uppercase;
+  font-size:clamp(18px,2.4vw,31px);line-height:1.14;letter-spacing:-.028em;color:var(--white);max-width:22ch;
+}
+.big-quote em{font-style:normal;color:var(--dim)}
+.essay-cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(20px,3vw,44px)}
+.essay-cols p{color:var(--steel);font-size:15px;line-height:1.72}
+
+/* ---- канал ---- */
+.channel{display:flex;flex-direction:column;gap:clamp(16px,2.4vw,24px)}
+.ch-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(12px,1.6vw,18px)}
+.ch{
+  background:var(--coal);border:1px solid var(--edge-soft);border-radius:var(--r);
+  padding:28px 26px;display:flex;flex-direction:column;gap:10px;position:relative;
+  transition:background .4s ease,transform .45s cubic-bezier(.16,.8,.3,1),box-shadow .45s ease,border-color .45s ease;
+}
+.ch:hover{background:var(--graphite);transform:translateY(-4px);border-color:rgba(255,255,255,.28);
+  box-shadow:0 0 40px -12px rgba(255,255,255,.26)}
+.ch-n{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.2em;color:var(--dim)}
+.ch p{font-size:14px;color:var(--steel);line-height:1.6}
+
+.cta-card{
+  display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,auto);gap:clamp(22px,4vw,54px);
+  align-items:center;
+}
+.cta-left{display:flex;flex-direction:column;gap:14px;min-width:0}
+.cta-right{display:flex;flex-direction:column;gap:12px;align-items:stretch;min-width:min(260px,100%)}
+.cta-note{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.1em;color:var(--dim);text-align:center}
+.cta-card .cap{max-width:52ch}
+
+/* ---- принципы ---- */
+.creed{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(10px,1.4vw,14px)}
+.cr{
+  background:var(--coal);border:1px solid var(--edge-soft);border-radius:var(--r);
+  padding:20px 22px;font-size:14.5px;color:var(--silver);line-height:1.5;
+  display:flex;gap:14px;align-items:flex-start;
+  transition:background .4s ease,border-color .4s ease,transform .4s cubic-bezier(.16,.8,.3,1);
+}
+.cr:hover{background:var(--graphite);border-color:rgba(255,255,255,.24);transform:translateY(-2px)}
+.cr-i{width:6px;height:6px;border-radius:50%;background:var(--white);flex:none;margin-top:7px;
+  box-shadow:0 0 10px rgba(255,255,255,.8)}
+
+/* ---- крупные контакты ---- */
+.links{display:flex;flex-direction:column;gap:12px;min-width:min(320px,100%)}
+.big-link{
+  display:flex;flex-direction:column;gap:5px;text-decoration:none;
+  background:var(--coal);border:1px solid var(--edge-soft);border-radius:var(--r);padding:20px 24px;
+  transition:background .4s ease,border-color .4s ease,transform .45s cubic-bezier(.16,.8,.3,1),box-shadow .45s ease;
+}
+.big-link:hover{background:var(--graphite);border-color:rgba(255,255,255,.4);transform:translateY(-3px);
+  box-shadow:0 0 42px -12px rgba(255,255,255,.3)}
+.bl-lbl{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--dim)}
+.bl-v{font-family:Unbounded,sans-serif;font-weight:700;font-size:clamp(17px,1.9vw,23px);letter-spacing:-.02em;color:var(--white)}
+
+@media (max-width:880px){
+  .essay-cols{grid-template-columns:1fr}
+  .ch-cards{grid-template-columns:1fr}
+  .cta-card{grid-template-columns:1fr}
+  .creed{grid-template-columns:1fr}
+}
+
+
+/* ---- минус в рамке со светящейся обводкой ---- */
+.stat .v.em{
+  color:#FF0000;
+  display:inline-flex;align-items:center;width:fit-content;
+  padding:.18em .42em .22em;
+  border:1px solid rgba(255,0,0,.72);
+  border-radius:14px;
+  background:rgba(255,0,0,.045);
+  text-shadow:0 0 18px rgba(255,0,0,.55);
+  box-shadow:0 0 0 1px rgba(255,0,0,.12),0 0 22px -2px rgba(255,0,0,.42),inset 0 0 26px -8px rgba(255,0,0,.5);
+  animation:ringGlow 3.8s ease-in-out infinite;
+}
+@keyframes ringGlow{
+  0%,100%{border-color:rgba(255,0,0,.62);
+    box-shadow:0 0 0 1px rgba(255,0,0,.10),0 0 18px -3px rgba(255,0,0,.34),inset 0 0 22px -9px rgba(255,0,0,.42);
+    text-shadow:0 0 14px rgba(255,0,0,.45)}
+  50%{border-color:rgba(255,0,0,.95);
+    box-shadow:0 0 0 1px rgba(255,0,0,.2),0 0 34px 0 rgba(255,0,0,.6),inset 0 0 32px -6px rgba(255,0,0,.6);
+    text-shadow:0 0 24px rgba(255,0,0,.75)}
+}
+
+/* ---- та же обводка в тексте ---- */
+.hit{
+  color:#FF2A1A;font-family:"JetBrains Mono",monospace;font-weight:500;
+  text-shadow:0 0 12px rgba(255,0,0,.6),0 0 34px rgba(255,0,0,.28);
+  animation:hitTextGlow 3.8s ease-in-out infinite;
+  white-space:nowrap;
+}
+@keyframes hitTextGlow{
+  0%,100%{text-shadow:0 0 10px rgba(255,0,0,.48),0 0 28px rgba(255,0,0,.2)}
+  50%{text-shadow:0 0 20px rgba(255,0,0,.85),0 0 48px rgba(255,0,0,.4)}
+}
+
+
+
+/* ---- полноширинная полоса с фото ---- */
+.band-sec{padding:clamp(24px,3.5vw,44px) 0;border-bottom:1px solid var(--edge-soft)}
+.band{
+  position:relative;overflow:hidden;isolation:isolate;
+  border:1px solid var(--edge-soft);border-radius:var(--r);
+  height:clamp(230px,34vh,340px);
+  transition:box-shadow .5s ease,border-color .5s ease,transform .5s cubic-bezier(.16,.8,.3,1);
+}
+.band:hover{transform:translateY(-4px);border-color:rgba(255,255,255,.42);
+  box-shadow:0 0 0 1px rgba(255,255,255,.16),0 0 40px -10px rgba(255,255,255,.26)}
+.band:hover img{transform:scale(1.05)}
+.band img{width:100%;height:100%;object-fit:cover;object-position:center 24%;display:block;
+  filter:contrast(1.05) saturate(1.04) brightness(.9);transform:scale(1.02);
+  transition:transform .9s cubic-bezier(.16,.8,.3,1)}
+
+
+.band-claim{
+  font-family:Unbounded,sans-serif;font-weight:800;text-transform:uppercase;
+  font-size:clamp(17px,2.2vw,29px);line-height:1.12;letter-spacing:-.03em;color:#fff;
+  max-width:24ch;text-shadow:0 2px 40px rgba(0,0,0,.85);
+}
+.band-claim em{font-style:normal;color:rgba(255,255,255,.62)}
+
+
+/* ---- зелёный: победы ---- */
+.win{
+  color:#19F074;font-family:"JetBrains Mono",monospace;font-weight:500;
+  text-shadow:0 0 12px rgba(0,232,95,.6),0 0 34px rgba(0,232,95,.28);
+  animation:winTextGlow 3.8s ease-in-out infinite;
+  white-space:nowrap;
+}
+@keyframes winTextGlow{
+  0%,100%{text-shadow:0 0 10px rgba(0,232,95,.48),0 0 28px rgba(0,232,95,.2)}
+  50%{text-shadow:0 0 20px rgba(0,232,95,.85),0 0 48px rgba(0,232,95,.42)}
+}
+@keyframes winGlow{
+  0%,100%{border-color:rgba(0,232,95,.6);
+    box-shadow:0 0 18px -3px rgba(0,232,95,.32),inset 0 0 20px -9px rgba(0,232,95,.4);
+    text-shadow:0 0 14px rgba(0,232,95,.45)}
+  50%{border-color:rgba(0,232,95,.95);
+    box-shadow:0 0 34px 0 rgba(0,232,95,.58),inset 0 0 30px -6px rgba(0,232,95,.55);
+    text-shadow:0 0 24px rgba(0,232,95,.8)}
+}
+
+/* заголовок в карточке телеграма — светится зелёным */
+.cta-card .big{
+  color:#00E85F;
+  text-shadow:0 0 26px rgba(0,232,95,.5),0 0 70px rgba(0,232,95,.2);
+  animation:bigGlow 4.2s ease-in-out infinite;
+}
+@keyframes bigGlow{
+  0%,100%{text-shadow:0 0 22px rgba(0,232,95,.4),0 0 60px rgba(0,232,95,.16)}
+  50%{text-shadow:0 0 36px rgba(0,232,95,.75),0 0 96px rgba(0,232,95,.3)}
+}
+
+/* главная кнопка подписки — зелёная */
+.cta-right .btn{
+  background:#00E85F;border-color:#00E85F;color:#04140A;
+  box-shadow:0 0 26px -6px rgba(0,232,95,.55);
+}
+.cta-right .btn::after{background:radial-gradient(closest-side,rgba(0,232,95,.75),transparent 74%)}
+.cta-right .btn:hover{
+  background:#1CFF74;border-color:#1CFF74;
+  box-shadow:0 0 52px rgba(0,232,95,.7);transform:translateY(-3px) scale(1.02);
+}
+.cta-card:hover::after{
+  background:radial-gradient(closest-side,rgba(0,232,95,.26),rgba(0,232,95,.07) 58%,transparent 80%);
+}
+.cta-card:hover{border-color:rgba(0,232,95,.5);box-shadow:0 0 46px -6px rgba(0,232,95,.28)}
+
+/* рост канала в цифрах — зелёный акцент */
+.stat .v.up{
+  color:#00E85F;
+  display:inline-flex;align-items:center;width:fit-content;
+  padding:.18em .42em .22em;
+  border:1px solid rgba(0,232,95,.72);border-radius:14px;
+  background:rgba(0,232,95,.05);
+  animation:winGlow 3.8s ease-in-out infinite;
+}
+
+
+/* ---- фон карточки телеграма ---- */
+.cta-card{overflow:hidden;background:#0A0A0B}
+.cta-bg{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  object-position:76% 22%;z-index:0;
+  filter:contrast(1.04) saturate(1.02) brightness(.92);
+  transform:scale(1.02);transition:transform 1.1s cubic-bezier(.16,.8,.3,1);
+}
+.cta-card:hover .cta-bg{transform:scale(1.06)}
+.cta-veil{
+  position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:
+    linear-gradient(90deg,#0A0A0B 0%,rgba(10,10,11,.96) 30%,rgba(10,10,11,.74) 54%,rgba(10,10,11,.34) 78%,rgba(10,10,11,.18) 100%),
+    linear-gradient(180deg,rgba(10,10,11,.35) 0%,transparent 40%,rgba(10,10,11,.45) 100%);
+}
+.cta-left,.cta-right{position:relative;z-index:2}
+.cta-card .cap{max-width:44ch}
+
+@media (max-width:880px){
+  .cta-bg{object-position:70% 18%}
+  .cta-veil{
+    background:
+      linear-gradient(180deg,rgba(10,10,11,.30) 0%,rgba(10,10,11,.72) 38%,rgba(10,10,11,.95) 62%,#0A0A0B 100%);
+  }
+  .cta-card{padding-top:clamp(150px,42vw,230px)}
+}
+
+
+/* ---- плашка: фото + текст ---- */
+.band{
+  position:relative;overflow:hidden;isolation:isolate;
+  border:1px solid var(--edge-soft);border-radius:var(--r);
+  background:var(--coal);
+  display:grid;grid-template-columns:minmax(0,.62fr) minmax(0,1fr);
+  gap:0;height:auto;
+  transition:box-shadow .5s ease,border-color .5s ease,transform .5s cubic-bezier(.16,.8,.3,1);
+}
+.band:hover{transform:translateY(-4px);border-color:rgba(255,255,255,.4);
+  box-shadow:0 0 0 1px rgba(255,255,255,.14),0 0 42px -12px rgba(255,255,255,.26)}
+.band-photo{position:relative;overflow:hidden;aspect-ratio:4/5;max-height:400px}
+.band-photo::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(90deg,transparent 55%,rgba(10,10,11,.55) 88%,var(--coal) 100%);
+}
+.band img{
+  width:100%;height:100%;object-fit:cover;object-position:center 22%;display:block;
+  filter:contrast(1.05) saturate(1.05) brightness(.94);
+  transform:scale(1.01);transition:transform .9s cubic-bezier(.16,.8,.3,1);
+}
+.band:hover img{transform:scale(1.05)}
+.band-copy{
+  display:flex;flex-direction:column;justify-content:center;gap:12px;
+  padding:clamp(22px,3.4vw,44px);min-width:0;
+}
+.band-sub{font-size:14.5px;color:var(--steel);line-height:1.62;max-width:38ch}
+
+@media (max-width:880px){
+  .band{grid-template-columns:1fr}
+  .band-photo{aspect-ratio:5/4;max-height:none}
+  .band-photo::after{background:linear-gradient(180deg,transparent 52%,rgba(10,10,11,.6) 86%,var(--coal) 100%)}
+  .band img{object-position:center 20%}
+}
+
+</style>
+
+<div class="bg-field"></div>
+<div class="grain"></div>
+
+<div id="pre">
+  <div class="num" id="preNum">0</div>
+  <div class="bar"><i id="preBar"></i></div>
+  <div class="lbl">Alexey Taranukha</div>
+</div>
+
+<nav>
+  <div class="nav-in">
+    <a class="brand" href="#top">TARANUKHA</a>
+    <div class="nav-links">
+      <a href="#about">О себе</a>
+      <a href="#trading">Трейдинг</a>
+      <a href="#agency">Агентство</a>
+      <a href="#channel">Канал</a>
+    </div>
+    <a class="nav-cta" href="https://t.me/+OUoerC3NFWZkODYy" target="_blank" rel="noopener">Подписаться</a>
+  </div>
+</nav>
+
+<div class="wrap" id="top">
+
+  <header class="hero">
+   <div class="hero-grid">
+    <div class="hero-copy">
+    <div class="hero-meta rv">
+      <span class="chip"><i></i>XAUUSD</span>
+      <span class="chip"><i></i>XAGUSD</span>
+      <span class="chip"><i class="em"></i>Краснодар · с 2022</span>
+    </div>
+
+    <h1 class="rv d1"><span class="shine">Alexey<br>Taranukha</span></h1>
+
+    <p class="hero-sub rv d2">Торгую золото и серебро <span>— и показываю всё как есть</span></p>
+
+    <p class="lead rv d2">Трейдинг для меня не кнопка «заработать», а образ жизни: подъём под сессию, разметка до входа, журнал сделок и разбор своих же ошибок. Три года на рынке. Без сигналов, без обещаний иксов и без курсов за 50 тысяч.</p>
+
+    <div class="actions rv d3">
+      <a class="btn" href="https://t.me/+OUoerC3NFWZkODYy" target="_blank" rel="noopener">Читать канал</a>
+      <a class="btn ghost" href="https://t.me/azbyka009" target="_blank" rel="noopener">Написать лично</a>
+    </div>
+
+    </div>
+    <div class="hero-photo ph life rv d2"><img src="img/01-57cd1aa4.jpg" alt="Алексей Тарануха"><span class="cap"><b>Краснодар</b> · вне сессии</span></div>
+   </div>
+
+    <div class="marquee">
+      <div class="marquee-track">
+        <span>XAUUSD</span><span>XAGUSD</span><span>Интрадей</span><span>Свинг</span><span>1H · 4H · 1D</span><span>Ликвидность</span><span>Имбалансы</span><span>Ордерфлоу</span><span>Торговые сессии</span><span>Журнал сделок</span>
+        <span>XAUUSD</span><span>XAGUSD</span><span>Интрадей</span><span>Свинг</span><span>Ликвидность</span><span>Имбалансы</span><span>Ордерфлоу</span><span>Торговые сессии</span><span>Журнал сделок</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="stats">
+    <div class="stat rv"><div class="v" data-count="3">3</div><div class="k">года на финансовом рынке</div></div>
+    <div class="stat rv d1"><div class="v" data-count="17">17</div><div class="k">лет — в онлайне с 2022-го</div></div>
+    <div class="stat rv d2"><div class="v" data-count="16">16</div><div class="k">лет — съехал от родителей и живу сам</div></div>
+    <div class="stat rv d3"><div class="v em" data-count="5000" data-prefix="−" data-suffix="$">−5000$</div><div class="k">потерял, прежде чем начал понимать рынок</div></div>
+  </div>
+
+  <section id="about">
+    <div class="sec-head rv">
+      <div class="eyebrow">Философия</div>
+      <h2>Не схема,<br>а образ жизни</h2>
+    </div>
+
+    <div class="manifesto">
+      <p class="claim rv">Рынок платит не за прогноз, <em>а за дисциплину</em></p>
+      <p class="claim right rv">Минус, который разобран, <em>дороже плюса, который случайно</em></p>
+      <p class="claim rv">Система важнее дохода. <em>Проверено тремя нулями</em></p>
+    </div>
+
+    <div class="gallery rv" style="grid-template-columns:repeat(2,minmax(0,1fr))">
+      <div class="ph tall life"><img src="img/02-c1e11197.jpg" alt="Алексей идёт по дороге" loading="lazy" decoding="async"><span class="cap"><b>Дорога</b> — путь длиннее, чем кажется на старте</span></div>
+      <div class="ph tall life"><img src="img/03-9b68e995.jpg" alt="Алексей в зале" loading="lazy" decoding="async"><span class="cap"><b>Зал</b> — дисциплина одна и та же везде</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head rv">
+      <div class="eyebrow">Кто я</div>
+      <h2>Три раза с нуля,<br>прежде чем пошло</h2>
+    </div>
+
+    <div class="about">
+      <div class="about-text rv">
+        <p>Меня зовут Алексей, мне 17. Живу в Краснодаре, учусь на торговом деле. Занимаюсь двумя вещами: <strong>торгую на финансовом рынке</strong> и <strong>веду своё агентство digital-услуг.</strong></p>
+        <p>В онлайне с 2022 года. Перепробовал почти всё: рекламу в телеграм-каналах, P2P, арбитраж, перепродажу, свои проекты. Параллельно работал спасателем на базе отдыха и официантом.</p>
+        <p><strong>Три раза оставался с полным нулём.</strong> Каждый раз зарабатывал сам — и каждый раз деньги куда-то девались. Только с третьего раза дошло: дело было не в доходе, а в отсутствии системы.</p>
+        <p>Начинал со скальпинга крипты: много входов, много эмоций, соответствующий результат. <span class="hit">За первые два года потерял больше 5 000 $</span>, прежде чем начал что-то понимать. В 2026-м сменил подход — ушёл со скальпинга на интрадей и свинг, с крипты на металлы. <span class="win">С этого момента появилась стабильность.</span></p>
+      </div>
+      </div>
+
+  </section>
+
+  <section class="band-sec">
+    <div class="band rv">
+      <div class="band-photo">
+        <img src="img/04-b1863fda.jpg" alt="Алексей Тарануха" loading="lazy" decoding="async">
+      </div>
+      <div class="band-copy">
+        <div class="eyebrow">В долгую</div>
+        <p class="band-claim">Пока другие ищут схему, <em>я строю систему</em></p>
+        <p class="band-sub">Три года, три обнуления и один вывод: решает не доход, а система, которая его держит.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="trading">
+    <div class="sec-head rv">
+      <div class="eyebrow">Трейдинг</div>
+      <h2>Золото, серебро<br>и работа по ликвидности</h2>
+      <p class="lead">Не индикаторная каша и не стрелочки. Разметка сессий, зон и имбалансов — то, что видно на любом моём графике.</p>
+    </div>
+
+    <div class="tr-essay rv">
+      <p class="big-quote">Рынок каждый день показывает, чего ты стоишь <em>как человек</em></p>
+      <div class="essay-cols">
+        <p>Трейдинг научил меня большему, чем любая работа до него. Здесь нельзя договориться, надавить или объяснить — есть только твоё решение и его цена. Терпение, когда сетапа нет. Холодная голова, когда позиция идёт против. Умение признать, что был неправ, и закрыться в минус, вместо того чтобы доказывать рынку свою правоту.</p>
+        <p>Со временем это перестаёт быть про графики. Ты начинаешь так же считать риск в жизни, так же ждать своей точки входа и так же спокойно принимать потери. Дисциплина, которую ставит рынок, работает потом везде — в деле, в зале, в деньгах.</p>
+      </div>
+    </div>
+
+    <dl class="spec rv">
+      <div class="row"><dt>Инструменты</dt><dd><span class="metal au">XAUUSD — золото</span> <span class="sep">·</span> <span class="metal ag">XAGUSD — серебро</span></dd></div>
+      <div class="row"><dt>Стили</dt><dd>Интрадей и свинг</dd></div>
+      <div class="row"><dt>Таймфреймы</dt><dd><b>5m · 15m · 1h · 4h · 1D</b></dd></div>
+      <div class="row"><dt>Риск-менеджмент</dt><dd>Дисциплина и заранее посчитанный риск вместо интуиции. В минус не усредняюсь.</dd></div>
+      <div class="row"><dt>Журнал сделок</dt><dd>Веду с первого дня. Публикую в канале вместе с минусами и разбором ошибок.</dd></div>
+    </dl>
+
+    <div class="gallery rv">
+      <div class="ph chart"><img src="img/05-d54dca39.jpg" alt="График XAUUSD, часовой таймфрейм, с разметкой сессий" loading="lazy" decoding="async"><span class="cap"><b>XAUUSD · 1H</b><br>Торговые сессии и зоны интереса</span></div>
+      <div class="ph chart"><img src="img/06-b4b7a989.jpg" alt="График XAGUSD, пятиминутный таймфрейм, с разметкой зон" loading="lazy" decoding="async"><span class="cap"><b>XAGUSD · 5M</b><br>Разметка сессий, уход под ликвидность</span></div>
+      <div class="ph chart"><img src="img/07-7db95910.jpg" alt="График XAGUSD с зонами входа и цели" loading="lazy" decoding="async"><span class="cap"><b>XAGUSD · 5M</b><br>Зона входа и цель, размеченные до входа</span></div>
+    </div>
+  </section>
+
+  <section id="agency">
+    <div class="sec-head rv">
+      <div class="eyebrow">Агентство</div>
+      <h2>Что делаю<br>для бизнеса</h2>
+    </div>
+
+    <div class="services">
+      <div class="svc rv"><div class="idx">01 · Сайты</div><h3>Лицо бренда в онлайне</h3><p>Разработка и упаковка: от структуры и текстов до страницы, которая доводит человека до заявки.</p></div>
+      <div class="svc rv d1"><div class="idx">02 · Дизайн</div><h3>Визуал для бизнеса</h3><p>Оформление, обработка материалов, единый стиль на всех площадках.</p></div>
+      <div class="svc rv d1"><div class="idx">03 · Боты</div><h3>Автоматизация процессов</h3><p>Telegram-боты: рассылка по базе, опросы, лояльность, анонсы. Связь с клиентом без ручной работы.</p></div>
+      <div class="svc rv d2"><div class="idx">04 · Лиды</div><h3>Ищем клиентов</h3><p>Лидогенерация: не показы и клики, а живые заявки от людей, готовых говорить о деньгах.</p></div>
+    </div>
+
+    <p class="niches rv">Работал с нишами: <b>салоны красоты, кофейни, ремонт и строительство.</b> Отдельное направление — партнёрство с ремонтной компанией: привожу клиентов на ремонт квартир, домов и коммерческих помещений.</p>
+  </section>
+
+  <section id="channel">
+    <div class="sec-head rv">
+      <div class="eyebrow">Канал</div>
+      <h2>Telegram<br>без глянца</h2>
+    </div>
+
+    <div class="channel">
+      <div class="ch-cards">
+        <div class="ch rv">
+          <div class="ch-n">01</div>
+          <h3>Сделки</h3>
+          <p>Разметка до входа, результат после. Минусы выкладываю так же, как плюсы — с разбором, где ошибся.</p>
+        </div>
+        <div class="ch rv d1">
+          <div class="ch-n">02</div>
+          <h3>Будни</h3>
+          <p>Торговля, зал, учёба, работа. Без постановочных кадров и арендованных машин.</p>
+        </div>
+        <div class="ch rv d2">
+          <div class="ch-n">03</div>
+          <h3>Мысли</h3>
+          <p>Деньги, финансовая грамотность, психология и то, как рынок меняет голову.</p>
+        </div>
+      </div>
+
+      <div class="cta-card rv">
+        <img class="cta-bg" src="img/08-f0a92828.jpg" alt="Алексей в мерче BingX" loading="lazy" decoding="async">
+        <div class="cta-veil"></div>
+        <div class="cta-left">
+          <div class="eyebrow">Telegram</div>
+          <div class="big">Заходи<br>и смотри сам</div>
+          <p class="cap">Пишу каждый день: разметка перед сессией, итоги сделок, мысли по рынку и по жизни. Всё бесплатно — без сигналов, без обещаний иксов и без курсов за 50 тысяч.</p>
+        </div>
+        <div class="cta-right">
+          <a class="btn" href="https://t.me/+OUoerC3NFWZkODYy" target="_blank" rel="noopener">Подписаться</a>
+          <span class="cta-note">Сотрудничаю с криптобиржей BingX</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head rv">
+      <div class="eyebrow">Принципы</div>
+      <h2>По чему сверяюсь</h2>
+    </div>
+    <div class="creed rv">
+      <div class="cr"><span class="cr-i"></span>Честность важнее картинки: убытки публикую так же, как прибыль</div>
+      <div class="cr"><span class="cr-i"></span>Против инфоцыганства и обещаний быстрых денег</div>
+      <div class="cr"><span class="cr-i"></span>Сложное — простым языком</div>
+      <div class="cr"><span class="cr-i"></span>Репутация в долгую важнее разовой выгоды</div>
+      <div class="cr"><span class="cr-i"></span>Дисциплина и риск-менеджмент вместо интуиции</div>
+      <div class="cr"><span class="cr-i"></span>Социальный капитал важнее денежного</div>
+    </div>
+  </section>
+
+  <section class="contact">
+    <div class="sec-head rv">
+      <div class="eyebrow">Связь</div>
+      <h2>Пишите напрямую</h2>
+    </div>
+    <div class="contact-grid rv">
+      <div class="links">
+        <a class="big-link" href="https://t.me/azbyka009" target="_blank" rel="noopener">
+          <span class="bl-lbl">Личный контакт</span>
+          <span class="bl-v">@azbyka009</span>
+        </a>
+        <a class="big-link" href="https://t.me/+OUoerC3NFWZkODYy" target="_blank" rel="noopener">
+          <span class="bl-lbl">Канал</span>
+          <span class="bl-v">Алексей Тарануха</span>
+        </a>
+      </div>
+      <p class="now"><b>Сейчас в работе:</b> раскачать канал до 2000 подписчиков, запустить видеоконтент и выстроить агентство в долгую — а не на разовых заказах.</p>
+    </div>
+
+    <footer>
+      <p>Ничего не продаю и не даю сигналов. Материалы канала и этой страницы не являются индивидуальной инвестиционной рекомендацией. Торговля с плечом связана с высоким риском потери капитала.</p>
+      <p class="mono">© 2026 · Краснодар</p>
+    </footer>
+  </section>
+
+</div>
+
+<script>
+(function(){
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var pre = document.getElementById('pre');
+
+  function killPre(){ if(pre){ pre.classList.add('gone'); setTimeout(function(){ if(pre&&pre.parentNode) pre.parentNode.removeChild(pre); },800);} }
+
+  if (reduce){ killPre(); return; }
+
+  document.documentElement.classList.add('js');
+
+  /* прелоадер 0 → 100 */
+  var num = document.getElementById('preNum'), bar = document.getElementById('preBar');
+  var t0 = null, DUR = 1500;
+  function tick(ts){
+    if(!t0) t0 = ts;
+    var p = Math.min((ts - t0)/DUR, 1);
+    var e = 1 - Math.pow(1 - p, 2);
+    if(num) num.textContent = Math.round(e*100);
+    if(bar) bar.style.transform = 'scaleX(' + e + ')';
+    if(p < 1) requestAnimationFrame(tick); else { killPre(); start(); }
+  }
+  requestAnimationFrame(tick);
+  setTimeout(killPre, 3200);
+
+  /* reveal на скролле */
+  function start(){
+    var items = document.querySelectorAll('.rv');
+    if(!('IntersectionObserver' in window)){
+      Array.prototype.forEach.call(items,function(el){el.classList.add('in')});
+      countUp();
+      return;
+    }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }
+      });
+    },{rootMargin:'0px 0px -8% 0px',threshold:.08});
+    Array.prototype.forEach.call(items,function(el){ io.observe(el) });
+    countUp();
+  }
+
+  /* счётчики */
+  function countUp(){
+    var els = document.querySelectorAll('[data-count]');
+    Array.prototype.forEach.call(els,function(el){
+      var target = parseInt(el.getAttribute('data-count'),10);
+      if(isNaN(target)) return;
+      var pre_ = el.getAttribute('data-prefix')||'', suf = el.getAttribute('data-suffix')||'';
+      var run = function(){
+        var s = null, d = 1200;
+        function step(ts){
+          if(!s) s = ts;
+          var p = Math.min((ts-s)/d,1);
+          var e = 1 - Math.pow(1-p,3);
+          el.textContent = pre_ + Math.round(target*e) + suf;
+          if(p<1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      };
+      if('IntersectionObserver' in window){
+        var o = new IntersectionObserver(function(en){
+          if(en[0].isIntersecting){ run(); o.disconnect(); }
+        },{threshold:.4});
+        o.observe(el);
+      } else { run(); }
+    });
+  }
+})();
+</script>
+
+</body>
+</html>
