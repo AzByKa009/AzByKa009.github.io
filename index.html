@@ -14,7 +14,6 @@
 <meta property="og:description" content="Трейдер по золоту и серебру (XAUUSD / XAGUSD) и владелец агентства digital-услуг. Показываю путь как есть — вместе с минусами.">
 <meta property="og:url" content="https://azbyka009.github.io/">
 <meta property="og:image" content="https://azbyka009.github.io/og.png">
-<meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Алексей Тарануха — трейдер по золоту и серебру">
@@ -28,7 +27,7 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📈</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Unbounded:wght@500;700;800;900&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Brygada+1918:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Golos+Text:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
@@ -604,6 +603,50 @@ footer p{font-size:12.5px;color:var(--dim);max-width:56ch;line-height:1.55}
   .band img{object-position:center 20%}
 }
 
+
+/* ================= ШРИФТЫ: Archivo + Brygada 1918 ================= */
+/* имя и цифры */
+h1,.disp,.brand,#pre .num,.stat .v{
+  font-family:Archivo,"Arial Black",sans-serif;font-weight:900;
+  font-variation-settings:"wdth" 125;
+}
+h1{letter-spacing:-.03em}
+.brand{letter-spacing:.04em}
+.stat .v{letter-spacing:-.035em}
+
+/* русский текст: основной */
+body{font-family:"Brygada 1918",Georgia,"Times New Roman",serif;font-size:16px}
+.lead{font-size:clamp(16.5px,1.35vw,18.5px);line-height:1.6}
+.about-text p,.essay-cols p{font-size:17px;line-height:1.7}
+.row dd{font-size:16px}
+.svc p,.ch p,.m p,.cta-card .cap,.band-sub,.niches,.now,.cr,.creed li{font-size:15.5px}
+.stat .k{font-size:14.5px}
+
+/* русский текст: заголовки и крупные фразы */
+h2,h3,.hero-sub,.claim,.big-quote,.band-claim,.cta-card .big,.bl-v,.feed-item b{
+  font-family:"Brygada 1918",Georgia,"Times New Roman",serif;
+  text-transform:none;font-variation-settings:normal;
+}
+h2{font-weight:700;font-size:clamp(27px,3.5vw,44px);line-height:1.06;letter-spacing:-.018em}
+h3{font-weight:700;font-size:19px;letter-spacing:-.005em}
+.hero-sub{font-weight:600;font-size:clamp(21px,2.3vw,29px);line-height:1.2;letter-spacing:-.01em;max-width:24ch}
+.claim{font-weight:600;font-size:clamp(23px,2.9vw,36px);line-height:1.14;letter-spacing:-.015em}
+.big-quote{font-weight:600;font-size:clamp(25px,3.1vw,40px);line-height:1.1;letter-spacing:-.015em}
+.band-claim{font-weight:700;font-size:clamp(24px,2.8vw,36px);line-height:1.1;letter-spacing:-.015em}
+.cta-card .big{font-weight:700;font-size:clamp(32px,3.8vw,48px);line-height:1.02;letter-spacing:-.02em}
+.bl-v{font-weight:700;font-size:clamp(19px,2vw,25px);letter-spacing:-.01em}
+.feed-item b{font-weight:700;font-size:16px}
+.hero-sub span,.claim em,.big-quote em,.band-claim em{font-style:italic;font-weight:500}
+
+/* кнопки — как в третьем варианте */
+.btn,.nav-cta{
+  font-family:"Golos Text","Segoe UI",sans-serif;font-weight:700;
+  letter-spacing:.07em;text-transform:uppercase;
+}
+
+/* метки остаются моноширинными */
+.eyebrow{font-family:"JetBrains Mono",ui-monospace,Consolas,monospace;font-weight:500;letter-spacing:.2em}
+
 </style>
 
 <div class="bg-field"></div>
@@ -682,8 +725,8 @@ footer p{font-size:12.5px;color:var(--dim);max-width:56ch;line-height:1.55}
     </div>
 
     <div class="gallery rv" style="grid-template-columns:repeat(2,minmax(0,1fr))">
-      <div class="ph tall life"><img src="img/02-c1e11197.jpg" alt="Алексей идёт по дороге" loading="lazy" decoding="async"><span class="cap"><b>Дорога</b> — путь длиннее, чем кажется на старте</span></div>
-      <div class="ph tall life"><img src="img/03-9b68e995.jpg" alt="Алексей в зале" loading="lazy" decoding="async"><span class="cap"><b>Зал</b> — дисциплина одна и та же везде</span></div>
+      <div class="ph tall life"><img src="img/02-c1e11197.jpg" alt="Алексей идёт по дороге"><span class="cap"><b>Дорога</b> — путь длиннее, чем кажется на старте</span></div>
+      <div class="ph tall life"><img src="img/03-9b68e995.jpg" alt="Алексей в зале"><span class="cap"><b>Зал</b> — дисциплина одна и та же везде</span></div>
     </div>
   </section>
 
@@ -707,7 +750,7 @@ footer p{font-size:12.5px;color:var(--dim);max-width:56ch;line-height:1.55}
   <section class="band-sec">
     <div class="band rv">
       <div class="band-photo">
-        <img src="img/04-b1863fda.jpg" alt="Алексей Тарануха" loading="lazy" decoding="async">
+        <img src="img/04-b1863fda.jpg" alt="Алексей Тарануха">
       </div>
       <div class="band-copy">
         <div class="eyebrow">В долгую</div>
@@ -741,9 +784,9 @@ footer p{font-size:12.5px;color:var(--dim);max-width:56ch;line-height:1.55}
     </dl>
 
     <div class="gallery rv">
-      <div class="ph chart"><img src="img/05-d54dca39.jpg" alt="График XAUUSD, часовой таймфрейм, с разметкой сессий" loading="lazy" decoding="async"><span class="cap"><b>XAUUSD · 1H</b><br>Торговые сессии и зоны интереса</span></div>
-      <div class="ph chart"><img src="img/06-b4b7a989.jpg" alt="График XAGUSD, пятиминутный таймфрейм, с разметкой зон" loading="lazy" decoding="async"><span class="cap"><b>XAGUSD · 5M</b><br>Разметка сессий, уход под ликвидность</span></div>
-      <div class="ph chart"><img src="img/07-7db95910.jpg" alt="График XAGUSD с зонами входа и цели" loading="lazy" decoding="async"><span class="cap"><b>XAGUSD · 5M</b><br>Зона входа и цель, размеченные до входа</span></div>
+      <div class="ph chart"><img src="img/05-d54dca39.jpg" alt="График XAUUSD, часовой таймфрейм, с разметкой сессий"><span class="cap"><b>XAUUSD · 1H</b><br>Торговые сессии и зоны интереса</span></div>
+      <div class="ph chart"><img src="img/06-b4b7a989.jpg" alt="График XAGUSD, пятиминутный таймфрейм, с разметкой зон"><span class="cap"><b>XAGUSD · 5M</b><br>Разметка сессий, уход под ликвидность</span></div>
+      <div class="ph chart"><img src="img/07-7db95910.jpg" alt="График XAGUSD с зонами входа и цели"><span class="cap"><b>XAGUSD · 5M</b><br>Зона входа и цель, размеченные до входа</span></div>
     </div>
   </section>
 
@@ -789,7 +832,7 @@ footer p{font-size:12.5px;color:var(--dim);max-width:56ch;line-height:1.55}
       </div>
 
       <div class="cta-card rv">
-        <img class="cta-bg" src="img/08-f0a92828.jpg" alt="Алексей в мерче BingX" loading="lazy" decoding="async">
+        <img class="cta-bg" src="img/08-f0a92828.jpg" alt="Алексей в мерче BingX">
         <div class="cta-veil"></div>
         <div class="cta-left">
           <div class="eyebrow">Telegram</div>
