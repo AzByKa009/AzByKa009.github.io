@@ -684,6 +684,15 @@ h3{font-weight:700;font-size:19px;letter-spacing:-.005em}
   .big-link{width:100%}
 }
 
+/* ===== свечения не должны раздвигать страницу ===== */
+html,body{overflow-x:clip}
+.wrap{overflow-x:clip}
+@media (max-width:620px){
+  .btn::after{inset:-14%}
+  .ph.life::after,.cta-card::after{inset:-8%}
+  .hero::before{inset:-10% 0 auto 0}
+}
+
 </style>
 
 <div class="bg-field"></div>
