@@ -693,6 +693,65 @@ html,body{overflow-x:clip}
   .hero::before{inset:-10% 0 auto 0}
 }
 
+
+
+/* плашка сообщества */
+.join-bar{
+  position:fixed;right:clamp(12px,2.5vw,24px);bottom:clamp(12px,2.5vw,24px);
+  z-index:60;width:min(330px,calc(100vw - 24px));
+  opacity:0;transform:translateY(130%);pointer-events:none;
+  transition:transform .6s cubic-bezier(.22,1,.36,1),opacity .6s;
+}
+.join-bar.on{opacity:1;transform:translateY(0);pointer-events:auto}
+.join-in{
+  position:relative;display:flex;align-items:center;gap:11px;
+  padding:11px 11px 11px 16px;border-radius:999px;
+  background:rgba(19,19,22,.92);border:1px solid var(--edge);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  box-shadow:0 14px 40px rgba(0,0,0,.6);
+  overflow:hidden;animation:joinNudge 5.5s ease-in-out 2.5s infinite;
+}
+@keyframes joinNudge{
+  0%,84%,100%{transform:translateY(0)}
+  89%{transform:translateY(-5px)}
+  94%{transform:translateY(-1px)}
+}
+.join-in::after{
+  content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
+  background:linear-gradient(100deg,transparent 35%,rgba(255,255,255,.11) 50%,transparent 65%);
+  transform:translateX(-120%);animation:joinSweep 5.5s ease-in-out 2.5s infinite;
+}
+@keyframes joinSweep{0%{transform:translateX(-120%)}50%,100%{transform:translateX(130%)}}
+.join-dot{
+  flex:none;width:8px;height:8px;border-radius:50%;background:#fff;
+  box-shadow:0 0 11px rgba(255,255,255,.9),0 0 24px rgba(255,255,255,.4);
+  animation:joinPulse 2.4s ease-in-out infinite;
+}
+@keyframes joinPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.45;transform:scale(.8)}}
+.join-txt{flex:1 1 auto;min-width:0;line-height:1.25}
+.join-txt b{display:block;font-size:14.5px;font-weight:700;color:var(--white);letter-spacing:-.01em;white-space:nowrap}
+.join-txt span{display:block;font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);margin-top:3px}
+.join-go{
+  flex:none;position:relative;z-index:1;text-decoration:none;white-space:nowrap;
+  font-size:13px;font-weight:700;color:#0A0A0B;background:var(--silver);
+  padding:9px 16px;border-radius:999px;transition:background .2s,transform .2s;
+}
+.join-go:hover{background:#fff;transform:translateY(-1px)}
+.join-go:focus-visible,.join-x:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.join-x{
+  flex:none;position:relative;z-index:1;width:26px;height:26px;border:0;cursor:pointer;
+  background:transparent;color:var(--dim);font-size:17px;line-height:1;border-radius:50%;
+}
+.join-x:hover{color:var(--silver)}
+@media (max-width:420px){
+  .join-in{gap:9px;padding:10px 9px 10px 14px}
+  .join-txt b{font-size:13.5px}
+  .join-go{padding:8px 13px;font-size:12.5px}
+}
+@media (prefers-reduced-motion:reduce){
+  .join-bar{transition:none}
+  .join-in,.join-in::after,.join-dot{animation:none}
+}
 </style>
 
 <div class="bg-field"></div>
@@ -1003,6 +1062,37 @@ html,body{overflow-x:clip}
       } else { run(); }
     });
   }
+})();
+</script>
+
+
+
+
+
+<div class="join-bar" id="joinBar" role="complementary" aria-label="Сообщество">
+  <div class="join-in">
+    <span class="join-dot" aria-hidden="true"></span>
+    <div class="join-txt">
+      <b>Залетай в сообщество</b>
+      <span>Абсолютно бесплатно</span>
+    </div>
+    <a class="join-go" href="https://t.me/+QnIy7HixncM4MDNi" target="_blank" rel="noopener">Войти</a>
+    <button class="join-x" type="button" id="joinX" aria-label="Закрыть">&times;</button>
+  </div>
+</div>
+<script>
+(function(){
+  var bar = document.getElementById('joinBar');
+  if(!bar) return;
+  var closed = false;
+  try { closed = sessionStorage.getItem('joinClosed') === '1'; } catch(e){}
+  if(closed){ bar.parentNode.removeChild(bar); return; }
+  setTimeout(function(){ bar.classList.add('on'); }, 7000);
+  document.getElementById('joinX').addEventListener('click', function(){
+    bar.classList.remove('on');
+    try { sessionStorage.setItem('joinClosed','1'); } catch(e){}
+    setTimeout(function(){ if(bar.parentNode) bar.parentNode.removeChild(bar); }, 700);
+  });
 })();
 </script>
 
