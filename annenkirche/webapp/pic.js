@@ -81,7 +81,8 @@
         <text x="200" y="278" text-anchor="middle" font-family="Onest" font-weight="700" font-size="13" fill="${c.ink}" opacity=".6">${esc(label || (p.prices ? '200 г' : p.sub))}</text>
         <rect x="176" y="290" width="48" height="4" rx="2" fill="#E07B39"/>`;
     }
-    return `<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">${bg}${body}${lamp}</svg>`;
+    // slice: в рамке другой формы (арка 4:5) рисунок заполняет её целиком, без полос.
+    return `<svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">${bg}${body}${lamp}</svg>`;
   }
 
 

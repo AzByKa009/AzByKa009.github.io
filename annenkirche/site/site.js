@@ -104,7 +104,7 @@
       <div class="pic">${pic(p)}${p.badge ? `<span class="badge">${esc(p.badge)}</span>` : ''}${p.demo ? '<span class="badge demo">пример</span>' : ''}</div>
       <div class="body"><div class="name">${esc(p.name)}</div><div class="sub">${esc(p.sub)}</div>
         <div class="row"><span class="price">${p.prices ? 'от ' : ''}${money(fromPrice(p))}</span>
-          <button class="plus" data-quick="${p.id}" aria-label="В корзину">+</button></div></div></article>`;
+          <button class="plus" data-quick="${p.id}">В корзину</button></div></div></article>`;
   }
 
   function renderRows() {
@@ -120,7 +120,7 @@
     const hint = { coffee: 'зерно 200 г, 500 г и 1 кг', drip: 'кофе в дорогу', tea: 'от наших поставщиков', cocoa: 'и горячий шоколад', merch: 'кружки, футболки, шопперы' };
     el.innerHTML = D.categories.map((c) => {
       const sample = D.products.find((p) => p.cat === c.id);
-      return `<a class="cat" href="shop.html#${c.id}"><div class="pic">${pic(sample)}</div>
+      return `<a class="cat" href="shop.html#${c.id}"><div class="pic arch">${pic(sample)}</div>
         <div class="t"><b>${esc(c.title)}</b><span>${hint[c.id] || ''}</span></div></a>`;
     }).join('');
   }
@@ -132,10 +132,10 @@
     for (const id of ['#next-ship', '#next-ship-2']) { const sh = $(id); if (sh) sh.textContent = nextShip(); }
     if (!el) return;
     el.innerHTML = D.plans.map((p) => `<div class="plan">
-      ${p.badge ? `<span class="badge">${esc(p.badge)}</span>` : ''}
-      <div class="f">${esc(p.title)}</div><div class="muted">${esc(p.text)} · ${esc(p.every)}</div>
-      <div class="price">${money(p.price)} <small>за отправку</small></div>
-      <a class="btn" href="${SITE.bot}" target="_blank" rel="noopener">Оформить в Telegram</a></div>`).join('');
+      <div class="f">${esc(p.title)}${p.badge ? `<span class="badge">${esc(p.badge)}</span>` : ''}</div>
+      <div class="muted">${esc(p.text)}, ${esc(p.every)}</div>
+      <div class="price">${money(p.price)} <small>за поставку</small></div>
+      <a class="btn small" href="${SITE.bot}" target="_blank" rel="noopener">Оформить в боте</a></div>`).join('');
     for (const id of ['#next-ship', '#next-ship-2']) { const el2 = $(id); if (el2) el2.textContent = nextShip(); }
   }
 
@@ -147,16 +147,16 @@
     if (!el) return;
     if (quiz.step < D.quiz.length) {
       const item = D.quiz[quiz.step];
-      el.innerHTML = `<div class="caps">Вопрос ${quiz.step + 1} из ${D.quiz.length}</div>
-        <div class="progress"><i style="width:${(quiz.step / D.quiz.length) * 100}%"></i></div>
+      el.innerHTML = `<div class="progress"><i style="width:${(quiz.step / D.quiz.length) * 100}%"></i></div>
+        <div class="step">Вопрос ${quiz.step + 1} из ${D.quiz.length}</div>
         <div class="q">${esc(item.q)}</div>
         ${item.a.map((a, i) => `<button class="answer" data-answer="${i}">${esc(a.t)}</button>`).join('')}`;
       return;
     }
     const score = (p) => (p.tags || []).reduce((s, t) => s + quiz.tags.filter((x) => x === t).length, 0) + (quiz.tags.includes('decaf') && p.tags.includes('decaf') ? 10 : 0);
     const best = D.products.filter((p) => p.cat === 'coffee').sort((a, b) => score(b) - score(a))[0];
-    el.innerHTML = `<div class="caps">Ваш кофе</div>
-      <div class="result" style="margin-top:16px"><div class="pic">${pic(best)}</div>
+    el.innerHTML = `<div class="step">Вам подойдёт</div>
+      <div class="result" style="margin-top:10px"><div class="pic arch">${pic(best)}</div>
         <div><div class="q">${esc(best.name)}</div><div style="opacity:.75; margin-top:6px">${esc(best.sub)}</div>
           <div class="promo">Есть в нашем Telegram-приложении</div>
           <div style="display:flex; gap:10px; margin-top:18px; flex-wrap:wrap">
@@ -170,8 +170,8 @@
   function renderShops() {
     const el = $('#shops-list');
     if (!el) return;
-    el.innerHTML = B.addresses.map((a) => `<div class="shop">
-      <div class="caps">Кофейня</div><div class="f">${esc(a.title)}</div><p>${esc(a.note)} · ${esc(B.hours)}</p>
+    el.innerHTML = B.addresses.map((a) => `<div class="shop surface">
+      <div class="f">${esc(a.title)}</div><p>${esc(a.note[0].toUpperCase() + a.note.slice(1))}. ${esc(B.hours)}</p>
       <a class="btn small" target="_blank" rel="noopener" href="https://yandex.ru/maps/?text=${encodeURIComponent(`Санкт-Петербург, ${a.title}`)}">Маршрут</a></div>`).join('');
   }
 
@@ -208,12 +208,12 @@
         ${opts}
         <div class="opt-label caps">Количество</div>
         <div class="qty"><button data-pick="qty" data-v="-1">−</button><span>${s.qty}</span><button data-pick="qty" data-v="1">+</button></div>
-        <button class="btn orange" style="margin-top:26px; width:100%" data-add="${id}">В корзину · ${money(priceOf(p, s.w) * s.qty)}</button>
+        <button class="btn orange" style="margin-top:26px; width:100%" data-add="${id}">В корзину за ${money(priceOf(p, s.w) * s.qty)}</button>
       </div>`);
   }
 
   function addToCart(p, s = { w: 0, size: 1, qty: 1 }) {
-    const opts = p.prices ? `${D.weights[s.w]} · в зёрнах` : p.sizes ? `Размер ${p.sizes[s.size]}` : p.sub;
+    const opts = p.prices ? `${D.weights[s.w]}, в зёрнах` : p.sizes ? `Размер ${p.sizes[s.size]}` : p.sub;
     const key = `${p.id}|${opts}`;
     const line = cart.find((l) => l.key === key);
     if (line) line.qty += s.qty;
@@ -242,7 +242,7 @@
     const shipping = d.price || 0;
     const needsAddress = !d.id.startsWith('pickup');
     return `<div class="df">
-        <label class="field"><select data-buyer="delivery">${D.delivery.map((x) => `<option value="${esc(x.id)}" ${x.id === d.id ? 'selected' : ''}>${esc(x.title)}${x.price ? ` · ${money(x.price)}` : x.price === 0 ? ' · бесплатно' : x.note ? ` · ${esc(x.note)}` : ''}</option>`).join('')}</select></label>
+        <label class="field"><select data-buyer="delivery">${D.delivery.map((x) => `<option value="${esc(x.id)}" ${x.id === d.id ? 'selected' : ''}>${esc(x.title)}${x.price ? `, ${money(x.price)}` : x.price === 0 ? ', бесплатно' : x.note ? `, ${esc(x.note)}` : ''}</option>`).join('')}</select></label>
         <label class="field"><input data-buyer="name" value="${esc(buyer.name)}" placeholder="Имя"></label>
         <label class="field"><input data-buyer="phone" value="${esc(buyer.phone)}" placeholder="Телефон" type="tel"></label>
         <label class="field"><input data-buyer="email" value="${esc(buyer.email)}" placeholder="E-mail для чека (необязательно)" type="email"></label>
@@ -366,12 +366,12 @@
   // ——— Карусель на первом экране: сама листается, пауза при наведении, свайп на телефоне ———
 
   const SLIDES = [
-    { eyebrow: 'Свежая обжарка', title: 'Кофе нашей обжарки', text: 'Зерно 200 г, 500 г и 1 кг для эспрессо, воронки, френч-пресса и турки.', href: 'shop.html#coffee', cta: 'Выбрать кофе', cat: 'coffee', n: 0 },
-    { eyebrow: 'Подписка', title: 'Свежий кофе каждый месяц', text: 'Выберите кофе и частоту. Обжарим к отправке и привезём сами.', href: '#subscription', cta: 'Оформить подписку', cat: 'coffee', n: 1 },
-    { eyebrow: 'В дорогу и на работу', title: 'Дрип-пакеты', text: 'Заварите чашку за пару минут без кофемашины. Есть подарочные наборы.', href: 'shop.html#drip', cta: 'Смотреть', cat: 'drip', n: 0 },
-    { eyebrow: 'Анкета', title: 'Найдите свой кофе', text: 'Пять вопросов о вкусах, и мы подскажем сорт из нашего ассортимента.', href: '#quiz', cta: 'Пройти анкету', cat: 'coffee', n: 2 },
-    { eyebrow: 'Не только кофе', title: 'Чай и какао', text: 'Берём у своих поставщиков, тех же, что в наших кофейнях.', href: 'shop.html#tea', cta: 'В магазин', cat: 'tea', n: 0 },
-    { eyebrow: 'Для бизнеса', title: 'Опт для кафе и офисов', text: 'Свежая обжарка под ваш график, дрип-пакеты под ваш бренд.', href: '#b2b', cta: 'Подробнее', cat: 'drip', n: 2 },
+    { kicker: 'Магазин', title: 'Кофе нашей обжарки', text: 'В зёрнах, пачки 200 г, 500 г и 1 кг.', href: 'shop.html#coffee', cta: 'Выбрать', cat: 'coffee', n: 0 },
+    { kicker: 'Подписка', title: 'Кофе каждый месяц', text: 'Обжариваем к отправке и привозим сами.', href: '#subscription', cta: 'Тарифы', cat: 'coffee', n: 1 },
+    { kicker: 'Магазин', title: 'Дрип-пакеты', text: 'Чашка кофе без кофемашины, в дорогу и на работу.', href: 'shop.html#drip', cta: 'Смотреть', cat: 'drip', n: 0 },
+    { kicker: 'Подбор', title: 'Какой кофе вам подойдёт', text: 'Пять вопросов о том, как вы пьёте кофе.', href: '#quiz', cta: 'Подобрать', cat: 'coffee', n: 2 },
+    { kicker: 'Магазин', title: 'Чай и какао', text: 'Те же, что мы завариваем в кофейнях.', href: 'shop.html#tea', cta: 'Смотреть', cat: 'tea', n: 0 },
+    { kicker: 'Для бизнеса', title: 'Кофе для кафе и офисов', text: 'Зерно оптом и дрип-пакеты с вашим логотипом.', href: '#b2b', cta: 'Подробнее', cat: 'drip', n: 2 },
   ];
   const SLIDE_MS = 6000;
   const reduceMotion = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -388,9 +388,9 @@
     const dots = $('#dots');
     if (!box || !dots) return;
     box.innerHTML = SLIDES.map((s, i) => `<div class="slide ${i === slideAt ? 'on' : ''}" role="group" aria-label="${i + 1} из ${SLIDES.length}">
-        <div class="t"><div class="caps">${esc(s.eyebrow)}</div><h2>${esc(s.title)}</h2><p>${esc(s.text)}</p>
-          <div class="cta"><a class="btn orange" href="${s.href}">${esc(s.cta)}</a></div></div>
-        <div class="pic">${pic(slideProduct(s))}</div></div>`).join('');
+        <div class="pic arch">${pic(slideProduct(s))}</div>
+        <div class="t"><div class="kicker">${esc(s.kicker)}</div><h2>${esc(s.title)}</h2><p>${esc(s.text)}</p>
+          <div class="cta"><a class="btn small" href="${s.href}">${esc(s.cta)}</a></div></div></div>`).join('');
     dots.innerHTML = SLIDES.map((s, i) => `<button type="button" data-dot="${i}" class="${i === slideAt ? 'on' : i < slideAt ? 'done' : ''}" aria-label="${esc(s.title)}"><i></i></button>`).join('');
     $('#slider').style.setProperty('--slide-time', `${SLIDE_MS}ms`);
   }
@@ -401,9 +401,7 @@
     const n = SLIDES.length;
     const next = (to + n) % n;
     const slides = box.querySelectorAll('.slide');
-    slides[slideAt]?.classList.replace('on', 'out');
-    const prev = slides[slideAt];
-    setTimeout(() => prev?.classList.remove('out'), 700);
+    slides[slideAt]?.classList.remove('on');
     slideAt = next;
     slides[slideAt]?.classList.add('on');
     document.querySelectorAll('#dots button').forEach((d, i) => {
@@ -450,7 +448,7 @@
   // ——— Тема: тёмная и светлая, выбор запоминается ———
 
   function rerender() {
-    renderSlides(); renderCats(); renderRows(); renderQuiz(); renderShop();
+    renderSlides(); renderCats(); renderRows(); renderQuiz(); renderShop(); renderPlans();
     if ($('#drawer')?.classList.contains('open')) renderDrawer();
   }
   document.addEventListener('click', (e) => {
@@ -458,20 +456,9 @@
     const next = isDark() ? 'light' : 'dark';
     document.documentElement.dataset.theme = next;
     try { localStorage.setItem('ak-site-theme', next); } catch { /* приватный режим */ }
-    document.querySelector('meta[name=theme-color]')?.setAttribute('content', next === 'dark' ? '#110B13' : '#F6EFE9');
+    document.querySelector('meta[name=theme-color]')?.setAttribute('content', next === 'dark' ? '#1F1623' : '#ECE6EC');
     rerender();
   });
-
-  // ——— Блоки плавно проявляются при прокрутке (кроме тех, что уже на экране) ———
-
-  if ('IntersectionObserver' in window && !reduceMotion) {
-    const io = new IntersectionObserver((entries) => entries.forEach((en) => {
-      if (en.isIntersecting) { en.target.classList.remove('pending'); io.unobserve(en.target); }
-    }), { rootMargin: '0px 0px -8% 0px' });
-    document.querySelectorAll('.reveal').forEach((el) => {
-      if (el.getBoundingClientRect().top > window.innerHeight) { el.classList.add('pending'); io.observe(el); }
-    });
-  }
 
   renderSlides();
   restartTimer();

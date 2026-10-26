@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <meta name="robots" content="noindex">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Анненкирхе кофе · обжарка и кофейни в Петербурге</title>
+  <title>Анненкирхе кофе</title>
   <meta name="description" content="Анненкирхе кофе: обжариваем кофе сами. Зерно 200 г, 500 г и 1 кг, дрип-пакеты, чай, какао. Подписка на кофе, опт, две кофейни в Петербурге.">
-  <meta name="theme-color" content="#110B13">
+  <meta name="theme-color" content="#1F1623">
   <link rel="icon" href="../webapp/img/emblem.png">
   <!-- Тема до первой отрисовки: выбор гостя, иначе — как в системе. Без мигания. -->
   <script>(function () { var t; try { t = localStorage.getItem('ak-site-theme'); } catch (e) {}
@@ -14,19 +14,17 @@
     document.documentElement.dataset.theme = t; document.documentElement.classList.add('js'); })();</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Tenor+Sans&family=Golos+Text:wght@400;500;600&family=Cormorant+Garamond:ital,wght@1,500&family=Forum&family=Onest:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Golos+Text:wght@400;500;600&family=Forum&family=Onest:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="site.css">
 </head>
 <body>
   <div class="stage" aria-hidden="true">
-    <div class="aura"></div>
     <div class="marks" id="marks">
       <img class="mark mark-dark" src="../webapp/img/emblem-white.png" alt="">
       <img class="mark mark-light" src="../webapp/img/emblem.png" alt="">
     </div>
-    <div class="grain"></div>
   </div>
-  <div class="demo-ribbon"><b>Демо-версия.</b> Товары, цены и тексты пока примеры</div>
+  <div class="demo-ribbon"><b>Демо-версия:</b> товары, цены и тексты пока примерные</div>
 
   <header class="header">
     <div class="wrap in">
@@ -55,13 +53,24 @@
   </header>
 
   <main>
-    <!-- Первый экран: знак со свечением и карусель разделов -->
     <section class="hero">
-      <div class="wrap">
-        <h1>Кофе, который мы обжариваем сами</h1>
-        <p class="lead s">Две кофейни в Петербурге и своя обжарка</p>
+      <div class="wrap grid">
+        <div>
+          <h1>Анненкирхе кофе</h1>
+          <p class="lead">Обжариваем кофе сами и варим его в двух кофейнях в центре Петербурга.</p>
+          <div class="where">
+            <div><b>Кожевенная линия, 30а</b> <span class="muted">в «Брусницыне», 1 этаж</span></div>
+            <div><b>Кирочная улица, 8а</b> <span class="muted">цокольный этаж</span></div>
+            <div class="muted">Ежедневно с 10:00 до 22:00</div>
+          </div>
+          <div class="cta">
+            <a class="btn orange" href="shop.html">Купить кофе домой</a>
+            <a class="btn" href="https://t.me/annenkirche_coffee_bot" target="_blank" rel="noopener">Карта гостя в Telegram</a>
+          </div>
+          <div class="card"><b>Каждый 6-й напиток бесплатно</b><span class="muted">Любой из меню, в обеих кофейнях. Отметки копятся в Telegram-боте.</span></div>
+        </div>
 
-        <div class="slider glass" id="slider" aria-roledescription="карусель">
+        <div class="slider" id="slider" aria-roledescription="карусель">
           <div class="slides" id="slides"></div>
           <div class="nav">
             <div class="dots" id="dots"></div>
@@ -71,71 +80,63 @@
             </div>
           </div>
         </div>
-
-        <div class="facts">
-          <div class="glass"><div class="caps">До следующей обжарки</div><div class="countdown" id="countdown"></div></div>
-          <div class="glass"><div class="caps">Подписка</div><div class="big">Отправка <span id="next-ship"></span></div><div class="small">Свежая обжарка раз в месяц или раз в две недели</div></div>
-          <div class="glass"><div class="caps">Карта гостя</div><div class="big">6-й напиток бесплатно</div><div class="small">Любой из меню, карта в нашем Telegram-боте</div></div>
-        </div>
       </div>
     </section>
 
-    <section class="block reveal">
+    <section class="block">
       <div class="wrap">
-        <div class="head"><div><div class="caps">Магазин</div><h2>Что у нас есть</h2></div>
-          <p class="s">Кофе обжариваем сами, чай и какао берём у своих поставщиков</p></div>
+        <div class="head"><h2>Что можно купить</h2>
+          <p>Кофе обжариваем сами. Чай и какао берём у поставщиков, с которыми работают наши кофейни.</p></div>
         <div class="cats" id="cats"></div>
       </div>
     </section>
 
-    <section class="block reveal" style="padding-top:0">
+    <section class="block" style="padding-top:0">
       <div class="wrap">
-        <div class="head"><div><div class="caps">Свежая обжарка</div><h2>Наш кофе</h2></div><a class="link" href="shop.html#coffee">Весь кофе →</a></div>
+        <div class="head"><h2>Кофе нашей обжарки</h2><a class="link" href="shop.html#coffee">Весь кофе</a></div>
         <div class="products" data-row="coffee" data-limit="4"></div>
       </div>
     </section>
 
-    <section class="block reveal" style="padding-top:0">
+    <section class="block" style="padding-top:0">
       <div class="wrap">
-        <div class="glass panel quiz" id="quiz">
-          <div><div class="caps">Анкета</div><h2>Найдите свой кофе</h2>
-            <p class="lead s">Пять вопросов о вкусах, и мы подскажем сорт из нашего ассортимента.</p></div>
+        <div class="surface quiz" id="quiz">
+          <div><h2>Не знаете, какой кофе взять?</h2>
+            <p class="lead">Ответьте на пять вопросов о том, как вы пьёте кофе, и мы подскажем сорт.</p></div>
           <div id="quiz-body"></div>
         </div>
       </div>
     </section>
 
-    <section class="block reveal" id="subscription">
+    <section class="block" id="subscription">
       <div class="wrap">
-        <div class="head"><div><div class="caps">Подписка</div><h2>Свежий кофе без хлопот</h2></div>
-          <p class="s">Выберите кофе и частоту, мы обжарим и отправим</p></div>
+        <div class="head"><h2>Подписка на кофе</h2>
+          <p>Выбираете кофе и как часто его получать. Обжариваем к отправке, оплата за каждую поставку.</p></div>
         <div class="plans" id="plans"></div>
-        <div class="next-ship">Ближайшая отправка подписки: <span id="next-ship-2"></span></div>
       </div>
     </section>
 
-    <section class="block reveal" style="padding-top:0">
+    <section class="block" style="padding-top:0">
       <div class="wrap">
-        <div class="head"><div><div class="caps">В дорогу и на работу</div><h2>Дрип-пакеты</h2></div><a class="link" href="shop.html#drip">Все дрип-пакеты →</a></div>
+        <div class="head"><h2>Дрип-пакеты</h2><a class="link" href="shop.html#drip">Все дрип-пакеты</a></div>
         <div class="products" data-row="drip" data-limit="4"></div>
       </div>
     </section>
 
-    <section class="block reveal" style="padding-top:0">
+    <section class="block" style="padding-top:0">
       <div class="wrap">
-        <div class="glass panel app">
+        <div class="surface app">
           <div>
-            <div class="caps">Telegram</div>
-            <h2>Всё в одном приложении</h2>
+            <h2>Бот кофейни в Telegram</h2>
             <ul>
-              <li>Карта гостя: каждый 6-й напиток в кофейне бесплатно</li>
+              <li>Карта гостя: отметки за напитки и 6-й в подарок</li>
               <li>Магазин и подписка с оплатой картой</li>
-              <li>Анкета «Найди свой кофе»</li>
-              <li>Светлая и ночная тема</li>
+              <li>Подбор кофе по вкусу</li>
+              <li>Светлая и тёмная тема</li>
             </ul>
             <div class="qr-row"><img src="img/qr-bot.svg" alt="QR-код бота">
-              <div><p class="s" style="font-size:22px">Наведите камеру</p>
-                <a class="btn small orange" style="margin-top:12px" href="https://t.me/annenkirche_coffee_bot" target="_blank" rel="noopener">Открыть в Telegram</a></div></div>
+              <div><p class="muted">Наведите камеру телефона или откройте по ссылке</p>
+                <a class="btn small orange" style="margin-top:12px" href="https://t.me/annenkirche_coffee_bot" target="_blank" rel="noopener">Открыть бота</a></div></div>
           </div>
           <div class="phones">
             <div class="phone"><div style="background-image:url(img/app-home.jpg)"></div></div>
@@ -145,29 +146,25 @@
       </div>
     </section>
 
-    <section class="block b2b reveal" id="b2b">
-      <div class="wrap">
-        <div class="head"><div><div class="caps">Для бизнеса</div><h2>Опт для кафе и офисов</h2></div>
-          <p class="s">Свежая обжарка под ваш график и цены от объёма</p></div>
-        <div class="b2b-grid">
-          <div class="b2b-card"><div class="ic"><svg class="i" viewBox="0 0 24 24"><path d="m12 3 8 4.5v9L12 21l-8-4.5v-9z"/><path d="m4 7.5 8 4.5 8-4.5"/><path d="M12 12v9"/></svg></div>
-            <div class="f">Зерно оптом</div><p>Для кофеен, ресторанов и офисов. Обжариваем под ваш график.</p></div>
-          <div class="b2b-card"><div class="ic"><svg class="i" viewBox="0 0 24 24"><path d="M6 4h12v6a6 6 0 0 1-12 0z"/><path d="M12 16v4"/><path d="M8 20h8"/></svg></div>
-            <div class="f">Дрип-пакеты под ваш бренд</div><p>Ваш дизайн, наш кофе. Для подарков, отелей и мероприятий.</p></div>
-          <div class="b2b-card"><div class="ic"><svg class="i" viewBox="0 0 24 24"><path d="M4 7h10"/><path d="M18 7h2"/><circle cx="16" cy="7" r="2"/><path d="M4 17h4"/><path d="M12 17h8"/><circle cx="10" cy="17" r="2"/></svg></div>
-            <div class="f">Цены от объёма</div><p>Чем больше объём, тем выгоднее. Оптовый прайс по запросу.</p></div>
-        </div>
-        <div class="cta">
-          <a class="btn orange" href="#" data-price>Оптовый прайс</a>
-          <a class="btn ghost" href="https://t.me/mrgvzd" target="_blank" rel="noopener">Написать нам</a>
-        </div>
+    <section class="block b2b" id="b2b">
+      <div class="wrap b2b-cols">
+        <div><h2>Кофе для кафе и офисов</h2>
+          <p class="lead">Поставляем зерно и дрип-пакеты оптом. Напишите, сколько кофе нужно в месяц, пришлём прайс.</p>
+          <div class="cta">
+            <a class="btn orange" href="#" data-price>Оптовый прайс</a>
+            <a class="btn" href="https://t.me/mrgvzd" target="_blank" rel="noopener">Написать в Telegram</a>
+          </div></div>
+        <ul class="b2b-list">
+          <li><b>Зерно оптом</b><span>Для кофеен, ресторанов и офисов, обжарка под ваш график.</span></li>
+          <li><b>Дрип-пакеты с вашим логотипом</b><span>Для подарков гостям, отелей и мероприятий.</span></li>
+          <li><b>Цена зависит от объёма</b><span>Чем больше берёте в месяц, тем дешевле килограмм.</span></li>
+        </ul>
       </div>
     </section>
 
-    <section class="block reveal" id="shops">
+    <section class="block" id="shops">
       <div class="wrap">
-        <div class="head"><div><div class="caps">Приходите</div><h2>Наши кофейни</h2></div>
-          <p class="s">Ежедневно с 10:00 до 22:00. Карта гостя работает в обеих</p></div>
+        <div class="head"><h2>Кофейни</h2><p>Ежедневно с 10:00 до 22:00. Карта гостя работает в обеих.</p></div>
         <div class="shops" id="shops-list"></div>
       </div>
     </section>
@@ -177,14 +174,14 @@
     <div class="wrap">
       <div class="top">
         <div class="brand"><img class="mark-dark" src="../webapp/img/logo-white.png" alt="Анненкирхе кофе"><img class="mark-light" src="../webapp/img/logo.png" alt="Анненкирхе кофе">
-          <p class="s" style="font-size:22px; margin-top:18px; color:var(--muted)">Своя обжарка и две кофейни в Петербурге</p></div>
+          <p>Своя обжарка и две кофейни в Петербурге.</p></div>
         <div><h4>Магазин</h4><ul><li><a href="shop.html#coffee">Кофе</a></li><li><a href="shop.html#drip">Дрип-пакеты</a></li><li><a href="shop.html#tea">Чай</a></li><li><a href="shop.html#cocoa">Какао</a></li><li><a href="shop.html#merch">Мерч</a></li><li><a href="index.html#subscription">Подписка</a></li></ul></div>
         <div><h4>Бизнесу</h4><ul><li><a href="index.html#b2b">Кофе оптом</a></li><li><a href="index.html#b2b">Дрип-пакеты под ваш бренд</a></li></ul>
-          <h4 style="margin-top:26px">Покупателям</h4><ul><li><a href="delivery.html">Доставка и оплата</a></li><li><a href="offer.html">Оферта</a></li><li><a href="privacy.html">Персональные данные</a></li></ul></div>
+          <h4 style="margin-top:24px">Покупателям</h4><ul><li><a href="delivery.html">Доставка и оплата</a></li><li><a href="offer.html">Оферта</a></li><li><a href="privacy.html">Персональные данные</a></li></ul></div>
         <div class="contacts"><h4>Контакты</h4>
           <p><a href="tel:+79219177853">+7 (921) 917-78-53</a></p>
           <p><a href="https://t.me/mrgvzd" target="_blank" rel="noopener">Telegram @mrgvzd</a></p>
-          <p>Кожевенная линия, 30а</p><p>Кирочная улица, 8а</p><p>Ежедневно 10:00–22:00</p></div>
+          <p>Кожевенная линия, 30а</p><p>Кирочная улица, 8а</p><p>Ежедневно с 10:00 до 22:00</p></div>
       </div>
       <div class="bottom"><span>© 2026 Анненкирхе кофе</span><span>ООО «Ароматная мастерская», ИНН 4704118133, ОГРН 1254700005075</span></div>
     </div>
