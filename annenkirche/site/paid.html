@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Спасибо за заказ · Анненкирхе кофе</title>
+  <meta name="theme-color" content="#F8F4F1">
+  <link rel="icon" href="../webapp/img/emblem.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Forum&family=Onest:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="site.css">
+  <style>
+    .doc { max-width: 780px; margin: 0 auto; padding: 120px 20px 80px; }
+    .doc h1 { font-family: var(--display); font-size: clamp(34px, 6vw, 52px); line-height: 1.05; margin: 14px 0 26px; }
+    .doc h2 { font-family: var(--display); font-size: 26px; margin: 34px 0 10px; }
+    .doc p, .doc li { font-size: 16px; line-height: 1.6; color: var(--ink); }
+    .doc ul { padding-left: 20px; }
+    .doc .muted { color: var(--muted); }
+    .doc .center { text-align: center; }
+  </style>
+</head>
+<body>
+  <header class="header scrolled">
+    <div class="wrap in">
+      <a class="logo" href="index.html">
+        <img class="logo-light" src="../webapp/img/emblem.png" alt=""><img class="logo-dark" src="../webapp/img/emblem-white.png" alt="">
+        <span>Анненкирхе кофе</span>
+      </a>
+      <nav><a href="shop.html">Магазин</a><a href="delivery.html">Доставка и оплата</a><a href="index.html#shops">Кофейни</a></nav>
+    </div>
+  </header>
+  <main class="doc">
+    <div class="center">
+      <div class="caps">Оплата</div>
+      <h1>Спасибо, оплата прошла</h1>
+      <p id="num"></p>
+      <p class="muted">Напишем, когда заказ будет готов. Если заказывали в Telegram, сообщение придёт в бот.</p>
+      <p style="margin-top:28px"><a class="btn orange" href="https://t.me/annenkirche_coffee_bot">Вернуться в Telegram</a>
+        <a class="btn ghost" href="shop.html">В магазин</a></p>
+    </div>
+    <script>
+      const n = new URLSearchParams(location.search).get('order');
+      if (n) document.getElementById('num').textContent = 'Заказ №' + n.replace(/\D/g, '');
+    </script>
+
+  </main>
+  <footer>
+    <div class="wrap">
+      <div class="bottom"><span>© 2026 Анненкирхе кофе · ООО «Ароматная мастерская», ИНН 4704118133, КПП 470401001, ОГРН 1254700005075</span>
+        <span><a href="offer.html">Оферта</a> · <a href="privacy.html">Персональные данные</a> · <a href="delivery.html">Доставка и оплата</a></span></div>
+    </div>
+  </footer>
+</body>
+</html>
