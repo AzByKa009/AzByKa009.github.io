@@ -395,3 +395,7 @@ input[type=range] { width: 100%; accent-color: var(--orange); }
 
 /* ——— Макеты для презентации (?clean) ——— */
 .clean .placeholder, .clean .badge.demo, .clean .demo-only { display: none !important; }
+
+/* Смена темы кругом из кнопки (app.js, case 'theme'). */
+::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+::view-transition-new(root) { z-index: 2; }

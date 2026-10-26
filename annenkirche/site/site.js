@@ -452,12 +452,27 @@
     if ($('#drawer')?.classList.contains('open')) renderDrawer();
   }
   document.addEventListener('click', (e) => {
-    if (!e.target.closest('[data-theme-toggle]')) return;
+    const btn = e.target.closest('[data-theme-toggle]');
+    if (!btn) return;
     const next = isDark() ? 'light' : 'dark';
-    document.documentElement.dataset.theme = next;
-    try { localStorage.setItem('ak-site-theme', next); } catch { /* приватный режим */ }
-    document.querySelector('meta[name=theme-color]')?.setAttribute('content', next === 'dark' ? '#1F1623' : '#ECE6EC');
-    rerender();
+    const apply = () => {
+      document.documentElement.dataset.theme = next;
+      try { localStorage.setItem('ak-site-theme', next); } catch { /* приватный режим */ }
+      document.querySelector('meta[name=theme-color]')?.setAttribute('content', next === 'dark' ? '#1F1623' : '#ECE6EC');
+      rerender();
+    };
+    // Новая тема разливается кругом из кнопки. Где браузер так не умеет — просто переключаем.
+    if (!document.startViewTransition || reduceMotion) return apply();
+    const r = btn.getBoundingClientRect();
+    const x = r.left + r.width / 2;
+    const y = r.top + r.height / 2;
+    const radius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+    document.startViewTransition(apply).ready.then(() => {
+      document.documentElement.animate(
+        { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`] },
+        { duration: 700, easing: 'cubic-bezier(.45, 0, .2, 1)', pseudoElement: '::view-transition-new(root)' },
+      );
+    }).catch(() => undefined);
   });
 
   // ——— Заставка: знак зажигается, потом уходит в фон ———

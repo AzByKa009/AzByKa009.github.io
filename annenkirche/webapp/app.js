@@ -496,11 +496,27 @@
     switch (act) {
       case 'back': return back();
       case 'theme': {
-        theme = theme === 'dark' ? 'light' : 'dark';
-        store.set('ak-theme', theme);
-        signLit = false;
-        applyTheme();
-        return render(true);
+        const apply = () => {
+          theme = theme === 'dark' ? 'light' : 'dark';
+          store.set('ak-theme', theme);
+          signLit = false;
+          applyTheme();
+          render(true);
+        };
+        // Новая тема разливается кругом из кнопки, как на сайте. Без поддержки в браузере — сразу.
+        const calm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (!document.startViewTransition || calm) return apply();
+        const r = el.getBoundingClientRect();
+        const x = r.left + r.width / 2;
+        const y = r.top + r.height / 2;
+        const radius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+        document.startViewTransition(apply).ready.then(() => {
+          document.documentElement.animate(
+            { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`] },
+            { duration: 650, easing: 'cubic-bezier(.45, 0, .2, 1)', pseudoElement: '::view-transition-new(root)' },
+          );
+        }).catch(() => undefined);
+        return;
       }
       case 'cat': state.cat = id; return render(true);
       case 'quick-add': {

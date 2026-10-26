@@ -461,3 +461,7 @@ html.splash #splash { display: block; position: fixed; inset: 0; z-index: 200; c
 .stage .marks-in { position: absolute; inset: 0; transition: opacity 1.1s ease; }
 html.splash-hold .stage .marks-in { opacity: 0; }
 html.splash-hold .hero > .wrap > * { animation-play-state: paused; }
+
+/* Смена темы кругом из кнопки: старый снимок экрана стоит, новый раскрывается поверх (site.js). */
+::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+::view-transition-new(root) { z-index: 2; }
