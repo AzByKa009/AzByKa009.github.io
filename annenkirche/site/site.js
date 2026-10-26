@@ -460,6 +460,23 @@
     rerender();
   });
 
+  // ——— Заставка: знак зажигается, потом уходит в фон ———
+
+  const splash = document.getElementById('splash');
+  if (splash && document.documentElement.classList.contains('splash')) {
+    let left = false;
+    const leave = () => {
+      if (left) return;
+      left = true;
+      splash.classList.add('leave');
+      // Фоновый знак проявляется ровно там, где гаснет неоновый, и первый экран начинает появляться.
+      document.documentElement.classList.remove('splash-hold');
+      setTimeout(() => { document.documentElement.classList.remove('splash'); splash.remove(); }, 1200);
+    };
+    setTimeout(leave, 2100);
+    splash.addEventListener('click', leave);
+  }
+
   renderSlides();
   restartTimer();
   renderCats();

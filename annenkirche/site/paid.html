@@ -11,7 +11,11 @@
   <!-- Тема до первой отрисовки: выбор гостя, иначе — как в системе. Без мигания. -->
   <script>(function () { var t; try { t = localStorage.getItem('ak-site-theme'); } catch (e) {}
     if (t !== 'light' && t !== 'dark') t = window.matchMedia && matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-    document.documentElement.dataset.theme = t; document.documentElement.classList.add('js'); })();</script>
+    document.documentElement.dataset.theme = t; document.documentElement.classList.add('js');
+    // Заставка: один раз за визит и только если человек не просил уменьшить движение.
+    var seen; try { seen = sessionStorage.getItem('ak-splash'); sessionStorage.setItem('ak-splash', '1'); } catch (e) {}
+    var calm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!seen && !calm && location.search.indexOf('clean') < 0) document.documentElement.classList.add('splash', 'splash-hold'); })();</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Golos+Text:wght@400;500;600&family=Forum&family=Onest:wght@600;700&display=swap" rel="stylesheet">
@@ -19,10 +23,13 @@
 </head>
 <body>
   <div class="stage" aria-hidden="true">
-    <div class="marks" id="marks">
+    <div class="marks" id="marks"><div class="marks-in">
       <img class="mark mark-dark" src="../webapp/img/emblem-white.png" alt="">
       <img class="mark mark-light" src="../webapp/img/emblem.png" alt="">
-    </div>
+    </div></div>
+  </div>
+  <div id="splash" aria-hidden="true">
+    <div class="sign"><div class="glass"></div><div class="glow"></div><div class="tube"></div><div class="core"></div></div>
   </div>
   <div class="demo-ribbon"><b>Демо-версия:</b> товары, цены и тексты пока примерные</div>
 
