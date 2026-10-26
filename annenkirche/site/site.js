@@ -4,7 +4,9 @@
 (() => {
   const D = window.AK;
   const B = D.brand;
-  const pic = (p, label = '', night = false) => window.AKPic(p, label, night);
+  // Рисунки упаковок: ночью — витрина под лампой, днём — пастельный фон.
+  const isDark = () => document.documentElement.dataset.theme !== 'light';
+  const pic = (p, label = '', night = isDark()) => window.AKPic(p, label, night);
   const API = window.AKApi;
   /** Данные покупателя в корзине — переживают перерисовку. */
   const buyer = store0('ak-site-buyer', { delivery: 'pickup-k', name: '', phone: '', email: '', address: '', comment: '' });
@@ -54,7 +56,12 @@
   // ——— Шапка: прозрачная над ночным экраном, светлая после прокрутки ———
 
   const header = $('.header');
-  const onScroll = () => header && header.classList.toggle('scrolled', window.scrollY > 40 || !document.body.classList.contains('page-dark'));
+  // Знак на фоне ярче всего на первом экране, а дальше приглушается, чтобы не спорить с содержимым.
+  const marks = $('#marks');
+  const onScroll = () => {
+    if (header) header.classList.toggle('scrolled', window.scrollY > 10);
+    if (marks) marks.style.opacity = String(Math.max(0.35, 1 - window.scrollY / (window.innerHeight * 1.2)));
+  };
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
@@ -356,6 +363,118 @@
     saveCart();
   }
 
+  // ——— Карусель на первом экране: сама листается, пауза при наведении, свайп на телефоне ———
+
+  const SLIDES = [
+    { eyebrow: 'Свежая обжарка', title: 'Кофе нашей обжарки', text: 'Зерно 200 г, 500 г и 1 кг для эспрессо, воронки, френч-пресса и турки.', href: 'shop.html#coffee', cta: 'Выбрать кофе', cat: 'coffee', n: 0 },
+    { eyebrow: 'Подписка', title: 'Свежий кофе каждый месяц', text: 'Выберите кофе и частоту. Обжарим к отправке и привезём сами.', href: '#subscription', cta: 'Оформить подписку', cat: 'coffee', n: 1 },
+    { eyebrow: 'В дорогу и на работу', title: 'Дрип-пакеты', text: 'Заварите чашку за пару минут без кофемашины. Есть подарочные наборы.', href: 'shop.html#drip', cta: 'Смотреть', cat: 'drip', n: 0 },
+    { eyebrow: 'Анкета', title: 'Найдите свой кофе', text: 'Пять вопросов о вкусах, и мы подскажем сорт из нашего ассортимента.', href: '#quiz', cta: 'Пройти анкету', cat: 'coffee', n: 2 },
+    { eyebrow: 'Не только кофе', title: 'Чай и какао', text: 'Берём у своих поставщиков, тех же, что в наших кофейнях.', href: 'shop.html#tea', cta: 'В магазин', cat: 'tea', n: 0 },
+    { eyebrow: 'Для бизнеса', title: 'Опт для кафе и офисов', text: 'Свежая обжарка под ваш график, дрип-пакеты под ваш бренд.', href: '#b2b', cta: 'Подробнее', cat: 'drip', n: 2 },
+  ];
+  const SLIDE_MS = 6000;
+  const reduceMotion = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let slideAt = 0;
+  let slideTimer = null;
+
+  function slideProduct(s) {
+    const list = D.products.filter((p) => p.cat === s.cat);
+    return list[Math.min(s.n, list.length - 1)] || D.products[0];
+  }
+
+  function renderSlides() {
+    const box = $('#slides');
+    const dots = $('#dots');
+    if (!box || !dots) return;
+    box.innerHTML = SLIDES.map((s, i) => `<div class="slide ${i === slideAt ? 'on' : ''}" role="group" aria-label="${i + 1} из ${SLIDES.length}">
+        <div class="t"><div class="caps">${esc(s.eyebrow)}</div><h2>${esc(s.title)}</h2><p>${esc(s.text)}</p>
+          <div class="cta"><a class="btn orange" href="${s.href}">${esc(s.cta)}</a></div></div>
+        <div class="pic">${pic(slideProduct(s))}</div></div>`).join('');
+    dots.innerHTML = SLIDES.map((s, i) => `<button type="button" data-dot="${i}" class="${i === slideAt ? 'on' : i < slideAt ? 'done' : ''}" aria-label="${esc(s.title)}"><i></i></button>`).join('');
+    $('#slider').style.setProperty('--slide-time', `${SLIDE_MS}ms`);
+  }
+
+  function goSlide(to) {
+    const box = $('#slides');
+    if (!box) return;
+    const n = SLIDES.length;
+    const next = (to + n) % n;
+    const slides = box.querySelectorAll('.slide');
+    slides[slideAt]?.classList.replace('on', 'out');
+    const prev = slides[slideAt];
+    setTimeout(() => prev?.classList.remove('out'), 700);
+    slideAt = next;
+    slides[slideAt]?.classList.add('on');
+    document.querySelectorAll('#dots button').forEach((d, i) => {
+      d.classList.remove('on', 'done');
+      // Перезапуск полоски прогресса у текущей точки.
+      void d.offsetWidth;
+      if (i === slideAt) d.classList.add('on');
+      else if (i < slideAt) d.classList.add('done');
+    });
+    restartTimer();
+  }
+
+  function restartTimer() {
+    clearTimeout(slideTimer);
+    if (reduceMotion || $('#slider')?.classList.contains('paused')) return;
+    slideTimer = setTimeout(() => goSlide(slideAt + 1), SLIDE_MS);
+  }
+
+  const slider = $('#slider');
+  if (slider) {
+    const pause = (on) => { slider.classList.toggle('paused', on); if (on) clearTimeout(slideTimer); else restartTimer(); };
+    slider.addEventListener('mouseenter', () => pause(true));
+    slider.addEventListener('mouseleave', () => pause(false));
+    slider.addEventListener('focusin', () => pause(true));
+    slider.addEventListener('focusout', () => pause(false));
+    slider.addEventListener('click', (e) => {
+      const arrow = e.target.closest('[data-slide]');
+      const dot = e.target.closest('[data-dot]');
+      if (arrow) goSlide(slideAt + Number(arrow.dataset.slide));
+      if (dot) goSlide(Number(dot.dataset.dot));
+    });
+    // Свайп пальцем: больше 40 px по горизонтали — листаем.
+    let x0 = null;
+    slider.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; }, { passive: true });
+    slider.addEventListener('touchend', (e) => {
+      if (x0 === null) return;
+      const dx = e.changedTouches[0].clientX - x0;
+      if (Math.abs(dx) > 40) goSlide(slideAt + (dx < 0 ? 1 : -1));
+      x0 = null;
+    });
+    document.addEventListener('visibilitychange', () => (document.hidden ? clearTimeout(slideTimer) : restartTimer()));
+  }
+
+  // ——— Тема: тёмная и светлая, выбор запоминается ———
+
+  function rerender() {
+    renderSlides(); renderCats(); renderRows(); renderQuiz(); renderShop();
+    if ($('#drawer')?.classList.contains('open')) renderDrawer();
+  }
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('[data-theme-toggle]')) return;
+    const next = isDark() ? 'light' : 'dark';
+    document.documentElement.dataset.theme = next;
+    try { localStorage.setItem('ak-site-theme', next); } catch { /* приватный режим */ }
+    document.querySelector('meta[name=theme-color]')?.setAttribute('content', next === 'dark' ? '#110B13' : '#F6EFE9');
+    rerender();
+  });
+
+  // ——— Блоки плавно проявляются при прокрутке (кроме тех, что уже на экране) ———
+
+  if ('IntersectionObserver' in window && !reduceMotion) {
+    const io = new IntersectionObserver((entries) => entries.forEach((en) => {
+      if (en.isIntersecting) { en.target.classList.remove('pending'); io.unobserve(en.target); }
+    }), { rootMargin: '0px 0px -8% 0px' });
+    document.querySelectorAll('.reveal').forEach((el) => {
+      if (el.getBoundingClientRect().top > window.innerHeight) { el.classList.add('pending'); io.observe(el); }
+    });
+  }
+
+  renderSlides();
+  restartTimer();
   renderCats();
   renderRows();
   renderPlans();
@@ -369,7 +488,7 @@
   // Свежий каталог с сервера — перерисовываем витрины.
   API.load().then((ok) => {
     if (!ok) return;
-    renderCats(); renderRows(); renderPlans(); renderShop();
+    renderSlides(); renderCats(); renderRows(); renderPlans(); renderShop();
     document.querySelectorAll('.demo-ribbon').forEach((el) => { if (!D.products.some((p) => p.demo)) el.remove(); });
   });
   const openId = (location.search.match(/product=([\w-]+)/) || [])[1];
