@@ -62,11 +62,78 @@
   <main>
     <section class="hero">
       <div class="wrap">
-        <h1>Обжариваем кофе сами и привозим его вам домой</h1>
-        <p class="lead">Зерно в пачках 200 г, 500 г и 1 кг, дрип-пакеты, чай и какао. Заберите заказ в одной из двух наших кофеен в центре Петербурга или закажите курьера.</p>
-        <div class="cta">
-          <a class="btn orange" href="shop.html#coffee">Выбрать кофе</a>
-          <a class="btn" href="#how">Как получить заказ</a>
+        <div class="hero-top">
+          <div class="hero-text">
+            <h1>Обжариваем кофе сами и привозим его вам домой</h1>
+            <p class="lead">Зерно в пачках 200 г, 500 г и 1 кг, дрип-пакеты, чай и какао. Заберите заказ в одной из двух наших кофеен в центре Петербурга или закажите курьера.</p>
+            <div class="cta">
+              <a class="btn orange" href="shop.html#coffee">Выбрать кофе</a>
+              <a class="btn" href="#how">Как получить заказ</a>
+            </div>
+          </div>
+          <div class="hero-art">
+            <svg class="scene" viewBox="0 0 400 500" role="img" aria-label="Пачка кофе и чашка капучино под лампой">
+              <defs>
+                <clipPath id="sc-arch"><path d="M0 500V200A200 200 0 0 1 400 200V500Z"/></clipPath>
+                <radialGradient id="sc-room" cx="50%" cy="22%" r="85%">
+                  <stop offset="0" class="sc-room-1"/><stop offset=".6" class="sc-room-2"/><stop offset="1" class="sc-room-3"/>
+                </radialGradient>
+                <linearGradient id="sc-beam" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#FFE3B3" stop-opacity=".38"/><stop offset=".75" stop-color="#FFC77F" stop-opacity=".08"/><stop offset="1" stop-color="#FFC77F" stop-opacity="0"/>
+                </linearGradient>
+                <radialGradient id="sc-pool" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#FFC27A" stop-opacity=".34"/><stop offset="1" stop-color="#FFC27A" stop-opacity="0"/></radialGradient>
+                <radialGradient id="sc-bulb" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#FFF4DC"/><stop offset=".4" stop-color="#FFD48F" stop-opacity=".8"/><stop offset="1" stop-color="#FFB15C" stop-opacity="0"/></radialGradient>
+                <radialGradient id="sc-foam" cx="45%" cy="40%" r="60%"><stop offset="0" stop-color="#F6E4CF"/><stop offset="1" stop-color="#D9B48C"/></radialGradient>
+              </defs>
+              <g clip-path="url(#sc-arch)">
+                <rect width="400" height="500" fill="url(#sc-room)"/>
+                <!-- стол -->
+                <rect y="398" width="400" height="102" class="sc-table"/>
+                <rect y="398" width="400" height="3" class="sc-edge"/>
+                <ellipse cx="200" cy="404" rx="180" ry="22" fill="url(#sc-pool)"/>
+                <!-- пачка -->
+                <ellipse cx="148" cy="402" rx="74" ry="9" class="sc-shadow"/>
+                <path d="M86 150h124l12 238a10 10 0 0 1-10 10H84a10 10 0 0 1-10-10z" class="sc-bag"/>
+                <path d="M86 122h124v32H86z" class="sc-bag-fold"/>
+                <path d="M86 122l7-7 7 7 7-7 7 7 7-7 7 7 7-7 7 7 7-7 7 7 7-7 7 7 7-7 7 7 7-7 7 7 7-7z" class="sc-bag-fold"/>
+                <circle cx="148" cy="176" r="6" class="sc-bag-fold"/>
+                <rect x="100" y="204" width="96" height="126" rx="8" class="sc-label"/>
+                <image href="../webapp/img/emblem.png" x="124" y="216" width="48" height="40"/>
+                <text x="148" y="282" text-anchor="middle" class="sc-label-t">ЭСПРЕССО</text>
+                <text x="148" y="302" text-anchor="middle" class="sc-label-s">своя обжарка</text>
+                <rect x="128" y="314" width="40" height="3" rx="1.5" fill="#E07B39"/>
+                <!-- чашка -->
+                <ellipse cx="290" cy="400" rx="66" ry="10" class="sc-shadow"/>
+                <ellipse cx="290" cy="392" rx="64" ry="12" class="sc-saucer"/>
+                <path d="M238 318h104l-10 62a14 14 0 0 1-14 12h-56a14 14 0 0 1-14-12z" class="sc-cup"/>
+                <path d="M341 330c22 0 26 30 2 36" fill="none" stroke-width="9" stroke-linecap="round" class="sc-cup-handle"/>
+                <ellipse cx="290" cy="318" rx="52" ry="11" class="sc-cup-rim"/>
+                <ellipse cx="290" cy="318" rx="46" ry="8" fill="url(#sc-foam)"/>
+                <path d="M290 324c-8-5-12-8-12-11a5 5 0 0 1 12-2a5 5 0 0 1 12 2c0 3-4 6-12 11z" fill="#B97A4A" opacity=".55"/>
+                <!-- пар -->
+                <g class="sc-steam" fill="none" stroke-linecap="round" stroke-width="5">
+                  <path d="M272 296c-10-14 10-22 0-38s8-24 0-40"/>
+                  <path d="M292 300c-10-16 12-24 0-42s8-26 0-44"/>
+                  <path d="M312 296c-10-14 10-22 0-38s8-24 0-40"/>
+                </g>
+                <!-- зёрна -->
+                <g class="sc-beans">
+                  <g transform="translate(212 418) rotate(-20)"><ellipse rx="11" ry="7.5"/><path d="M-9 0c4-3 14-3 18 0" fill="none" stroke-width="1.6"/></g>
+                  <g transform="translate(236 432) rotate(25)"><ellipse rx="11" ry="7.5"/><path d="M-9 0c4-3 14-3 18 0" fill="none" stroke-width="1.6"/></g>
+                  <g transform="translate(60 426) rotate(10)"><ellipse rx="11" ry="7.5"/><path d="M-9 0c4-3 14-3 18 0" fill="none" stroke-width="1.6"/></g>
+                  <g transform="translate(360 430) rotate(-35)"><ellipse rx="11" ry="7.5"/><path d="M-9 0c4-3 14-3 18 0" fill="none" stroke-width="1.6"/></g>
+                  <g transform="translate(340 448) rotate(15)"><ellipse rx="11" ry="7.5"/><path d="M-9 0c4-3 14-3 18 0" fill="none" stroke-width="1.6"/></g>
+                </g>
+                <!-- лампа и свет: поверх, осветляют сцену -->
+                <path d="M186 74 L214 74 L380 420 L20 420 Z" fill="url(#sc-beam)" class="sc-light"/>
+                <line x1="200" y1="0" x2="200" y2="48" class="sc-cord" stroke-width="2"/>
+                <path d="M170 48h60l16 28h-92z" class="sc-shade"/>
+                <ellipse cx="200" cy="78" rx="50" ry="18" fill="url(#sc-bulb)"/>
+                <ellipse cx="200" cy="77" rx="14" ry="4" fill="#FFF4DC"/>
+              </g>
+              <path d="M2 500V200A198 198 0 0 1 398 200V500" fill="none" class="sc-frame" stroke-width="2"/>
+            </svg>
+          </div>
         </div>
 
         <div class="slider" id="slider" aria-roledescription="карусель">
