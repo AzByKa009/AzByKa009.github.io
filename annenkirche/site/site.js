@@ -170,7 +170,9 @@
   function renderShops() {
     const el = $('#shops-list');
     if (!el) return;
-    el.innerHTML = B.addresses.map((a) => `<div class="shop surface">
+    const shopPhoto = ['interior', 'barista'];
+    el.innerHTML = B.addresses.map((a, i) => `<div class="shop surface">
+      <div class="photo"><img src="img/photo/${shopPhoto[i % 2]}-wide.webp" alt="" width="1200" height="750" loading="lazy"></div>
       <div class="f">${esc(a.title)}</div><p>${esc(a.note[0].toUpperCase() + a.note.slice(1))}. ${esc(B.hours)}</p>
       <a class="btn small" target="_blank" rel="noopener" href="https://yandex.ru/maps/?text=${encodeURIComponent(`Санкт-Петербург, ${a.title}`)}">Маршрут</a></div>`).join('');
   }
@@ -366,22 +368,19 @@
   // ——— Карусель на первом экране: сама листается, пауза при наведении, свайп на телефоне ———
 
   const SLIDES = [
-    { kicker: 'Свежая обжарка', title: 'Кофе для дома в пачках от 200 г', text: 'Эспрессо-смеси и сорта для фильтра. Обжариваем сами, продаём в зёрнах.', href: 'shop.html#coffee', cta: 'Выбрать кофе', cat: 'coffee', n: 0 },
-    { kicker: 'Подписка', title: 'Кофе приезжает сам раз в месяц', text: 'Выбираете сорт и частоту, мы обжариваем и привозим. Платите за каждую поставку.', href: '#subscription', cta: 'Посмотреть тарифы', cat: 'coffee', n: 1 },
-    { kicker: 'Дрип-пакеты', title: 'Чашка кофе без кофемашины', text: 'Пакет вешается на чашку и заливается водой. Удобно в дороге и на работе.', href: 'shop.html#drip', cta: 'Выбрать дрип-пакеты', cat: 'drip', n: 0 },
-    { kicker: 'Подбор', title: 'Не знаете, какой кофе взять?', text: 'Ответьте на пять вопросов о том, как вы пьёте кофе, и мы подскажем сорт.', href: '#quiz', cta: 'Подобрать кофе', cat: 'coffee', n: 2 },
-    { kicker: 'Не только кофе', title: 'Чай и какао из наших кофеен', text: 'Те же, что мы завариваем гостям на Кожевенной и Кирочной.', href: 'shop.html#tea', cta: 'Смотреть чай', cat: 'tea', n: 0 },
-    { kicker: 'Для бизнеса', title: 'Кофе для кафе и офисов', text: 'Зерно оптом и дрип-пакеты с вашим логотипом. Цена зависит от объёма.', href: '#b2b', cta: 'Узнать про опт', cat: 'drip', n: 2 },
+    { kicker: 'Свежая обжарка', title: 'Кофе для дома в пачках от 200 г', text: 'Эспрессо-смеси и сорта для фильтра. Обжариваем сами, продаём в зёрнах.', href: 'shop.html#coffee', cta: 'Выбрать кофе', photo: 'roaster', alt: 'Зерно засыпают в ростер' },
+    { kicker: 'Подписка', title: 'Кофе приезжает сам раз в месяц', text: 'Выбираете сорт и частоту, мы обжариваем и привозим. Платите за каждую поставку.', href: '#subscription', cta: 'Посмотреть тарифы', photo: 'bag', alt: 'Пачка кофе Анненкирхе' },
+    { kicker: 'Дрип-пакеты', title: 'Чашка кофе без кофемашины', text: 'Пакет вешается на чашку и заливается водой. Удобно в дороге и на работе.', href: 'shop.html#drip', cta: 'Выбрать дрип-пакеты', photo: 'drip', alt: 'Дрип-пакет на чашке' },
+    { kicker: 'Подбор', title: 'Не знаете, какой кофе взять?', text: 'Ответьте на пять вопросов о том, как вы пьёте кофе, и мы подскажем сорт.', href: '#quiz', cta: 'Подобрать кофе', photo: 'cherries', alt: 'Кофейные ягоды на ветке' },
+    { kicker: 'Не только кофе', title: 'Чай и какао из наших кофеен', text: 'Те же, что мы завариваем гостям на Кожевенной и Кирочной.', href: 'shop.html#tea', cta: 'Смотреть чай', photo: 'cocoa', alt: 'Горячий шоколад' },
+    { kicker: 'Для бизнеса', title: 'Кофе для кафе и офисов', text: 'Зерно оптом и дрип-пакеты с вашим логотипом. Цена зависит от объёма.', href: '#b2b', cta: 'Узнать про опт', photo: 'sack', alt: 'Открытый мешок кофейного зерна' },
   ];
+  // Фото со стоков — пока клиент не прислал свои. Лежат в site/img/photo, два размера.
+  const photo = (name, alt, eager) => `<img src="img/photo/${name}-600.webp" srcset="img/photo/${name}-600.webp 600w, img/photo/${name}-1000.webp 1000w" sizes="(max-width: 720px) 80vw, 300px" alt="${esc(alt)}" width="600" height="750"${eager ? '' : ' loading="lazy"'}>`;
   const SLIDE_MS = 6000;
   const reduceMotion = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   let slideAt = 0;
   let slideTimer = null;
-
-  function slideProduct(s) {
-    const list = D.products.filter((p) => p.cat === s.cat);
-    return list[Math.min(s.n, list.length - 1)] || D.products[0];
-  }
 
   function renderSlides() {
     const box = $('#slides');
@@ -390,7 +389,7 @@
     box.innerHTML = SLIDES.map((s, i) => `<div class="slide ${i === slideAt ? 'on' : ''}" role="group" aria-label="${i + 1} из ${SLIDES.length}">
         <div class="t"><div class="kicker">${esc(s.kicker)}</div><h2>${esc(s.title)}</h2><p>${esc(s.text)}</p>
           <div class="cta"><a class="btn orange" href="${s.href}">${esc(s.cta)}</a></div></div>
-        <div class="pic arch">${pic(slideProduct(s))}</div></div>`).join('');
+        <div class="pic arch">${photo(s.photo, s.alt, i === 0)}</div></div>`).join('');
     dots.innerHTML = SLIDES.map((s, i) => `<button type="button" data-dot="${i}" class="${i === slideAt ? 'on' : i < slideAt ? 'done' : ''}" aria-label="${esc(s.title)}"><i></i></button>`).join('');
     $('#slider').style.setProperty('--slide-time', `${SLIDE_MS}ms`);
   }

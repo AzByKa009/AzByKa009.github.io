@@ -141,33 +141,21 @@ h1, h2, h3, .f { font-family: var(--serif); font-weight: 600; letter-spacing: -.
 .hero .slider { animation-delay: .35s; }
 .hero .trust { animation-delay: .45s; }
 
-/* Сцена первого экрана: пачка и чашка под лампой в арке из логотипа. Цвета — от темы. */
-.hero-art { justify-self: center; width: min(100%, 440px); }
-.scene { width: 100%; height: auto; display: block; }
-.sc-room-1 { stop-color: #3A2A33; } .sc-room-2 { stop-color: #1C1320; } .sc-room-3 { stop-color: #110B14; }
-.sc-table { fill: #2B1C24; } .sc-edge { fill: #4A3440; }
-.sc-shadow { fill: rgba(0, 0, 0, .45); }
-.sc-bag { fill: #5E4666; } .sc-bag-fold { fill: #4B3752; }
-.sc-label { fill: #F8F4F1; }
-.sc-label-t { font: 600 17px Forum, Georgia, serif; fill: #5E4666; letter-spacing: .04em; }
-.sc-label-s { font: 600 11px Onest, sans-serif; fill: #5E4666; opacity: .6; }
-.sc-cup, .sc-saucer { fill: #F2EAE6; } .sc-cup-rim { fill: #E2D6D0; } .sc-cup-handle { stroke: #F2EAE6; }
-.sc-beans ellipse { fill: #6B3F27; } .sc-beans path { stroke: #3E2215; }
-.sc-cord { stroke: #4A3D50; } .sc-shade { fill: #2B2230; }
-.sc-light { mix-blend-mode: screen; }
-.sc-frame { stroke: var(--line-2); }
-.sc-steam path { stroke: rgba(255, 244, 230, .5); stroke-dasharray: 40 90; animation: steam 4.2s linear infinite; }
-.sc-steam path:nth-child(2) { animation-delay: -1.4s; }
-.sc-steam path:nth-child(3) { animation-delay: -2.8s; }
-@keyframes steam { from { stroke-dashoffset: 130; opacity: 0; } 25% { opacity: 1; } 80% { opacity: .6; } to { stroke-dashoffset: 0; opacity: 0; } }
-:root[data-theme="light"] .sc-room-1 { stop-color: #FBEADB; }
-:root[data-theme="light"] .sc-room-2 { stop-color: #F1E3EE; }
-:root[data-theme="light"] .sc-room-3 { stop-color: #E6DAE6; }
-:root[data-theme="light"] .sc-table { fill: #D9C6BC; }
-:root[data-theme="light"] .sc-edge { fill: #C7AFA3; }
-:root[data-theme="light"] .sc-shadow { fill: rgba(59, 44, 64, .18); }
-:root[data-theme="light"] .sc-light { opacity: .55; }
-:root[data-theme="light"] .sc-steam path { stroke: rgba(94, 70, 102, .4); }
+/* Коллаж первого экрана: четыре фото в арках из логотипа, слегка заходят друг на друга.
+   Кольцо цвета фона отделяет арки там, где они перекрываются. */
+.hero-art { justify-self: center; width: min(100%, 480px); }
+.collage { position: relative; aspect-ratio: 1 / 1.02; }
+.collage figure { position: absolute; margin: 0; overflow: hidden; background: var(--surface);
+  box-shadow: 0 0 0 6px var(--bg), 0 24px 50px -18px rgba(0, 0, 0, .6); animation: rise .9s ease both; }
+.collage img { width: 100%; height: 100%; object-fit: cover; }
+.c-main { left: 15%; top: 5%; width: 57%; z-index: 2; animation-delay: .15s; }
+.c-main img { animation: drift 18s ease-in-out infinite alternate; }
+.c-side { right: 0; top: 0; width: 33%; z-index: 1; animation-delay: .3s; }
+.c-bag { left: 0; bottom: 3%; width: 29%; z-index: 3; animation-delay: .45s; }
+.c-beans { right: 5%; bottom: 0; width: 30%; aspect-ratio: 1; border-radius: 50%; z-index: 3; animation-delay: .55s; }
+@keyframes drift { from { transform: scale(1.02); } to { transform: scale(1.1) translate(-1.5%, -1%); } }
+:root[data-theme="light"] .collage figure { box-shadow: 0 0 0 6px var(--bg), 0 22px 44px -20px rgba(43, 30, 48, .45); }
+@media (prefers-reduced-motion: reduce) { .c-main img { animation: none; } }
 @keyframes rise { from { opacity: 0; transform: translateY(16px); } }
 
 .slider { position: relative; margin-top: 48px; text-align: left; border-radius: 16px; background: var(--glass); border: 1px solid var(--line); -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px); overflow: hidden; }
@@ -315,7 +303,9 @@ h1, h2, h3, .f { font-family: var(--serif); font-weight: 600; letter-spacing: -.
 
 /* Кофейни */
 .shops { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
-.shop { padding: 28px; }
+.shop { padding: 28px; overflow: hidden; }
+.shop .photo { margin: -28px -28px 22px; aspect-ratio: 16 / 9; overflow: hidden; }
+.shop .photo img { width: 100%; height: 100%; object-fit: cover; }
 .shop .f { font-size: 30px; }
 .shop p { color: var(--muted); margin: 6px 0 18px; }
 
@@ -417,7 +407,7 @@ footer .bottom { display: flex; justify-content: space-between; gap: 16px; flex-
   .header nav { display: none; }
   .header .right { margin-left: auto; }
   .hero-top { grid-template-columns: 1fr; gap: 28px; }
-  .hero-art { order: -1; width: min(78%, 360px); }
+  .hero-art { order: -1; width: min(92%, 420px); }
   .trust { grid-template-columns: 1fr 1fr; }
   .trust > div:nth-child(3) { border-left: 0; }
   .trust > div:nth-child(n+3) { border-top: 1px solid var(--line); }
