@@ -77,6 +77,9 @@
     if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
   }
 
+  /** Сайт лежит рядом с мини-приложением: на сервере и в демо это ../site/. */
+  const siteUrl = () => new URL('../site/', location.href).href;
+
   function openLink(url) {
     if (tg && url.startsWith('https://t.me/')) return tg.openTelegramLink(url);
     if (tg) return tg.openLink(url);
@@ -111,6 +114,7 @@
     download: '<path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/>',
     card: '<rect x="3" y="6" width="18" height="12" rx="2.5"/><path d="M3 10h18"/><path d="M7 15h4"/>',
     channel: '<path d="M4 10v4l12 5V5z"/><path d="M16 9a3 3 0 0 1 0 6"/>',
+    globe: '<circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17"/><path d="M12 3.5c2.5 2.6 3.5 5.4 3.5 8.5s-1 5.9-3.5 8.5c-2.5-2.6-3.5-5.4-3.5-8.5s1-5.9 3.5-8.5z"/>',
     plus: '<path d="M12 5v14"/><path d="M5 12h14"/>',
     minus: '<path d="M5 12h14"/>',
     timer: '<circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 1.5"/><path d="M9.5 2.5h5"/>',
@@ -421,6 +425,7 @@
         <button class="card-row" style="width:100%;text-align:left" data-act="link" data-url="https://t.me/${esc(B.telegram)}"><div class="ic">${icon('send')}</div><div><b>@${esc(B.telegram)}</b><span>Telegram</span></div></button>
         <a class="card-row" href="tel:${esc(B.phoneRaw)}"><div class="ic">${icon('phone')}</div><div><b>${esc(B.phone)}</b><span>Позвонить</span></div></a>
         <button class="card-row" style="width:100%;text-align:left" data-act="channel"><div class="ic">${icon('channel')}</div><div><b>Наш Telegram-канал</b><span>${B.channel ? 'Новости и новинки' : 'ссылку пришлёт кофейня'}</span></div></button>
+        <button class="card-row" style="width:100%;text-align:left" data-act="link" data-url="${esc(siteUrl())}"><div class="ic">${icon('globe')}</div><div><b>Наш сайт</b><span>магазин, подписка, опт</span></div></button>
       </div>
       <div class="section"><div class="section-head"><h2 class="os">Кофейни</h2></div>
         <div class="list">${B.addresses.map((a) => `
@@ -442,7 +447,7 @@
         <div class="card-row"><div class="ic">${icon('card')}</div><div><b>Покажите QR на кассе</b><span>бариста отметит напиток</span></div></div>
         <div class="card-row"><div class="ic">${icon('gift')}</div><div><b>5 отметок — 6-й бесплатно</b><span>любой напиток из меню, любой объём</span></div></div>
       </div>
-      ${ctaBar(`<button class="btn" data-act="link" data-url="https://t.me/${esc(B.bot)}">Открыть карту в боте</button>`)}`;
+      ${ctaBar(`<button class="btn" data-act="link" data-url="https://t.me/${esc(B.bot)}?start=card">Открыть карту в боте</button>`)}`;
   }
 
   // ——— Маршруты ———

@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Golos+Text:wght@400;500;600&family=Forum&family=Onest:wght@600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="site.css?v=1793094127">
+  <link rel="stylesheet" href="site.css?v=1793139304">
 </head>
 <body>
   <div class="stage" aria-hidden="true">
@@ -63,13 +63,21 @@
       <div class="caps">Оплата</div>
       <h1>Спасибо, оплата прошла</h1>
       <p id="num"></p>
-      <p class="muted">Напишем, когда заказ будет готов. Если заказывали в Telegram, сообщение придёт в бот.</p>
-      <p style="margin-top:28px"><a class="btn orange" href="https://t.me/annenkirche_coffee_bot">Вернуться в Telegram</a>
+      <p class="muted" id="note">Напишем, когда заказ будет готов. Если заказывали в Telegram, сообщение придёт в бот.</p>
+      <p style="margin-top:28px"><a class="btn orange" id="tg" href="https://t.me/annenkirche_coffee_bot">Вернуться в Telegram</a>
         <a class="btn ghost" href="shop.html">В магазин</a></p>
     </div>
     <script>
-      const n = new URLSearchParams(location.search).get('order');
-      if (n) document.getElementById('num').textContent = 'Заказ №' + n.replace(/\D/g, '');
+      const n = (new URLSearchParams(location.search).get('order') || '').replace(/\D/g, '');
+      if (n) document.getElementById('num').textContent = 'Заказ №' + n;
+      // Заказ с сайта: ссылку на бота с привязкой заказа сайт сохранил перед оплатой.
+      let track; try { track = JSON.parse(sessionStorage.getItem('ak-track')); } catch (e) {}
+      if (track && track.url && String(track.id) === n) {
+        document.getElementById('note').textContent = 'Напишем в Telegram, когда заказ соберём и отправим, — нажмите кнопку ниже, чтобы бот знал, кому писать.';
+        const tg = document.getElementById('tg');
+        tg.href = track.url;
+        tg.textContent = 'Следить за заказом в Telegram';
+      }
     </script>
 
   </main>
@@ -84,7 +92,7 @@
           <h4 style="margin-top:24px">Покупателям</h4><ul><li><a href="delivery.html">Доставка и оплата</a></li><li><a href="offer.html">Оферта</a></li><li><a href="privacy.html">Персональные данные</a></li></ul></div>
         <div class="contacts"><h4>Контакты</h4>
           <p><a href="tel:+79219177853">+7 (921) 917-78-53</a></p>
-          <p><a href="https://t.me/mrgvzd" target="_blank" rel="noopener">Telegram @mrgvzd</a></p>
+          <p><a href="https://t.me/mrgvzd" target="_blank" rel="noopener">Telegram @mrgvzd</a></p><p><a href="https://t.me/annenkirche_coffee_bot?start=card" target="_blank" rel="noopener">Бот: карта гостя и заказы</a></p>
           <p>Кожевенная линия, 30а</p><p>Кирочная улица, 8а</p><p>Ежедневно с 10:00 до 22:00</p></div>
       </div>
       <div class="bottom"><span>© 2026 Анненкирхе кофе</span><span>ООО «Ароматная мастерская», ИНН 4704118133, ОГРН 1254700005075</span></div>
@@ -95,9 +103,9 @@
   <aside class="drawer" id="drawer"></aside>
 
   <script>window.AKAssetBase = '../webapp/';</script>
-  <script src="../webapp/data.js?v=1793094127"></script>
-  <script src="../webapp/pic.js?v=1793094127"></script>
-  <script src="../webapp/api.js?v=1793094127"></script>
-  <script src="site.js?v=1793094127"></script>
+  <script src="../webapp/data.js?v=1793139304"></script>
+  <script src="../webapp/pic.js?v=1793139304"></script>
+  <script src="../webapp/api.js?v=1793139304"></script>
+  <script src="site.js?v=1793139304"></script>
 </body>
 </html>

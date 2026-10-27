@@ -16,6 +16,9 @@
   /** Настройки сайта. Всё, что помечено «заглушка», уточнить у кофейни. */
   const SITE = {
     bot: `https://t.me/${B.bot}`,
+    /** Ссылки в бота сразу на нужный экран: ?start=shop — магазин, ?start=card — карта гостя. */
+    botShop: `https://t.me/${B.bot}?start=shop`,
+    botCard: `https://t.me/${B.bot}?start=card`,
     channel: B.channel || '', // ссылка на Telegram-канал — пришлют
     roastDays: [1, 4], // заглушка: обжарка по понедельникам и четвергам
     roastHour: 10,
@@ -135,7 +138,7 @@
       <div class="f">${esc(p.title)}${p.badge ? `<span class="badge">${esc(p.badge)}</span>` : ''}</div>
       <div class="muted">${esc(p.text)}, ${esc(p.every)}</div>
       <div class="price">${money(p.price)} <small>за поставку</small></div>
-      <a class="btn small" href="${SITE.bot}" target="_blank" rel="noopener">Оформить подписку</a></div>`).join('');
+      <a class="btn small" href="${SITE.botShop}" target="_blank" rel="noopener">Оформить подписку</a></div>`).join('');
     for (const id of ['#next-ship', '#next-ship-2']) { const el2 = $(id); if (el2) el2.textContent = nextShip(); }
   }
 
@@ -177,7 +180,7 @@
 
   // ——— Окно товара ———
 
-  function openModal(html) {
+  function openModal(html, cls = '') {
     let m = $('#modal');
     if (!m) {
       m = document.createElement('div');
@@ -185,7 +188,7 @@
       m.className = 'modal';
       document.body.appendChild(m);
     }
-    m.innerHTML = `<div class="box"><button class="close" data-close aria-label="Закрыть">✕</button>${html}</div>`;
+    m.innerHTML = `<div class="box ${cls}"><button class="close" data-close aria-label="Закрыть">✕</button>${html}</div>`;
     m.classList.add('open');
   }
   const closeModal = () => $('#modal')?.classList.remove('open');
@@ -268,15 +271,27 @@
       const res = await API.send('order', { ...buyer, cart: cart.map(API.cartLine) });
       cart = [];
       saveCart();
+      // Ссылка на бота нужна и после оплаты — страница paid.html возьмёт её отсюда.
+      try { sessionStorage.setItem('ak-track', JSON.stringify({ id: res.id, url: res.track || '' })); } catch { /* приватный режим */ }
       if (res.payUrl) { location.href = res.payUrl; return; }
       closeDrawer();
-      toast(`Заказ №${res.id} принят — мы позвоним, чтобы подтвердить`);
+      orderDone(res.id, res.track);
     } catch (err) {
       toast(err.message);
     } finally {
       sending = false;
       renderDrawer();
     }
+  }
+
+  /** Окно «Заказ принят» с кнопкой бота: там гость увидит, когда заказ соберут. */
+  function orderDone(id, track) {
+    openModal(`<div class="info">
+      <div class="caps">Заказ №${esc(id)}</div>
+      <h3 class="f" style="margin-top:8px">Спасибо, заказ принят</h3>
+      <p class="muted" style="margin-top:10px">Мы позвоним, чтобы подтвердить.${track ? ' А в Telegram напишем, когда заказ соберём и отправим.' : ''}</p>
+      ${track ? `<a class="btn orange" style="margin-top:22px; width:100%" href="${esc(track)}" target="_blank" rel="noopener">Следить за заказом в Telegram</a>` : ''}
+      <button class="btn ghost" style="margin-top:10px; width:100%" data-close>Вернуться на сайт</button></div>`, 'note');
   }
 
   // Поля покупателя: сохраняем без перерисовки, кроме способа получения (от него зависит адрес).
