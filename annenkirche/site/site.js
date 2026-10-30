@@ -381,12 +381,12 @@
   // ——— Карусель на первом экране: сама листается, пауза при наведении, свайп на телефоне ———
 
   const SLIDES = [
-    { kicker: 'Свежая обжарка', title: 'Кофе для дома в пачках от 200 г', text: 'Эспрессо-смеси и сорта для фильтра. Обжариваем сами, продаём в зёрнах.', href: 'shop.html#coffee', cta: 'Выбрать кофе', cat: 'coffee', n: 0 },
-    { kicker: 'Подписка', title: 'Кофе приезжает сам раз в месяц', text: 'Выбираете сорт и частоту, мы обжариваем и привозим. Платите за каждую поставку.', href: '#subscription', cta: 'Посмотреть тарифы', cat: 'coffee', n: 1 },
-    { kicker: 'Дрип-пакеты', title: 'Чашка кофе без кофемашины', text: 'Пакет вешается на чашку и заливается водой. Удобно в дороге и на работе.', href: 'shop.html#drip', cta: 'Выбрать дрип-пакеты', cat: 'drip', n: 0 },
-    { kicker: 'Подбор', title: 'Не знаете, какой кофе взять?', text: 'Ответьте на пять вопросов о том, как вы пьёте кофе, и мы подскажем сорт.', href: '#quiz', cta: 'Подобрать кофе', cat: 'coffee', n: 2 },
-    { kicker: 'Не только кофе', title: 'Чай и какао из наших кофеен', text: 'Те же, что мы завариваем гостям на Кожевенной и Кирочной.', href: 'shop.html#tea', cta: 'Смотреть чай', cat: 'tea', n: 0 },
-    { kicker: 'Для бизнеса', title: 'Кофе для кафе и офисов', text: 'Зерно оптом и дрип-пакеты с вашим логотипом. Цена зависит от объёма.', href: '#b2b', cta: 'Узнать про опт', cat: 'drip', n: 2 },
+    { kicker: 'Свежая обжарка', title: 'Кофе для дома в пачках от 200 г', text: 'Эспрессо-смеси и сорта для фильтра. Обжариваем сами, продаём в зёрнах.', href: 'shop.html#coffee', cta: 'Выбрать кофе', cat: 'coffee', n: 0, img: 'https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=700&h=875&q=85&fit=crop&auto=format' },
+    { kicker: 'Подписка', title: 'Кофе приезжает сам раз в месяц', text: 'Выбираете сорт и частоту, мы обжариваем и привозим. Платите за каждую поставку.', href: '#subscription', cta: 'Посмотреть тарифы', cat: 'coffee', n: 1, img: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=700&h=875&q=85&fit=crop&auto=format' },
+    { kicker: 'Дрип-пакеты', title: 'Чашка кофе без кофемашины', text: 'Пакет вешается на чашку и заливается водой. Удобно в дороге и на работе.', href: 'shop.html#drip', cta: 'Выбрать дрип-пакеты', cat: 'drip', n: 0, img: 'https://images.unsplash.com/photo-1512568400610-62da28bc8a13?w=700&h=875&q=85&fit=crop&auto=format' },
+    { kicker: 'Подбор', title: 'Не знаете, какой кофе взять?', text: 'Ответьте на пять вопросов о том, как вы пьёте кофе, и мы подскажем сорт.', href: '#quiz', cta: 'Подобрать кофе', cat: 'coffee', n: 2, img: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=700&h=875&q=85&fit=crop&auto=format' },
+    { kicker: 'Не только кофе', title: 'Чай и какао из наших кофеен', text: 'Те же, что мы завариваем гостям на Кожевенной и Кирочной.', href: 'shop.html#tea', cta: 'Смотреть чай', cat: 'tea', n: 0, img: 'https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=700&h=875&q=85&fit=crop&auto=format' },
+    { kicker: 'Для бизнеса', title: 'Кофе для кафе и офисов', text: 'Зерно оптом и дрип-пакеты с вашим логотипом. Цена зависит от объёма.', href: '#b2b', cta: 'Узнать про опт', cat: 'drip', n: 2, img: 'https://images.unsplash.com/photo-1511537190424-bbbab87ac5eb?w=700&h=875&q=85&fit=crop&auto=format' },
   ];
   const SLIDE_MS = 6000;
   const reduceMotion = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -405,7 +405,7 @@
     box.innerHTML = SLIDES.map((s, i) => `<div class="slide ${i === slideAt ? 'on' : ''}" role="group" aria-label="${i + 1} из ${SLIDES.length}">
         <div class="t"><div class="kicker">${esc(s.kicker)}</div><h2>${esc(s.title)}</h2><p>${esc(s.text)}</p>
           <div class="cta"><a class="btn orange" href="${s.href}">${esc(s.cta)}</a></div></div>
-        <div class="pic arch">${pic(slideProduct(s))}</div></div>`).join('');
+        <div class="pic arch">${s.img ? `<img src="${s.img}" alt="" loading="${i === 0 ? 'eager' : 'lazy'}">` : pic(slideProduct(s))}</div></div>`).join('');
     dots.innerHTML = SLIDES.map((s, i) => `<button type="button" data-dot="${i}" class="${i === slideAt ? 'on' : i < slideAt ? 'done' : ''}" aria-label="${esc(s.title)}"><i></i></button>`).join('');
     $('#slider').style.setProperty('--slide-time', `${SLIDE_MS}ms`);
   }
