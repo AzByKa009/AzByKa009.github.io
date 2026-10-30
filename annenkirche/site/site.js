@@ -103,11 +103,20 @@
   // ——— Товары ———
 
   function productCard(p) {
+    const badges = (p.badge ? `<span class="badge">${esc(p.badge)}</span>` : '') + (p.demo ? '<span class="badge demo">пример</span>' : '');
     return `<article class="product" data-open="${p.id}">
-      <div class="pic">${pic(p)}${p.badge ? `<span class="badge">${esc(p.badge)}</span>` : ''}${p.demo ? '<span class="badge demo">пример</span>' : ''}</div>
-      <div class="body"><div class="name">${esc(p.name)}</div><div class="sub">${esc(p.sub)}</div>
-        <div class="row"><span class="price">${p.prices ? 'от ' : ''}${money(fromPrice(p))}</span>
-          <button class="plus" data-quick="${p.id}">В корзину</button></div></div></article>`;
+      <div class="pic">${pic(p)}${badges}</div>
+      <div class="body">
+        ${p.origin ? `<div class="origin">${esc(p.origin)}</div>` : ''}
+        <div class="name">${esc(p.name)}</div>
+        <div class="sub">${esc(p.sub)}</div>
+        ${p.notes ? `<div class="notes"><span class="notes-l">букет:</span> ${esc(p.notes)}</div>` : ''}
+        ${(p.roast || p.process) ? `<div class="process">${[p.roast, p.process].filter(Boolean).map(esc).join(' · ')}</div>` : ''}
+        <div class="foot">
+          <span class="price">${p.prices ? 'от ' : ''}${money(fromPrice(p))}</span>
+          <button class="btn-more" data-open="${p.id}">Подробнее</button>
+        </div>
+      </div></article>`;
   }
 
   function renderRows() {

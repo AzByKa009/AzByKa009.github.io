@@ -34,11 +34,11 @@ window.AK = {
   // Помола нет: кофе продаётся в зёрнах (ответ кофейни, 20.10.2026).
 
   products: [
-    { id: 'espresso-blend', cat: 'coffee', name: 'Эспрессо-смесь', sub: 'для эспрессо и молочных', prices: [690, 1490, 2790], tags: ['espresso', 'milk', 'choco'], color: 'plum', demo: true },
-    { id: 'filter-africa', cat: 'coffee', name: 'Фильтр · Африка', sub: 'для воронки и аэропресса', prices: [790, 1790, 3290], tags: ['filter', 'fruit', 'bright'], color: 'orange', demo: true },
-    { id: 'filter-latam', cat: 'coffee', name: 'Фильтр · Латинская Америка', sub: 'для воронки и френч-пресса', prices: [740, 1690, 3090], tags: ['filter', 'nuts', 'soft'], color: 'sand', demo: true },
-    { id: 'seasonal', cat: 'coffee', name: 'Сезонный лот', sub: 'ограниченная партия', prices: [890, 1990, null], tags: ['filter', 'fruit', 'bright'], color: 'dark', badge: 'Новинка', demo: true },
-    { id: 'decaf', cat: 'coffee', name: 'Декаф', sub: 'без кофеина', prices: [790, 1790, null], tags: ['espresso', 'milk', 'soft', 'decaf'], color: 'sand', demo: true },
+    { id: 'espresso-blend', cat: 'coffee', name: 'Эспрессо-смесь', sub: 'кофе в зёрнах, арабика', origin: 'Бразилия, Колумбия', roast: 'обжарка под эспрессо', process: 'натуральная', notes: 'шоколад, карамель, грецкий орех', prices: [690, 1490, 2790], tags: ['espresso', 'milk', 'choco'], color: 'plum', demo: true },
+    { id: 'filter-africa', cat: 'coffee', name: 'Фильтр · Африка', sub: 'кофе в зёрнах, арабика', origin: 'Эфиопия', roast: 'обжарка под фильтр', process: 'мытая', notes: 'малина, цветочный, бергамот', prices: [790, 1790, 3290], tags: ['filter', 'fruit', 'bright'], color: 'orange', demo: true },
+    { id: 'filter-latam', cat: 'coffee', name: 'Фильтр · Латинская Америка', sub: 'кофе в зёрнах, арабика', origin: 'Колумбия', roast: 'обжарка под фильтр', process: 'мытая', notes: 'апельсин, коричневый сахар, лесной орех', prices: [740, 1690, 3090], tags: ['filter', 'nuts', 'soft'], color: 'sand', demo: true },
+    { id: 'seasonal', cat: 'coffee', name: 'Сезонный лот', sub: 'кофе в зёрнах, арабика', origin: 'Эфиопия', roast: 'обжарка под фильтр', process: 'анаэробная натуральная', notes: 'персик, игристое вино, жасмин', prices: [890, 1990, null], tags: ['filter', 'fruit', 'bright'], color: 'dark', badge: 'Новинка', demo: true },
+    { id: 'decaf', cat: 'coffee', name: 'Декаф', sub: 'кофе в зёрнах, арабика', origin: 'Бразилия', roast: 'обжарка под эспрессо', process: 'швейцарская вода', notes: 'тёмный шоколад, орехи, ваниль', prices: [790, 1790, null], tags: ['espresso', 'milk', 'soft', 'decaf'], color: 'sand', demo: true },
 
     { id: 'drip-10', cat: 'drip', name: 'Дрип-пакеты · 10 шт', sub: 'кофе в дорогу и на работу', price: 690, color: 'orange', demo: true },
     { id: 'drip-mix', cat: 'drip', name: 'Дрип-микс · 5 сортов', sub: 'попробовать всё', price: 490, color: 'plum', demo: true },
