@@ -55,6 +55,7 @@
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
+section[id], div[id].surface { scroll-margin-top: 80px; }
 body { margin: 0; background: var(--bg); color: var(--ink); font: 400 16px/1.6 var(--sans); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
 img { max-width: 100%; display: block; }
 a { color: inherit; text-decoration: none; }
@@ -240,6 +241,10 @@ h1, h2, h3, .f { font-family: var(--serif); font-weight: 600; letter-spacing: -.
 .review .who { margin-top: 14px; color: var(--muted); font-size: 14px; }
 
 /* Вопросы */
+.sub-head { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 24px; margin-bottom: 32px; }
+.sub-perks { list-style: none; margin: 0; padding: 0; display: flex; gap: 8px 24px; flex-wrap: wrap; }
+.sub-perks li { font-size: 15px; color: var(--muted); display: flex; align-items: center; gap: 7px; }
+.sub-perks li::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
 .faq { max-width: 860px; }
 .faq details { border-bottom: 1px solid var(--line); }
 .faq summary { list-style: none; cursor: pointer; padding: 20px 40px 20px 0; position: relative; font-family: var(--serif); font-size: 24px; font-weight: 600; line-height: 1.2; }
@@ -270,13 +275,15 @@ h1, h2, h3, .f { font-family: var(--serif); font-weight: 600; letter-spacing: -.
 .promo { margin-top: 8px; color: var(--accent); font-size: 14px; }
 
 /* Подписка: тарифы строками, как в прайсе */
-.plans { border-top: 1px solid var(--line-2); }
-.plan { display: grid; grid-template-columns: 1.2fr 1.4fr auto auto; gap: 18px 28px; align-items: center; padding: 22px 0; border-bottom: 1px solid var(--line); }
-.plan .f { font-size: 28px; }
-.plan .muted { font-size: 15px; }
-.plan .price { font-size: 22px; font-weight: 500; font-variant-numeric: tabular-nums; white-space: nowrap; }
-.plan .price small { font-size: 13px; color: var(--muted); font-weight: 400; }
-.plan .badge { position: static; display: inline-block; margin-left: 10px; vertical-align: middle; }
+.plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.plan { background: var(--surface); border: 1px solid var(--line-2); border-radius: 12px; padding: 28px 26px 24px; display: flex; flex-direction: column; transition: box-shadow .25s, transform .25s; }
+.plan:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(0,0,0,.22); }
+.plan .f { font-family: var(--serif); font-size: 28px; font-weight: 600; line-height: 1.1; display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.plan .badge { position: static; display: inline-block; vertical-align: middle; }
+.plan .muted { font-size: 15px; color: var(--muted); margin-top: 8px; line-height: 1.5; }
+.plan .price { font-size: 26px; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; margin-top: auto; padding-top: 20px; }
+.plan .price small { font-size: 14px; color: var(--muted); font-weight: 400; }
+.plan .btn { margin-top: 14px; width: 100%; text-align: center; }
 
 /* Telegram */
 .app { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; padding: 40px; }
@@ -419,6 +426,9 @@ footer .bottom { display: flex; justify-content: space-between; gap: 16px; flex-
   .trust > div:nth-child(n+3) { border-top: 1px solid var(--line); }
   .steps, .reviews { grid-template-columns: 1fr; }
   .products { grid-template-columns: repeat(2, 1fr); }
+  .plans { grid-template-columns: repeat(2, 1fr); }
+  .sub-head { grid-template-columns: 1fr; align-items: start; }
+  .sub-head .btn { align-self: start; }
   .quiz, .app, .b2b-cols { grid-template-columns: 1fr; }
   footer .top { grid-template-columns: 1fr 1fr; }
 }
@@ -439,9 +449,8 @@ footer .bottom { display: flex; justify-content: space-between; gap: 16px; flex-
   .cats::-webkit-scrollbar { display: none; }
   .cat { flex: 0 0 40%; scroll-snap-align: start; }
   .shops { grid-template-columns: 1fr; }
-  .plan { grid-template-columns: 1fr auto; gap: 6px 16px; }
-  .plan .muted { grid-column: 1 / -1; grid-row: 2; }
-  .plan .btn { grid-column: 1 / -1; }
+  .plans { grid-template-columns: 1fr; }
+  .products { grid-template-columns: 1fr; }
   .block { padding: 48px 0; }
   .quiz, .app { padding: 26px 20px; }
   .modal { padding: 0; place-items: end stretch; }

@@ -145,9 +145,9 @@
     if (!el) return;
     el.innerHTML = D.plans.map((p) => `<div class="plan">
       <div class="f">${esc(p.title)}${p.badge ? `<span class="badge">${esc(p.badge)}</span>` : ''}</div>
-      <div class="muted">${esc(p.text)}, ${esc(p.every)}</div>
+      <div class="muted">${esc(p.text)}<br>${esc(p.every)}</div>
       <div class="price">${money(p.price)} <small>за поставку</small></div>
-      <a class="btn small" href="${SITE.botShop}" target="_blank" rel="noopener">Оформить подписку</a></div>`).join('');
+      <a class="btn orange" href="${SITE.botShop}" target="_blank" rel="noopener">Оформить подписку</a></div>`).join('');
     for (const id of ['#next-ship', '#next-ship-2']) { const el2 = $(id); if (el2) el2.textContent = nextShip(); }
   }
 
