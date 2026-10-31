@@ -516,6 +516,24 @@
     splash.addEventListener('click', leave);
   }
 
+  // ——— Cookie consent banner ———
+  (function () {
+    let c; try { c = localStorage.getItem('ak-cookie'); } catch (e) {}
+    if (c) return;
+    const bar = document.createElement('div');
+    bar.className = 'cookie-bar';
+    const privLink = location.pathname.includes('privacy') ? '#cookies' : 'privacy.html#cookies';
+    bar.innerHTML = `<p>Мы используем cookies для корзины, темы сайта и аналитики.&ensp;<a href="${privLink}">Подробнее</a></p><div class="cookie-btns"><button type="button" class="btn small orange" id="ak-cookie-ok">Принять</button><button type="button" class="btn small" id="ak-cookie-min">Только необходимые</button></div>`;
+    document.body.appendChild(bar);
+    function dismiss(v) {
+      try { localStorage.setItem('ak-cookie', v); } catch (e) {}
+      bar.classList.add('cookie-bar-out');
+      setTimeout(() => bar.remove(), 400);
+    }
+    bar.querySelector('#ak-cookie-ok').addEventListener('click', () => dismiss('all'));
+    bar.querySelector('#ak-cookie-min').addEventListener('click', () => dismiss('min'));
+  })();
+
   renderSlides();
   restartTimer();
   renderCats();
