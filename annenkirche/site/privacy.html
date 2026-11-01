@@ -16,8 +16,8 @@
     var seen; try { seen = sessionStorage.getItem('ak-splash'); sessionStorage.setItem('ak-splash', '1'); } catch (e) {}
     var calm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (!seen && !calm && location.search.indexOf('clean') < 0) document.documentElement.classList.add('splash', 'splash-hold'); })();</script>
-  <link rel="stylesheet" href="fonts.css?v=1795000001">
-  <link rel="stylesheet" href="site.css?v=1795000001">
+  <link rel="stylesheet" href="fonts.css?v=1795200001">
+  <link rel="stylesheet" href="site.css?v=1795200001">
 </head>
 <body>
   <div class="stage" aria-hidden="true">
@@ -68,7 +68,7 @@
     <ul>
       <li>имя;</li>
       <li>номер телефона;</li>
-      <li>адрес электронной почты (если вы его указали);</li>
+      <li>адрес электронной почты (если вы его указали: для чека, ссылки для входа и писем о заказе);</li>
       <li>адрес доставки;</li>
       <li>идентификатор и имя в Telegram — если заказ оформлен в мини-приложении или боте;</li>
       <li>история заказов и покупок по программе лояльности.</li>
@@ -113,7 +113,7 @@
       <li>данные, которые вы вводите в форме заказа (имя, телефон, e-mail, адрес, комментарий), чтобы не набирать их заново. Они остаются на вашем устройстве, пока вы не отправите заказ или не очистите данные сайта в браузере;</li>
       <li>служебные отметки: что вы нажали «Понятно» в уведомлении и что заставка уже показана;</li>
       <li>номер последнего заказа, чтобы показать ссылку на слежение за ним;</li>
-      <li>ключ входа через Telegram: он нужен, чтобы вы не входили заново при каждом заказе, и удаляется кнопкой «выйти».</li>
+      <li>ключ входа через Telegram: он нужен, чтобы вы не входили заново при каждом заказе, и удаляется кнопкой «выйти». Если вы вошли по ссылке из письма, сохраняется такой же ключ.</li>
     </ul>
     <p>Шрифты и фотографии сайт загружает со своего сервера, поэтому ваш IP-адрес они никому не передают. При оплате вы переходите на страницу Robokassa, которая обрабатывает платёжные данные сама. Если вы открываете сайт или заказ через Telegram, Telegram обрабатывает данные по своим правилам.</p>
     <p>Очистить сохранённое можно в настройках браузера («Данные сайтов»). Без этого корзина и сохранённые данные формы перестанут запоминаться.</p>
@@ -147,9 +147,9 @@
   <aside class="drawer" id="drawer"></aside>
 
   <script>window.AKAssetBase = '../webapp/';</script>
-  <script src="../webapp/data.js?v=1795000001"></script>
-  <script src="../webapp/pic.js?v=1795000001"></script>
-  <script src="../webapp/api.js?v=1795000001"></script>
-  <script src="site.js?v=1795000001"></script>
+  <script src="../webapp/data.js?v=1795200001"></script>
+  <script src="../webapp/pic.js?v=1795200001"></script>
+  <script src="../webapp/api.js?v=1795200001"></script>
+  <script src="site.js?v=1795200001"></script>
 </body>
 </html>

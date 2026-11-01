@@ -17,6 +17,7 @@
   // Заказ с настоящего сайта оформляют после входа через Telegram. В демо (без сервера) вход не нужен.
   let loginUrl = '';
   let loginWaiting = false;
+  let emailSentTo = '';
   const needLogin = () => API.online && !API.profile;
   const canOrder = () => consentOk() && !needLogin();
   function store0(k, f) { try { return { ...f, ...(JSON.parse(localStorage.getItem(k)) || {}) }; } catch { return f; } }
@@ -263,10 +264,13 @@
     const shipping = d.price || 0;
     const needsAddress = !d.id.startsWith('pickup');
     const account = !API.online ? '' : API.profile
-      ? `<p class="account">Вы вошли как <b>${esc(API.profile.name || 'гость')}</b> · <button type="button" class="linkbtn" data-logout>выйти</button></p>`
+      ? `<p class="account">Вы вошли как <b>${esc(API.profile.name || 'гость')}</b> · <button type="button" class="linkbtn" data-logout>выйти</button>${API.profile.email ? ' · <button type="button" class="linkbtn" data-reset-link>сбросить ссылку входа</button>' : ''}</p>`
       : `<div class="account login-box"><b>Войдите через Telegram</b>
           <p>Так заказ привяжется к вам, и статусы придут в бот. Пароль не нужен.</p>
           <button type="button" class="btn orange" data-login ${loginWaiting ? 'disabled' : ''}>${loginWaiting ? 'Ждём подтверждения…' : 'Войти через Telegram'}</button>
+          ${API.emailLogin ? (emailSentTo
+            ? `<p class="consent">Мы отправили ссылку на <b>${esc(emailSentTo)}</b>. Откройте письмо и нажмите кнопку: вы войдёте сразу, ссылку можно сохранить и заходить по ней потом.</p>`
+            : `<form class="email-login" data-email-login><input type="email" name="email" placeholder="Нет Telegram? Войдите по почте" autocomplete="email" aria-label="E-mail"><button type="submit" class="btn">Получить ссылку</button></form>`) : ''}
           ${loginWaiting ? `<p class="consent">Откройте Telegram и нажмите «Запустить». ${loginUrl ? `<a href="${esc(loginUrl)}" target="_blank" rel="noopener">Открыть бота ещё раз</a>` : ''}</p>` : ''}</div>`;
     return `<div class="df">
         ${account}
@@ -345,6 +349,25 @@
     const mobileNav = document.querySelector('.mnav');
     if (mobileNav) mobileNav.insertAdjacentHTML('beforeend', '<a href="admin">Админ-панель</a>');
   }
+
+  /** Вход по почте: отправляем личную ссылку. По ней гость заходит с любого устройства, пароль не нужен. */
+  document.addEventListener('submit', async (e) => {
+    const form = e.target.closest && e.target.closest('[data-email-login]');
+    if (!form) return;
+    e.preventDefault();
+    const email = form.elements.email.value.trim();
+    if (!email) return toast('Введите e-mail');
+    const button = form.querySelector('button');
+    button.disabled = true;
+    try {
+      await API.loginEmail(email);
+      emailSentTo = email;
+      renderDrawer();
+    } catch (err) {
+      toast(err.message);
+      button.disabled = false;
+    }
+  });
 
   /** Вход через Telegram: открываем бота, ждём подтверждения, подставляем имя и телефон из бота. */
   async function loginFlow() {
@@ -451,6 +474,9 @@
     }
     if (q('[data-login]')) return loginFlow();
     if (q('[data-logout]')) { API.logout(); return renderDrawer(); }
+    if (q('[data-reset-link]')) {
+      return API.resetEmailLink().then(() => toast('Новая ссылка отправлена на почту. Старая больше не работает')).catch((err) => toast(err.message));
+    }
     if (q('[data-checkout]')) return checkout();
     if (q('[data-channel]')) {
       e.preventDefault();

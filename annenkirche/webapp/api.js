@@ -25,7 +25,8 @@
         if (!res.ok) return false;
         const data = await res.json();
         if (!data || !Array.isArray(data.products)) return false;
-        const { payments, ...catalog } = data;
+        const { payments, emailLogin, ...catalog } = data;
+        api.emailLogin = !!emailLogin;
         Object.assign(window.AK, catalog);
         api.online = true;
         api.payments = !!payments;
@@ -66,7 +67,7 @@
         const res = await fetch('/api/me', { headers: authHeaders() });
         if (!res.ok) return null;
         const data = await res.json();
-        if (data.loggedIn) return (api.profile = { name: data.name, phone: data.phone, role: data.role || null });
+        if (data.loggedIn) return (api.profile = { name: data.name, phone: data.phone, email: data.email || '', role: data.role || null });
         if (!initData()) setSession('');
       } catch { /* нет связи — оставим как было */ }
       return null;
@@ -90,6 +91,27 @@
         err.status = res.status;
         throw err;
       }
+      return data;
+    },
+
+    /** Вход по почте включён на сервере (заполнен SMTP). */
+    emailLogin: false,
+
+    /** Письмо со ссылкой для входа на адрес. */
+    async loginEmail(email) {
+      let res;
+      try { res = await fetch('/api/login/email', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) }); }
+      catch { throw new Error('Нет связи. Проверьте интернет'); }
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || 'Не получилось отправить письмо');
+      return data;
+    },
+
+    /** Новая ссылка для входа по почте: старая перестаёт работать. */
+    async resetEmailLink() {
+      const res = await fetch('/api/login/email/reset', { method: 'POST', headers: authHeaders() });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || 'Не получилось');
       return data;
     },
 

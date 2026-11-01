@@ -595,3 +595,6 @@ html.splash-hold .hero-left > *, html.splash-hold .hero-right, html.splash-hold 
 footer .bottom { flex-wrap: wrap; gap: 10px 16px; align-items: center; }
 /* На телефоне и планшете шапка тесная: вход в админ-панель — в меню-бургере и в плашке внизу */
 @media (max-width: 960px) { .admin-link { display: none; } }
+
+.email-login { display: grid; grid-template-columns: 1fr auto; gap: 8px; }
+.email-login input { min-width: 0; padding: 11px 12px; border: 1px solid var(--line-2, var(--line)); border-radius: 8px; background: transparent; color: var(--ink); font: inherit; }
