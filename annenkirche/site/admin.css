@@ -1,0 +1,53 @@
+/* Админ-панель: сайт и мини-приложение. Свои цвета и шрифт, чтобы не зависеть от темы страницы. */
+:root {
+  --bg: #f6f1ee; --card: #ffffff; --ink: #2b1e30; --muted: rgba(43, 30, 48, .72); --line: rgba(43, 30, 48, .14);
+  --primary: #c8601f; --on-primary: #fff; --danger: #b42318; --ok: #1f7a45;
+  color-scheme: light;
+}
+:root[data-theme="dark"] {
+  --bg: #1f1623; --card: #2a1f2f; --ink: #f1e8ec; --muted: rgba(241, 232, 236, .72); --line: rgba(241, 232, 236, .16);
+  --primary: #e07b39; --on-primary: #1f1623; --danger: #ff8a7a; --ok: #6fd09a;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.45 'Onest', 'Golos Text', system-ui, sans-serif; }
+#admin { max-width: 760px; margin: 0 auto; padding: 0 16px 48px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.a-head { display: flex; align-items: center; gap: 12px; padding: 18px 0 10px; flex-wrap: wrap; }
+.a-head h1 { margin: 0; font-size: 22px; flex: 1; min-width: 0; }
+.a-back { color: var(--ink); text-decoration: none; font-weight: 600; }
+.a-who { color: var(--muted); font-size: 13px; }
+.a-tabs { display: flex; gap: 6px; overflow-x: auto; padding: 6px 0 12px; position: sticky; top: 0; background: var(--bg); z-index: 5; }
+.a-tabs button, .a-seg button { border: 1px solid var(--line); background: var(--card); color: var(--ink); border-radius: 999px; padding: 8px 14px; font: inherit; font-weight: 600; cursor: pointer; white-space: nowrap; }
+.a-tabs button.on, .a-seg button.on { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.a-controls { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+.a-seg { display: flex; gap: 6px; }
+.a-card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; margin: 0 0 12px; }
+.a-card p { margin: 6px 0 0; }
+.a-card a { color: var(--ink); }
+.a-center { text-align: center; }
+.a-row { display: flex; justify-content: space-between; gap: 10px; align-items: center; flex-wrap: wrap; }
+.a-badge { font-size: 13px; background: var(--bg); border: 1px solid var(--line); border-radius: 999px; padding: 2px 10px; }
+.a-who2 { color: var(--muted); }
+.a-lines { margin: 8px 0 0; padding-left: 18px; }
+.a-lines span { color: var(--muted); }
+.a-total { font-weight: 700; }
+.a-time, .a-note { color: var(--muted); font-size: 13px; }
+.a-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+.a-btn { border: 1px solid var(--line); background: var(--card); color: var(--ink); border-radius: 10px; padding: 10px 14px; font: inherit; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-block; }
+.a-btn.a-primary { background: var(--primary); color: var(--on-primary); border-color: var(--primary); }
+.a-btn.a-danger { color: var(--danger); }
+.a-btn[disabled] { opacity: .5; cursor: not-allowed; }
+.a-order.canceled, .a-order.done { opacity: .62; }
+.a-h2 { font-size: 17px; margin: 20px 0 10px; }
+.a-field { display: block; margin-top: 8px; }
+.a-field span { display: block; font-size: 12.5px; color: var(--muted); margin-bottom: 4px; }
+.a-field input { width: 100%; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); color: var(--ink); font: inherit; }
+.a-prices { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 8px; }
+.a-check { display: flex; align-items: center; gap: 8px; margin-top: 12px; }
+.a-check input { width: 20px; height: 20px; accent-color: var(--primary); }
+.a-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+.a-tile { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px; }
+.a-tile b { display: block; font-size: 26px; }
+.a-tile span { color: var(--muted); font-size: 13px; }
+.a-toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translate(-50%, 16px); opacity: 0; background: var(--ink); color: var(--bg); padding: 11px 18px; border-radius: 8px; transition: all .25s; pointer-events: none; max-width: calc(100% - 32px); text-align: center; z-index: 50; }
+.a-toast.show { opacity: 1; transform: translate(-50%, 0); }

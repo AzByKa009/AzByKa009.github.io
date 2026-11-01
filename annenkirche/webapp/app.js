@@ -31,6 +31,7 @@
     checkout: { delivery: 'pickup-k', name: '', phone: '', address: '', comment: '' },
     lead: { company: '', name: '', phone: '', comment: '' },
     sub: { plan: 'duo', coffee: 'espresso-blend', freq: 1 },
+    role: null, // admin или staff — показываем вход в админ-панель
     consent: { offer: false, pd: false }, // отметки не сохраняем: при каждом заказе ставятся заново
   };
   const saveCart = () => store.set('ak-cart', state.cart);
@@ -90,6 +91,7 @@
   // ——— Иконки (линией, в цвет текста) ———
 
   const ICONS = {
+    shield: '<path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/><path d="M9.5 12l2 2 3.5-4"/>',
     home: '<path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/><path d="M10 19.5v-5h4v5"/>',
     shop: '<path d="M5 8h14l-1.2 11.2a1 1 0 0 1-1 .8H7.2a1 1 0 0 1-1-.8z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/>',
     repeat: '<path d="M4 12a7 7 0 0 1 12-5l2 2"/><path d="M18 4v5h-5"/><path d="M20 12a7 7 0 0 1-12 5l-2-2"/><path d="M6 20v-5h5"/>',
@@ -222,6 +224,8 @@
         ${tile('#/quiz', 'quiz', 'Найди свой кофе', '5 вопросов — и совет')}
         ${tile('#/wholesale', 'box', 'Опт', 'Для кафе и офисов')}
         ${tile('#/card', 'card', 'Моя карта', `${B.every}-й напиток бесплатно`)}
+        ${state.role ? `<a class="tile wide plum" href="admin.html"><div class="ic">${icon('shield')}</div>
+          <div><div class="os">Админ-панель</div><div class="muted">${state.role === 'admin' ? 'Заказы, подписки, товары и цены' : 'Заказы на самовывоз'}</div></div></a>` : ''}
         <a class="tile wide" href="#/contact"><div class="ic">${icon('send')}</div>
           <div><div class="os">Написать нам</div><div class="muted">@${esc(B.telegram)} · ${esc(B.phone)}</div></div></a>
       </div>
@@ -689,5 +693,10 @@
   render();
   splash();
   // Свежий каталог с сервера: цены, наличие и фото из админки бота.
-  API.load().then((ok) => { if (ok) render(true); });
+  API.load().then((ok) => {
+    if (!ok) return;
+    render(true);
+    // Админу и баристе на главной появляется вход в админ-панель: роль определяет сервер по подписи Telegram.
+    API.me().then((me) => { if (me && me.role) { state.role = me.role; render(true); } });
+  });
 })();

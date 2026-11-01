@@ -5,6 +5,15 @@
   const getSession = () => { try { return localStorage.getItem(SESSION_KEY) || ''; } catch { return ''; } };
   const setSession = (value) => { try { if (value) localStorage.setItem(SESSION_KEY, value); else localStorage.removeItem(SESSION_KEY); } catch { /* приватный режим */ } };
 
+  const initData = () => (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData) || '';
+  /** Кто спрашивает: мини-приложение подписано Telegram, сайт — ключом входа через Telegram. */
+  const authHeaders = () => {
+    const headers = {};
+    if (initData()) headers['X-Telegram-Init-Data'] = initData();
+    if (getSession()) headers['X-Session'] = getSession();
+    return headers;
+  };
+
   const api = {
     online: false,
     payments: false,
@@ -50,16 +59,38 @@
     // Сессия живёт в браузере (ключ в localStorage), на сервере её подтверждает бот: пароля и кода вводить не нужно.
     profile: null,
 
-    /** Кто вошёл: { name, phone } или null. Просроченную сессию забываем. */
+    /** Кто вошёл: { name, phone, role } или null. role — admin, staff или null. Просроченную сессию забываем. */
     async me() {
-      const session = getSession();
-      if (!api.online || !session) return null;
+      if (!getSession() && !initData()) return null;
       try {
-        const data = await (await fetch('/api/me', { headers: { 'X-Session': session } })).json();
-        if (data.loggedIn) return (api.profile = { name: data.name, phone: data.phone });
-        setSession('');
+        const res = await fetch('/api/me', { headers: authHeaders() });
+        if (!res.ok) return null;
+        const data = await res.json();
+        if (data.loggedIn) return (api.profile = { name: data.name, phone: data.phone, role: data.role || null });
+        if (!initData()) setSession('');
       } catch { /* нет связи — оставим как было */ }
       return null;
+    },
+
+    /** Запрос админ-панели. Ошибку сервера превращаем в исключение с текстом для человека. */
+    async call(method, path, body) {
+      let res;
+      try {
+        res = await fetch('/api/' + path, {
+          method,
+          headers: { 'Content-Type': 'application/json', ...authHeaders() },
+          body: body === undefined ? undefined : JSON.stringify(body),
+        });
+      } catch {
+        throw new Error('Нет связи. Проверьте интернет');
+      }
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        const err = new Error(data.error || 'Не получилось. Попробуйте ещё раз');
+        err.status = res.status;
+        throw err;
+      }
+      return data;
     },
 
     /** Начало входа: { url, poll }. url открываем в Telegram, poll — секрет для опроса. */

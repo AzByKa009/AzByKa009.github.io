@@ -325,6 +325,22 @@
     }
   }
 
+  /** Кнопка «Админ-панель» рядом с темой и корзиной: только у админа и баристы, роль присылает сервер. */
+  function showAdminLink(role) {
+    if (!role || document.querySelector('.admin-link')) return;
+    const right = document.querySelector('.header .right');
+    if (!right) return;
+    const svg = '<svg class="i" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/><path d="M9.5 12l2 2 3.5-4"/></svg>';
+    const link = document.createElement('a');
+    link.className = 'admin-link';
+    link.href = 'admin';
+    link.title = 'Админ-панель';
+    link.innerHTML = `${svg}<span>Админ-панель</span>`;
+    right.prepend(link);
+    const mobileNav = document.querySelector('.mnav');
+    if (mobileNav) mobileNav.insertAdjacentHTML('beforeend', '<a href="admin">Админ-панель</a>');
+  }
+
   /** Вход через Telegram: открываем бота, ждём подтверждения, подставляем имя и телефон из бота. */
   async function loginFlow() {
     if (loginWaiting) return;
@@ -341,6 +357,7 @@
         if (!buyer.name) buyer.name = me.name;
         if (!buyer.phone) buyer.phone = me.phone;
         store.set('ak-site-buyer', buyer);
+        showAdminLink(me.role);
         toast(`Вы вошли как ${me.name || 'гость'}`);
       } else toast('Время входа вышло. Попробуйте ещё раз');
     } catch (err) {
@@ -636,6 +653,7 @@
     // Если гость уже входил, подставляем его имя и телефон из бота.
     API.me().then((me) => {
       if (!me) return renderDrawer();
+      showAdminLink(me.role);
       if (!buyer.name) buyer.name = me.name;
       if (!buyer.phone) buyer.phone = me.phone;
       renderDrawer();
