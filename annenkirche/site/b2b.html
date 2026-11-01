@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Golos+Text:wght@400;500;600&family=Forum&family=Onest:wght@600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="site.css?v=1793620001">
+  <link rel="stylesheet" href="site.css?v=1793630001">
 </head>
 <body>
   <div class="stage" aria-hidden="true">
@@ -164,6 +164,7 @@
       e.preventDefault();
       var f = form.elements, company = f.company.value.trim(), contact = f.contact.value.trim();
       if (!company || !contact) { err.textContent = 'Укажите название заведения и как с вами связаться.'; err.hidden = false; return; }
+      err.hidden = true;
       var lines = ['Здравствуйте! Хочу запросить оптовый прайс.', 'Компания: ' + company, 'Нужно: ' + need];
       if (f.volume.value) lines.push('Объём в месяц: ' + f.volume.value);
       lines.push('Связаться: ' + contact);
@@ -195,9 +196,9 @@
   <aside class="drawer" id="drawer"></aside>
 
   <script>window.AKAssetBase = '../webapp/';</script>
-  <script src="../webapp/data.js?v=1793620001"></script>
-  <script src="../webapp/pic.js?v=1793620001"></script>
-  <script src="../webapp/api.js?v=1793620001"></script>
-  <script src="site.js?v=1793620001"></script>
+  <script src="../webapp/data.js?v=1793630001"></script>
+  <script src="../webapp/pic.js?v=1793630001"></script>
+  <script src="../webapp/api.js?v=1793630001"></script>
+  <script src="site.js?v=1793630001"></script>
 </body>
 </html>
