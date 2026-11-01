@@ -14,6 +14,11 @@
   // Согласия не сохраняем между визитами: их ставят заново при каждом заказе, отметок по умолчанию нет.
   const consent = { offer: false, pd: false };
   const consentOk = () => consent.offer && consent.pd;
+  // Заказ с настоящего сайта оформляют после входа через Telegram. В демо (без сервера) вход не нужен.
+  let loginUrl = '';
+  let loginWaiting = false;
+  const needLogin = () => API.online && !API.profile;
+  const canOrder = () => consentOk() && !needLogin();
   function store0(k, f) { try { return { ...f, ...(JSON.parse(localStorage.getItem(k)) || {}) }; } catch { return f; } }
 
   /** Настройки сайта. Всё, что помечено «заглушка», уточнить у кофейни. */
@@ -257,7 +262,14 @@
     const d = D.delivery.find((x) => x.id === buyer.delivery) || D.delivery[0];
     const shipping = d.price || 0;
     const needsAddress = !d.id.startsWith('pickup');
+    const account = !API.online ? '' : API.profile
+      ? `<p class="account">Вы вошли как <b>${esc(API.profile.name || 'гость')}</b> · <button type="button" class="linkbtn" data-logout>выйти</button></p>`
+      : `<div class="account login-box"><b>Войдите через Telegram</b>
+          <p>Так заказ привяжется к вам, и статусы придут в бот. Пароль не нужен.</p>
+          <button type="button" class="btn orange" data-login ${loginWaiting ? 'disabled' : ''}>${loginWaiting ? 'Ждём подтверждения…' : 'Войти через Telegram'}</button>
+          ${loginWaiting ? `<p class="consent">Откройте Telegram и нажмите «Запустить». ${loginUrl ? `<a href="${esc(loginUrl)}" target="_blank" rel="noopener">Открыть бота ещё раз</a>` : ''}</p>` : ''}</div>`;
     return `<div class="df">
+        ${account}
         <label class="field"><select data-buyer="delivery">${D.delivery.map((x) => `<option value="${esc(x.id)}" ${x.id === d.id ? 'selected' : ''}>${esc(x.title)}${x.price ? `, ${money(x.price)}` : x.price === 0 ? ', бесплатно' : x.note ? `, ${esc(x.note)}` : ''}</option>`).join('')}</select></label>
         <label class="field"><input data-buyer="name" value="${esc(buyer.name)}" placeholder="Имя"></label>
         <label class="field"><input data-buyer="phone" value="${esc(buyer.phone)}" placeholder="Телефон" type="tel"></label>
@@ -269,7 +281,7 @@
           <label class="check"><input type="checkbox" data-consent="offer" ${consent.offer ? 'checked' : ''}><span>Я ознакомился с <a href="offer" target="_blank" rel="noopener">публичной офертой</a> и принимаю её условия</span></label>
           <label class="check"><input type="checkbox" data-consent="pd" ${consent.pd ? 'checked' : ''}><span>Я даю <a href="consent" target="_blank" rel="noopener">согласие на обработку персональных данных</a>. Как мы их защищаем — в <a href="privacy" target="_blank" rel="noopener">политике</a></span></label>
         </div>
-        <button class="btn orange" style="width:100%; margin-top:14px" data-checkout ${sending || !consentOk() ? 'disabled' : ''}>${sending ? 'Отправляем…' : API.payments ? 'Перейти к оплате' : 'Оформить заказ'}</button>
+        <button class="btn orange" style="width:100%; margin-top:14px" data-checkout ${sending || !canOrder() ? 'disabled' : ''}>${sending ? 'Отправляем…' : API.payments ? 'Перейти к оплате' : 'Оформить заказ'}</button>
         <p class="consent" data-consent-hint ${consentOk() ? 'hidden' : ''}>Отметьте оба пункта, чтобы оформить заказ.</p>
         <div class="ph" style="display:block">${!API.online ? 'Демо: заказ никуда не уходит' : API.payments ? 'Оплата картой через Робокассу' : 'Оплата картой скоро появится — мы позвоним, чтобы подтвердить заказ'}.</div></div>`;
   }
@@ -279,7 +291,7 @@
     if (!key) return;
     consent[key] = e.target.checked;
     const btn = $('[data-checkout]');
-    if (btn && !sending) btn.disabled = !consentOk();
+    if (btn && !sending) btn.disabled = !canOrder();
     const hint = $('[data-consent-hint]');
     if (hint) hint.hidden = consentOk();
   });
@@ -287,6 +299,7 @@
   async function checkout() {
     if (sending) return;
     if (!consentOk()) return toast('Отметьте оферту и согласие на обработку данных');
+    if (needLogin()) return toast('Сначала войдите через Telegram');
     if (!API.online) {
       cart = [];
       saveCart();
@@ -310,6 +323,32 @@
       sending = false;
       renderDrawer();
     }
+  }
+
+  /** Вход через Telegram: открываем бота, ждём подтверждения, подставляем имя и телефон из бота. */
+  async function loginFlow() {
+    if (loginWaiting) return;
+    // Окно открываем сразу по клику: после ожидания ответа сервера браузер мог бы его заблокировать.
+    const win = window.open('', '_blank');
+    try {
+      const { url, poll } = await API.loginStart();
+      loginUrl = url;
+      if (win) win.location.href = url;
+      loginWaiting = true;
+      renderDrawer();
+      const me = await API.loginWait(poll);
+      if (me) {
+        if (!buyer.name) buyer.name = me.name;
+        if (!buyer.phone) buyer.phone = me.phone;
+        store.set('ak-site-buyer', buyer);
+        toast(`Вы вошли как ${me.name || 'гость'}`);
+      } else toast('Время входа вышло. Попробуйте ещё раз');
+    } catch (err) {
+      if (win) win.close();
+      toast(err.message);
+    }
+    loginWaiting = false;
+    renderDrawer();
   }
 
   /** Окно «Заказ принят» с кнопкой бота: там гость увидит, когда заказ соберут. */
@@ -388,6 +427,8 @@
       saveCart();
       return renderDrawer();
     }
+    if (q('[data-login]')) return loginFlow();
+    if (q('[data-logout]')) { API.logout(); return renderDrawer(); }
     if (q('[data-checkout]')) return checkout();
     if (q('[data-channel]')) {
       e.preventDefault();
@@ -592,6 +633,13 @@
     if (!ok) return;
     renderSlides(); renderCats(); renderRows(); renderPlans(); renderShop();
     document.querySelectorAll('.demo-ribbon').forEach((el) => { if (!D.products.some((p) => p.demo)) el.remove(); });
+    // Если гость уже входил, подставляем его имя и телефон из бота.
+    API.me().then((me) => {
+      if (!me) return renderDrawer();
+      if (!buyer.name) buyer.name = me.name;
+      if (!buyer.phone) buyer.phone = me.phone;
+      renderDrawer();
+    });
   });
   const openId = (location.search.match(/product=([\w-]+)/) || [])[1];
   if (openId) openProduct(openId);
