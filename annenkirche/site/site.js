@@ -262,8 +262,8 @@
         <label class="field"><input data-buyer="comment" value="${esc(buyer.comment)}" placeholder="Комментарий"></label>
         <div class="total"><span>Итого</span><span>${money(cartTotal() + shipping)}${d.price == null ? ' + доставка' : ''}</span></div>
         <button class="btn orange" style="width:100%; margin-top:14px" data-checkout ${sending ? 'disabled' : ''}>${sending ? 'Отправляем…' : API.payments ? 'Перейти к оплате' : 'Оформить заказ'}</button>
-        <div class="ph" style="display:block">${!API.online ? 'Демо: заказ никуда не уходит' : API.payments ? 'Оплата картой через Робокассу' : 'Оплата картой скоро появится — мы позвоним, чтобы подтвердить заказ'}.
-          Нажимая кнопку, вы принимаете <a href="offer.html" target="_blank">оферту</a> и <a href="privacy.html" target="_blank">политику обработки данных</a>.</div></div>`;
+        <div class="ph" style="display:block">${!API.online ? 'Демо: заказ никуда не уходит' : API.payments ? 'Оплата картой через Робокассу' : 'Оплата картой скоро появится — мы позвоним, чтобы подтвердить заказ'}.</div>
+        <p class="consent">Нажимая кнопку, вы принимаете <a href="offer.html" target="_blank" rel="noopener">оферту</a> и даёте согласие на обработку персональных данных согласно <a href="privacy.html" target="_blank" rel="noopener">политике</a>.</p></div>`;
   }
 
   async function checkout() {
@@ -523,15 +523,13 @@
     const bar = document.createElement('div');
     bar.className = 'cookie-bar';
     const privLink = location.pathname.includes('privacy') ? '#cookies' : 'privacy.html#cookies';
-    bar.innerHTML = `<p>Мы используем cookies для корзины, темы сайта и аналитики.&ensp;<a href="${privLink}">Подробнее</a></p><div class="cookie-btns"><button type="button" class="btn small orange" id="ak-cookie-ok">Принять</button><button type="button" class="btn small" id="ak-cookie-min">Только необходимые</button></div>`;
+    bar.innerHTML = `<p>Сайт хранит в вашем браузере только нужное для работы: тему, корзину и данные для заказа. Аналитики и рекламы нет.&ensp;<a href="${privLink}">Подробнее</a></p><div class="cookie-btns"><button type="button" class="btn small orange" id="ak-cookie-ok">Понятно</button></div>`;
     document.body.appendChild(bar);
-    function dismiss(v) {
-      try { localStorage.setItem('ak-cookie', v); } catch (e) {}
+    bar.querySelector('#ak-cookie-ok').addEventListener('click', () => {
+      try { localStorage.setItem('ak-cookie', 'ok'); } catch (e) {}
       bar.classList.add('cookie-bar-out');
       setTimeout(() => bar.remove(), 400);
-    }
-    bar.querySelector('#ak-cookie-ok').addEventListener('click', () => dismiss('all'));
-    bar.querySelector('#ak-cookie-min').addEventListener('click', () => dismiss('min'));
+    });
   })();
 
   renderSlides();
