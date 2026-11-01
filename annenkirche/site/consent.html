@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex">
+  <title>Согласие на обработку персональных данных — Анненкирхе кофе</title>
+  <meta name="description" content="Согласие на обработку персональных данных при оформлении заказа, подписки или заявки в Анненкирхе кофе.">
+  <meta name="theme-color" content="#1F1623">
+  <link rel="icon" href="../webapp/img/emblem.png">
+  <!-- Тема до первой отрисовки: выбор гостя, иначе — как в системе. Без мигания. -->
+  <script>(function () { var t; try { t = localStorage.getItem('ak-site-theme'); } catch (e) {}
+    if (t !== 'light' && t !== 'dark') t = window.matchMedia && matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    document.documentElement.dataset.theme = t; document.documentElement.classList.add('js');
+    // Заставка: один раз за визит и только если человек не просил уменьшить движение.
+    var seen; try { seen = sessionStorage.getItem('ak-splash'); sessionStorage.setItem('ak-splash', '1'); } catch (e) {}
+    var calm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!seen && !calm && location.search.indexOf('clean') < 0) document.documentElement.classList.add('splash', 'splash-hold'); })();</script>
+  <link rel="stylesheet" href="fonts.css?v=1793800001">
+  <link rel="stylesheet" href="site.css?v=1793800001">
+</head>
+<body>
+  <div class="stage" aria-hidden="true">
+    <div class="marks" id="marks"><div class="marks-in">
+      <img class="mark mark-dark" src="../webapp/img/emblem-white.png" alt="">
+      <img class="mark mark-light" src="../webapp/img/emblem.png" alt="">
+    </div></div>
+  </div>
+  <div id="splash" aria-hidden="true">
+    <div class="sign"><div class="glass"></div><div class="glow"></div><div class="tube"></div><div class="core"></div></div>
+  </div>
+  <div class="demo-ribbon"><b>Демо-версия:</b> товары, цены и тексты пока примерные</div>
+
+  <header class="header">
+    <div class="wrap in">
+      <a class="logo" href="index.html">
+        <img class="logo-dark" src="../webapp/img/emblem-white.png" alt=""><img class="logo-light" src="../webapp/img/emblem.png" alt="">
+        <span>Анненкирхе кофе</span>
+      </a>
+      <nav>
+        <a href="shop.html">Магазин</a>
+        <a href="subscription.html">Подписка</a>
+        <a href="b2b.html">Опт</a>
+        <a href="shops.html">Кофейни</a>
+      </nav>
+      <div class="right">
+        <button class="icon-btn theme-btn" type="button" data-theme-toggle aria-label="Сменить тему">
+          <svg class="i moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>
+          <svg class="i sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        </button>
+        <a class="icon-btn" href="https://t.me/annenkirche_coffee_bot" target="_blank" rel="noopener" aria-label="Telegram">
+          <svg class="i" viewBox="0 0 24 24"><path d="M21 4 3 11l6 2 2 7 3-4 5 4z"/><path d="m9 13 9-6"/></svg></a>
+        <a class="icon-btn" href="#" data-cart aria-label="Корзина">
+          <svg class="i" viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.3"/><circle cx="17" cy="20" r="1.3"/><path d="M3 4h2.2l2.3 11h10.8l2-8H6.3"/></svg>
+          <span class="count" data-cart-count>0</span></a>
+      </div>
+    </div>
+  </header>
+  <main class="doc">
+    <div class="caps">Документы</div>
+    <h1>Согласие на обработку персональных данных</h1>
+    <p class="muted">Редакция от 1 ноября 2026 г. Составлено в соответствии со ст. 9 Федерального закона от 27.07.2006 № 152-ФЗ «О персональных данных». Это отдельный документ, он не входит в оферту и другие соглашения.</p>
+
+    <h2>1. Кто и кому даёт согласие</h2>
+    <p>Я, субъект персональных данных, действуя свободно, своей волей и в своём интересе, даю согласие оператору — ООО «Ароматная мастерская» (ИНН 4704118133, КПП 470401001, ОГРН 1254700005075, адрес: 188740, Ленинградская обл., м.р-н Приозерский, с.п. Ромашкинское, тер. Манна, д. 1, ком. 2) — на обработку моих персональных данных на условиях ниже.</p>
+
+    <h2>2. Цели обработки</h2>
+    <ul>
+      <li>принять, оплатить, собрать и передать (доставить) мой заказ;</li>
+      <li>связаться со мной по заказу, подписке или заявке;</li>
+      <li>оформить подписку и доставлять товар по ней;</li>
+      <li>рассмотреть мою заявку на оптовые поставки;</li>
+      <li>направить кассовый чек;</li>
+      <li>вести программу лояльности (каждый 6-й напиток в подарок).</li>
+    </ul>
+
+    <h2>3. Какие данные</h2>
+    <p>Имя; номер телефона; адрес электронной почты (если я его указал); адрес доставки; название организации (для заявки на опт); комментарий к заказу; идентификатор и имя в Telegram (если я оформляю заказ в боте или мини-приложении); история моих заказов.</p>
+    <p>Специальные категории данных (здоровье, убеждения и т. п.) и биометрические данные не обрабатываются. Данные банковской карты оператор не получает: оплата проходит на стороне платёжного сервиса.</p>
+
+    <h2>4. Действия с данными</h2>
+    <p>Сбор, запись, систематизация, накопление, хранение, уточнение (обновление, изменение), извлечение, использование, передача (предоставление, доступ) лицам из раздела 5, блокирование, удаление, уничтожение. Обработка смешанная: с использованием средств автоматизации и без них.</p>
+
+    <h2>5. Кому данные передаются</h2>
+    <p>Только тем, без кого заказ выполнить нельзя, и только в объёме, нужном для этого:</p>
+    <ul>
+      <li>платёжному сервису Robokassa — для приёма оплаты;</li>
+      <li>службе доставки (курьеру, СДЭК) — имя, телефон, адрес для доставки;</li>
+      <li>оператору фискальных данных — для кассового чека;</li>
+      <li>Telegram — для уведомлений о заказе в боте и мини-приложении, если я выбрал этот способ.</li>
+    </ul>
+    <p>Данные не распространяются, то есть не раскрываются неопределённому кругу лиц.</p>
+
+    <h2>6. Срок действия</h2>
+    <p>Согласие действует с момента, когда я поставил отметку, и до достижения целей обработки, но не более 3 лет с моего последнего заказа, либо до его отзыва. Если закон обязывает хранить часть данных дольше (например, для бухгалтерского учёта), такие данные хранятся в этом объёме до окончания срока.</p>
+
+    <h2>7. Как отозвать согласие</h2>
+    <p>Я могу отозвать согласие в любое время, написав на <a class="link" href="mailto:masterskaya_spb@inbox.ru">masterskaya_spb@inbox.ru</a> с темой <b>«Отзыв согласия»</b> или позвонив по телефону +7 (921) 917-78-53. Оператор прекращает обработку и удаляет данные в срок, установленный 152-ФЗ, кроме данных, которые он обязан хранить по закону. Отзыв не влияет на законность обработки до момента отзыва.</p>
+
+    <h2>8. Чего это согласие не включает</h2>
+    <p>Это согласие не означает согласия на получение рекламы и рассылок. Для них оператор запрашивает отдельное согласие, которое можно не давать. Заказ без него оформляется в том же порядке.</p>
+
+    <h2>9. Как оформляется</h2>
+    <p>Согласие даётся проставлением отметки в поле «Я даю согласие на обработку персональных данных» при оформлении заказа, подписки или заявки. Отметка по умолчанию не стоит. Подробнее о том, как мы защищаем данные, читайте в <a class="link" href="privacy.html">Политике обработки персональных данных</a>.</p>
+
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="top">
+        <div class="brand"><img class="mark-dark" src="../webapp/img/logo-white.png" alt="Анненкирхе кофе"><img class="mark-light" src="../webapp/img/logo.png" alt="Анненкирхе кофе">
+          <p>Своя обжарка и две кофейни в Петербурге.</p></div>
+        <div><h4>Магазин</h4><ul><li><a href="shop.html#coffee">Кофе</a></li><li><a href="shop.html#drip">Дрип-пакеты</a></li><li><a href="shop.html#tea">Чай</a></li><li><a href="shop.html#cocoa">Какао</a></li><li><a href="shop.html#merch">Мерч</a></li><li><a href="subscription.html">Подписка</a></li><li><a href="shops.html">Кофейни</a></li></ul></div>
+        <div><h4>Бизнесу</h4><ul><li><a href="b2b.html">Кофе оптом</a></li><li><a href="b2b.html">Дрип-пакеты под ваш бренд</a></li></ul>
+          <h4 style="margin-top:24px">Покупателям</h4><ul><li><a href="delivery.html">Доставка и оплата</a></li><li><a href="offer.html">Оферта</a></li><li><a href="privacy.html">Персональные данные</a></li><li><a href="consent.html">Согласие на обработку данных</a></li></ul></div>
+        <div class="contacts"><h4>Контакты</h4>
+          <p><a href="tel:+79219177853">+7 (921) 917-78-53</a></p>
+          <p><a href="https://t.me/mrgvzd" target="_blank" rel="noopener">Telegram @mrgvzd</a></p><p><a href="https://t.me/annenkirche_coffee_bot?start=card" target="_blank" rel="noopener">Бот: карта гостя и заказы</a></p>
+          <p>Кожевенная линия, 30а</p><p>Кирочная улица, 8а</p><p>Ежедневно с 10:00 до 22:00</p></div>
+      </div>
+      <div class="bottom"><span>© 2026 Анненкирхе кофе</span><span>ООО «Ароматная мастерская», ИНН 4704118133, ОГРН 1254700005075</span></div>
+    </div>
+  </footer>
+
+  <div class="backdrop" id="backdrop"></div>
+  <aside class="drawer" id="drawer"></aside>
+
+  <script>window.AKAssetBase = '../webapp/';</script>
+  <script src="../webapp/data.js?v=1793800001"></script>
+  <script src="../webapp/pic.js?v=1793800001"></script>
+  <script src="../webapp/api.js?v=1793800001"></script>
+  <script src="site.js?v=1793800001"></script>
+</body>
+</html>

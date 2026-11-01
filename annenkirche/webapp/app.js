@@ -31,6 +31,7 @@
     checkout: { delivery: 'pickup-k', name: '', phone: '', address: '', comment: '' },
     lead: { company: '', name: '', phone: '', comment: '' },
     sub: { plan: 'duo', coffee: 'espresso-blend', freq: 1 },
+    consent: { offer: false, pd: false }, // отметки не сохраняем: при каждом заказе ставятся заново
   };
   const saveCart = () => store.set('ak-cart', state.cart);
 
@@ -186,6 +187,17 @@
 
   const ctaBar = (inner) => `<div class="cta-bar"><div class="inner">${inner}</div></div>`;
 
+  /**
+   * Согласия отдельными отметками (152-ФЗ, ст. 9): оферта и обработка данных не слиты в одну фразу.
+   * Для заявки на опт оферта не нужна — только согласие на данные.
+   */
+  const docLink = (file, text) => `<a href="#" data-act="link" data-url="${siteUrl()}${file}">${text}</a>`;
+  const consentBlock = (withOffer) => `<div class="consents">
+    ${withOffer ? `<label class="check"><input type="checkbox" data-consent="offer" ${state.consent.offer ? 'checked' : ''}><span>Я ознакомился с ${docLink('offer.html', 'публичной офертой')} и принимаю её условия</span></label>` : ''}
+    <label class="check"><input type="checkbox" data-consent="pd" ${state.consent.pd ? 'checked' : ''}><span>Я даю ${docLink('consent.html', 'согласие на обработку персональных данных')}. Как мы их защищаем — в ${docLink('privacy.html', 'политике')}</span></label></div>`;
+  const consentOk = (withOffer) => state.consent.pd && (!withOffer || state.consent.offer);
+  const consentRecord = (withOffer) => ({ offer: !!withOffer, pd: true, version: '2026-11-01', at: new Date().toISOString() });
+
   // ——— Экраны ———
 
   function home() {
@@ -327,7 +339,8 @@
         <div class="grand"><span>К оплате</span><span>${money(cartTotal() + shipping)}</span></div></div>
       ${!API.online ? '<div class="placeholder">Демо: кнопка оформляет пробный заказ, он никуда не уходит.</div>'
         : API.payments ? '' : '<div class="placeholder">Оплата картой скоро появится. Сейчас мы получим заказ и свяжемся с вами для подтверждения.</div>'}
-      ${ctaBar(`<button class="btn orange" data-act="pay" ${sending ? 'disabled' : ''}>${API.payments ? 'Оплатить' : 'Оформить заказ'} <small>· ${money(cartTotal() + shipping)}</small></button>`)}`;
+      ${consentBlock(true)}
+      ${ctaBar(`<button class="btn orange" data-act="pay" data-consent-btn="order" ${sending || !consentOk(true) ? 'disabled' : ''}>${API.payments ? 'Оплатить' : 'Оформить заказ'} <small>· ${money(cartTotal() + shipping)}</small></button>`)}`;
   }
 
   function done(kind) {
@@ -371,7 +384,8 @@
       <label class="field"><span>Телефон</span><input data-bind="phone" type="tel" value="${esc(state.checkout.phone)}" placeholder="+7"></label>
       <label class="field"><span>Адрес доставки</span><input data-bind="address" value="${esc(state.checkout.address)}" placeholder="Или «заберу в кофейне»"></label>
       ${D.plans.some((p) => p.demo) ? '<div class="placeholder">Тарифы и цены — примеры. Состав подписки пришлёт кофейня.</div>' : ''}
-      ${ctaBar(`<button class="btn orange" data-act="subscribe" ${sending ? 'disabled' : ''}>Оформить подписку <small>· ${money(plan.price)}</small></button>`)}`;
+      ${consentBlock(true)}
+      ${ctaBar(`<button class="btn orange" data-act="subscribe" data-consent-btn="order" ${sending || !consentOk(true) ? 'disabled' : ''}>Оформить подписку <small>· ${money(plan.price)}</small></button>`)}`;
   }
 
   function quiz() {
@@ -414,7 +428,8 @@
       <label class="field"><span>Телефон</span><input data-lbind="phone" type="tel" value="${esc(state.lead.phone)}" placeholder="+7"></label>
       <label class="field"><span>Объём в месяц</span><input data-lbind="comment" value="${esc(state.lead.comment)}" placeholder="Например, 10 кг"></label>
       ${w.demo ? '<div class="placeholder">Текст и условия — заглушка. Оптовый прайс пришлёт кофейня.</div>' : ''}
-      ${ctaBar(`<button class="btn orange" data-act="lead" ${sending ? 'disabled' : ''}>Отправить заявку</button>`)}`;
+      ${consentBlock(false)}
+      ${ctaBar(`<button class="btn orange" data-act="lead" data-consent-btn="lead" ${sending || !consentOk(false) ? 'disabled' : ''}>Отправить заявку</button>`)}`;
   }
 
   function contact() {
@@ -549,6 +564,7 @@
       case 'delivery': state.checkout.delivery = id; return render(true);
       case 'pay': {
         const c = state.checkout;
+        if (!consentOk(true)) return toast('Отметьте оферту и согласие на обработку данных');
         if (!(c.name || firstName()).trim() || !c.phone.trim()) return toast('Укажите имя и телефон');
         if (!API.online) {
           store.set('ak-last', { id: Math.floor(1000 + Math.random() * 9000), total: cartTotal() });
@@ -560,6 +576,7 @@
         return submit('order', {
           cart: state.cart.map(API.cartLine),
           delivery: c.delivery, name: c.name || firstName(), phone: c.phone, address: c.address, comment: c.comment,
+          consent: consentRecord(true),
         }, () => { state.cart = []; saveCart(); }, '#/done');
       }
       case 'plan': state.sub.plan = id; return render(true);
@@ -567,10 +584,12 @@
       case 'sub-freq': state.sub.freq = v; return render(true);
       case 'subscribe': {
         const c = state.checkout;
+        if (!consentOk(true)) return toast('Отметьте оферту и согласие на обработку данных');
         if (!API.online) { location.hash = '#/sub/done'; return; }
         return submit('subscribe', {
           plan: state.sub.plan, coffee: state.sub.coffee, freq: state.sub.freq,
           name: c.name || firstName(), phone: c.phone, address: c.address,
+          consent: consentRecord(true),
         }, null, '#/sub/done');
       }
       case 'answer': {
@@ -581,13 +600,24 @@
       case 'quiz-again': state.quiz = { step: 0, tags: [] }; return render();
       case 'price': return D.wholesale.priceUrl ? openLink(D.wholesale.priceUrl) : toast('Прайс появится, когда кофейня его пришлёт');
       case 'lead': {
+        if (!consentOk(false)) return toast('Отметьте согласие на обработку данных');
         if (!API.online) return toast('Демо: заявка придёт владельцу в Telegram');
         const l = state.lead;
-        return submit('lead', { ...l, name: l.name || firstName() }, () => { state.lead = { company: '', name: '', phone: '', comment: '' }; }, null, 'Заявка отправлена — мы свяжемся с вами');
+        return submit('lead', { ...l, name: l.name || firstName(), consent: consentRecord(false) }, () => { state.lead = { company: '', name: '', phone: '', comment: '' }; }, null, 'Заявка отправлена — мы свяжемся с вами');
       }
       case 'channel': return B.channel ? openLink(B.channel) : toast('Ссылку на канал пришлёт кофейня');
       case 'link': return openLink(el.dataset.url);
     }
+  });
+
+  // Отметки согласий: сохраняем и сразу включаем или выключаем кнопку отправки, без перерисовки.
+  document.addEventListener('change', (e) => {
+    const key = e.target.dataset && e.target.dataset.consent;
+    if (!key) return;
+    state.consent[key] = e.target.checked;
+    document.querySelectorAll('[data-consent-btn]').forEach((b) => {
+      b.disabled = sending || !consentOk(b.dataset.consentBtn === 'order');
+    });
   });
 
   // Поля оформления: пишем в состояние без перерисовки, чтобы не терять фокус.

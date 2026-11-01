@@ -300,6 +300,11 @@ svg.i { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-widt
   width: 100%; padding: 14px; border-radius: 14px; border: 1.5px solid var(--line); background: var(--card); outline: none;
 }
 .field input:focus, .field textarea:focus { border-color: var(--ink); }
+.consents { display: grid; gap: 10px; margin-top: 18px; }
+.check { display: flex; gap: 10px; align-items: flex-start; font-size: 13px; line-height: 1.45; color: var(--muted); cursor: pointer; }
+.check input { flex: none; width: 22px; height: 22px; margin: 0; accent-color: var(--ink); cursor: pointer; }
+.check a { text-decoration: underline; color: var(--ink); }
+.btn[disabled] { opacity: .45; cursor: not-allowed; }
 .radio {
   display: flex; align-items: center; gap: 12px; padding: 14px; border-radius: 16px; background: var(--card);
   border: 1.5px solid var(--line); margin-top: 8px; text-align: left; width: 100%;
