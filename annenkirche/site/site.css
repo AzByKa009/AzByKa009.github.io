@@ -531,3 +531,13 @@ html.splash-hold .hero-left > *, html.splash-hold .hero-right, html.splash-hold 
 .cookie-bar-out { animation: ck-down .35s ease forwards; }
 @keyframes ck-up { from { transform: translateY(100%); } to { transform: none; } }
 @keyframes ck-down { from { transform: none; } to { transform: translateY(110%); } }
+
+@media (max-width: 480px) {
+  .logo span { white-space: nowrap; font-size: 16px; }
+  .header .in { gap: 8px; }
+  .header .right { gap: 0; }
+  .header .icon-btn { width: 38px; height: 38px; }
+}
+@media (max-width: 360px) {
+  .logo span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+}
