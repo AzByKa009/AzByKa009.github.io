@@ -436,3 +436,12 @@ input[type=range] { width: 100%; accent-color: var(--orange); }
 .flipcard .fc-back .fc-hint { color: #2b1e30; }
 @media (prefers-reduced-motion: reduce) { .flipcard .fc-inner { transition: none; } .fc-flip-btn { animation: none; } }
 
+
+/* Лицо карты: логотип крупнее, текст собран в один блок без пустот */
+.flipcard .fc-inner { min-height: 420px; }
+.flipcard .fc-front { justify-content: center; gap: 2px; padding: 22px 20px 20px; }
+.flipcard .fc-front .neon-sign { width: 150px; margin-bottom: 8px; }
+.flipcard .fc-front .hello { font-size: 22px; }
+.flipcard .fc-strip { margin-top: 10px; gap: 10px; }
+.fc-title { font-size: 12.5px; letter-spacing: .14em; text-transform: uppercase; opacity: .75; }
+.fc-sub { font-family: var(--display, inherit); font-size: 22px; font-weight: 700; line-height: 1.15; max-width: 85%; }

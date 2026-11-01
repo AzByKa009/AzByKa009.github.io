@@ -514,7 +514,7 @@
       + (canFlip ? '<span class="fc-flip-btn" aria-hidden="true">' + flipIcon + '</span>' : '')
       + neonSign(theme === 'dark', theme === 'dark' && !signLit)
       + '<div class="hello">' + (name ? 'Привет, ' + esc(name) + '!' : 'Добро пожаловать') + '</div>'
-      + '<div class="fc-strip"><div class="dots">' + dotsHtml + '</div>'
+      + '<div class="fc-strip"><div class="fc-title">Карта гостя</div><div class="fc-sub">Каждый ' + B.every + '-й напиток — бесплатно</div><div class="dots">' + dotsHtml + '</div>'
       + '<div class="fc-status">' + status + '</div>'
       + (canFlip ? '<div class="fc-hint">↻ Нажмите на карту, чтобы показать QR-код</div>' : '') + '</div>'
       + '</section>'
