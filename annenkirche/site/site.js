@@ -135,7 +135,7 @@
     const hint = { coffee: 'зерно 200 г, 500 г и 1 кг', drip: 'кофе в дорогу', tea: 'от наших поставщиков', cocoa: 'и горячий шоколад', merch: 'кружки, футболки, шопперы' };
     el.innerHTML = D.categories.map((c) => {
       const sample = D.products.find((p) => p.cat === c.id);
-      return `<a class="cat" href="shop.html#${c.id}"><div class="pic arch">${pic(sample)}</div>
+      return `<a class="cat" href="shop#${c.id}"><div class="pic arch">${pic(sample)}</div>
         <div class="t"><b>${esc(c.title)}</b><span>${hint[c.id] || ''}</span></div></a>`;
     }).join('');
   }
@@ -266,8 +266,8 @@
         <label class="field"><input data-buyer="comment" value="${esc(buyer.comment)}" placeholder="Комментарий"></label>
         <div class="total"><span>Итого</span><span>${money(cartTotal() + shipping)}${d.price == null ? ' + доставка' : ''}</span></div>
         <div class="consents">
-          <label class="check"><input type="checkbox" data-consent="offer" ${consent.offer ? 'checked' : ''}><span>Я ознакомился с <a href="offer.html" target="_blank" rel="noopener">публичной офертой</a> и принимаю её условия</span></label>
-          <label class="check"><input type="checkbox" data-consent="pd" ${consent.pd ? 'checked' : ''}><span>Я даю <a href="consent.html" target="_blank" rel="noopener">согласие на обработку персональных данных</a>. Как мы их защищаем — в <a href="privacy.html" target="_blank" rel="noopener">политике</a></span></label>
+          <label class="check"><input type="checkbox" data-consent="offer" ${consent.offer ? 'checked' : ''}><span>Я ознакомился с <a href="offer" target="_blank" rel="noopener">публичной офертой</a> и принимаю её условия</span></label>
+          <label class="check"><input type="checkbox" data-consent="pd" ${consent.pd ? 'checked' : ''}><span>Я даю <a href="consent" target="_blank" rel="noopener">согласие на обработку персональных данных</a>. Как мы их защищаем — в <a href="privacy" target="_blank" rel="noopener">политике</a></span></label>
         </div>
         <button class="btn orange" style="width:100%; margin-top:14px" data-checkout ${sending || !consentOk() ? 'disabled' : ''}>${sending ? 'Отправляем…' : API.payments ? 'Перейти к оплате' : 'Оформить заказ'}</button>
         <p class="consent" data-consent-hint ${consentOk() ? 'hidden' : ''}>Отметьте оба пункта, чтобы оформить заказ.</p>
@@ -299,7 +299,7 @@
       const res = await API.send('order', { ...buyer, cart: cart.map(API.cartLine), consent: { offer: true, pd: true, version: '2026-11-01', at: new Date().toISOString() } });
       cart = [];
       saveCart();
-      // Ссылка на бота нужна и после оплаты — страница paid.html возьмёт её отсюда.
+      // Ссылка на бота нужна и после оплаты — страница paid возьмёт её отсюда.
       try { sessionStorage.setItem('ak-track', JSON.stringify({ id: res.id, url: res.track || '' })); } catch { /* приватный режим */ }
       if (res.payUrl) { location.href = res.payUrl; return; }
       closeDrawer();
@@ -409,11 +409,11 @@
   // ——— Карусель на первом экране: сама листается, пауза при наведении, свайп на телефоне ———
 
   const SLIDES = [
-    { kicker: 'Свежая обжарка', title: 'Кофе для дома в пачках от 200 г', text: 'Эспрессо-смеси и сорта для фильтра. Обжариваем сами, продаём в зёрнах.', href: 'shop.html#coffee', cta: 'Выбрать кофе', cat: 'coffee', n: 0, img: 'img/photo/photo-1447933601403-0c6688de566e.jpg' },
+    { kicker: 'Свежая обжарка', title: 'Кофе для дома в пачках от 200 г', text: 'Эспрессо-смеси и сорта для фильтра. Обжариваем сами, продаём в зёрнах.', href: 'shop#coffee', cta: 'Выбрать кофе', cat: 'coffee', n: 0, img: 'img/photo/photo-1447933601403-0c6688de566e.jpg' },
     { kicker: 'Подписка', title: 'Кофе приезжает сам раз в месяц', text: 'Выбираете сорт и частоту, мы обжариваем и привозим. Платите за каждую поставку.', href: '#subscription', cta: 'Посмотреть тарифы', cat: 'coffee', n: 1, img: 'img/photo/photo-1495474472287-4d71bcdd2085.jpg' },
-    { kicker: 'Дрип-пакеты', title: 'Чашка кофе без кофемашины', text: 'Пакет вешается на чашку и заливается водой. Удобно в дороге и на работе.', href: 'shop.html#drip', cta: 'Выбрать дрип-пакеты', cat: 'drip', n: 0, img: 'img/photo/photo-1512568400610-62da28bc8a13.jpg' },
+    { kicker: 'Дрип-пакеты', title: 'Чашка кофе без кофемашины', text: 'Пакет вешается на чашку и заливается водой. Удобно в дороге и на работе.', href: 'shop#drip', cta: 'Выбрать дрип-пакеты', cat: 'drip', n: 0, img: 'img/photo/photo-1512568400610-62da28bc8a13.jpg' },
     { kicker: 'Подбор', title: 'Не знаете, какой кофе взять?', text: 'Ответьте на пять вопросов о том, как вы пьёте кофе, и мы подскажем сорт.', href: '#quiz', cta: 'Подобрать кофе', cat: 'coffee', n: 2, img: 'img/photo/photo-1514432324607-a09d9b4aefdd.jpg' },
-    { kicker: 'Не только кофе', title: 'Чай и какао из наших кофеен', text: 'Те же, что мы завариваем гостям на Кожевенной и Кирочной.', href: 'shop.html#tea', cta: 'Смотреть чай', cat: 'tea', n: 0, img: 'img/photo/photo-1544787219-7f47ccb76574.jpg' },
+    { kicker: 'Не только кофе', title: 'Чай и какао из наших кофеен', text: 'Те же, что мы завариваем гостям на Кожевенной и Кирочной.', href: 'shop#tea', cta: 'Смотреть чай', cat: 'tea', n: 0, img: 'img/photo/photo-1544787219-7f47ccb76574.jpg' },
     { kicker: 'Для бизнеса', title: 'Кофе для кафе и офисов', text: 'Зерно оптом и дрип-пакеты с вашим логотипом. Цена зависит от объёма.', href: '#b2b', cta: 'Узнать про опт', cat: 'drip', n: 2, img: 'img/photo/photo-1511537190424-bbbab87ac5eb.jpg' },
   ];
   const SLIDE_MS = 6000;
@@ -565,7 +565,7 @@
     if (c) return;
     const bar = document.createElement('div');
     bar.className = 'cookie-bar';
-    const privLink = location.pathname.includes('privacy') ? '#cookies' : 'privacy.html#cookies';
+    const privLink = location.pathname.includes('privacy') ? '#cookies' : 'privacy#cookies';
     bar.innerHTML = `<p>Сайт хранит в вашем браузере только нужное для работы: тему, корзину и данные для заказа. Аналитики и рекламы нет.&ensp;<a href="${privLink}">Подробнее</a></p><div class="cookie-btns"><button type="button" class="btn small orange" id="ak-cookie-ok">Понятно</button></div>`;
     document.body.appendChild(bar);
     bar.querySelector('#ak-cookie-ok').addEventListener('click', () => {

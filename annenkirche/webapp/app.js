@@ -193,8 +193,8 @@
    */
   const docLink = (file, text) => `<a href="#" data-act="link" data-url="${siteUrl()}${file}">${text}</a>`;
   const consentBlock = (withOffer) => `<div class="consents">
-    ${withOffer ? `<label class="check"><input type="checkbox" data-consent="offer" ${state.consent.offer ? 'checked' : ''}><span>Я ознакомился с ${docLink('offer.html', 'публичной офертой')} и принимаю её условия</span></label>` : ''}
-    <label class="check"><input type="checkbox" data-consent="pd" ${state.consent.pd ? 'checked' : ''}><span>Я даю ${docLink('consent.html', 'согласие на обработку персональных данных')}. Как мы их защищаем — в ${docLink('privacy.html', 'политике')}</span></label></div>`;
+    ${withOffer ? `<label class="check"><input type="checkbox" data-consent="offer" ${state.consent.offer ? 'checked' : ''}><span>Я ознакомился с ${docLink('offer', 'публичной офертой')} и принимаю её условия</span></label>` : ''}
+    <label class="check"><input type="checkbox" data-consent="pd" ${state.consent.pd ? 'checked' : ''}><span>Я даю ${docLink('consent', 'согласие на обработку персональных данных')}. Как мы их защищаем — в ${docLink('privacy', 'политике')}</span></label></div>`;
   const consentOk = (withOffer) => state.consent.pd && (!withOffer || state.consent.offer);
   const consentRecord = (withOffer) => ({ offer: !!withOffer, pd: true, version: '2026-11-01', at: new Date().toISOString() });
 
