@@ -328,7 +328,7 @@ footer .bottom { display: flex; justify-content: space-between; gap: 16px; flex-
 
 /* Заглушки, которые видит только заказчик в демо */
 .ph { display: inline-block; margin-top: 10px; padding: 7px 11px; border-radius: 4px; border: 1px dashed var(--line-2); font-size: 13px; color: var(--muted); }
-.clean .demo-ribbon, .clean .ph, .clean .badge.demo, .clean .reviews { display: none !important; }
+.clean .demo-ribbon, .clean .ph, .clean .badge.demo, .clean .reviews, .clean .reviews-block { display: none !important; }
 
 /* ——— Магазин ——— */
 
