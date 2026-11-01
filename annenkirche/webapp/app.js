@@ -33,6 +33,7 @@
     sub: { plan: 'duo', coffee: 'espresso-blend', freq: 1 },
     card: null, // карта гостя с сервера
     cardLoaded: false,
+    flipped: false, // карта на главной повёрнута QR-стороной
     cardAt: 0, // когда карту спрашивали у сервера в последний раз
     role: null, // admin или staff — показываем вход в админ-панель
     consent: { offer: false, pd: false }, // отметки не сохраняем: при каждом заказе ставятся заново
@@ -215,10 +216,9 @@
       <section class="hero sign">
         ${neonSign(theme === 'dark', theme === 'dark' && !signLit)}
         <div class="hello">${name ? `Привет, ${esc(name)}!` : 'Добро пожаловать'}</div>
-        <div class="dots">${Array.from({ length: B.every }, (_, i) =>
-          `<div class="dot ${i === B.every - 1 ? 'free' : i < 3 ? 'on' : ''}">${i + 1}</div>`).join('')}</div>
-        <div class="hint">Каждый ${B.every}-й напиток в кофейне — бесплатно</div>
       </section>
+
+      ${flipCard()}
 
       <div class="section tiles">
         <a class="tile wide orange" href="#/shop"><div class="ic">${icon('shop')}</div>
@@ -491,6 +491,38 @@
       + ctaBar('<button class="btn" data-act="link" data-url="https://t.me/' + esc(B.bot) + '?start=card">Открыть карту в боте</button>');
   }
 
+  /**
+   * Карта на главном экране: лицо с прогрессом, по нажатию переворачивается и показывает QR с кодом гостя.
+   * Без сервера (демо) QR нет, карта остаётся примером.
+   */
+  function flipCard() {
+    const c = state.card;
+    const needed = c ? c.needed : B.every - 1;
+    const cups = c ? c.cups : 3;
+    const dotsHtml = Array.from({ length: needed }, (_, i) => '<div class="dot ' + (i < cups ? 'on' : '') + '">' + (i + 1) + '</div>').join('')
+      + '<div class="dot free">' + B.every + '</div>';
+    const registered = !!(c && c.qr);
+    const status = !API.online ? 'Пример: так будет выглядеть ваша карта'
+      : !registered ? 'Карты пока нет: откройте бота и поделитесь номером'
+      : c.giftReady ? '🎁 Подарок заработан — покажите QR на кассе'
+      : 'До бесплатного напитка осталось ' + c.left;
+    const hint = registered ? 'Нажмите, чтобы показать QR-код' : '';
+    const back = registered
+      ? '<div class="fc-qr">' + c.qr + '</div><div class="fc-code">Ваш код ' + esc(c.code) + '</div><div class="fc-hint">Нажмите, чтобы вернуть карту</div>'
+      : '<div class="fc-code">QR появится, когда карта подключится к боту</div>';
+    return '<div class="flipcard ' + (state.flipped && registered ? 'flipped' : '') + (registered ? ' can' : '') + '" data-act="flip" role="button" tabindex="0" aria-label="Карта гостя. Нажмите, чтобы показать QR-код">'
+      + '<div class="fc-inner">'
+      + '<div class="fc-face fc-front">' + arch('#fff', 9) + '<img class="fc-logo" src="img/logo-white.png" alt="">'
+      + '<div class="fc-title">Карта гостя</div>'
+      + '<div class="fc-sub">Каждый ' + B.every + '-й напиток — бесплатно</div>'
+      + '<div class="dots">' + dotsHtml + '</div>'
+      + '<div class="fc-status">' + status + '</div>'
+      + (hint ? '<div class="fc-hint">' + hint + '</div>' : '')
+      + '</div>'
+      + '<div class="fc-face fc-back">' + back + '</div>'
+      + '</div></div>';
+  }
+
   /** Подгружает реальную карту гостя и перерисовывает страницу. Без сервера остаётся пример. */
   async function loadCard() {
     if (!API.online) return;
@@ -500,13 +532,14 @@
       state.card = data.registered ? data : null;
     } catch { state.card = null; }
     state.cardLoaded = true;
-    if (location.hash === '#/card') render(true);
+    // Перерисовываем, только если гость сейчас на экране с картой: иначе сбили бы ему прокрутку на других страницах.
+    if (['', '#', '#/', '#/card'].includes(location.hash)) render(true);
   }
 
   // ——— Маршруты ———
 
   const ROUTES = [
-    [/^$/, () => ({ html: home(), root: '' })],
+    [/^$/, () => { if (API.online && Date.now() - state.cardAt > 15000) loadCard(); return { html: home(), root: '' }; }],
     [/^shop$/, () => ({ html: shop(), root: 'shop' })],
     [/^p\/([\w-]+)$/, (m) => ({ html: pdp(m[1]), root: 'shop', title: 'Магазин' })],
     [/^cart$/, () => ({ html: cart(), root: 'cart' })],
@@ -644,8 +677,19 @@
         return submit('lead', { ...l, name: l.name || firstName(), consent: consentRecord(false) }, () => { state.lead = { company: '', name: '', phone: '', comment: '' }; }, null, 'Заявка отправлена — мы свяжемся с вами');
       }
       case 'channel': return B.channel ? openLink(B.channel) : toast('Ссылку на канал пришлёт кофейня');
+      case 'flip': {
+        if (!el.classList.contains('can')) return;
+        state.flipped = !state.flipped;
+        el.classList.toggle('flipped', state.flipped);
+        return;
+      }
       case 'link': return openLink(el.dataset.url);
     }
+  });
+
+  // Карта переворачивается и с клавиатуры: Enter или пробел.
+  document.addEventListener('keydown', (e) => {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches && e.target.matches('.flipcard.can')) { e.preventDefault(); e.target.click(); }
   });
 
   // Отметки согласий: сохраняем и сразу включаем или выключаем кнопку отправки, без перерисовки.

@@ -410,3 +410,29 @@ input[type=range] { width: 100%; accent-color: var(--orange); }
 .card-qr svg { width: 100%; height: auto; display: block; }
 .card-code { text-align: center; color: var(--muted); font-size: 14px; }
 .hero .dot.on { background: #fff; color: var(--plum); }
+
+/* Карта гостя на главной: переворот на QR */
+.flipcard { perspective: 1100px; margin: 18px 0 8px; outline: none; }
+.flipcard .fc-inner { position: relative; width: 100%; min-height: 292px; transform-style: preserve-3d; transition: transform .75s cubic-bezier(.45, .05, .2, 1); }
+.flipcard.flipped .fc-inner { transform: rotateY(180deg); }
+.flipcard.can { cursor: pointer; }
+.flipcard.can:focus-visible .fc-face { box-shadow: 0 0 0 3px var(--orange); }
+.fc-face { position: absolute; inset: 0; border-radius: 26px; padding: 22px; overflow: hidden; backface-visibility: hidden; -webkit-backface-visibility: hidden; box-shadow: 0 14px 32px rgba(46, 24, 56, .22); }
+.fc-front { background: linear-gradient(150deg, var(--plum-2), var(--plum)); color: #fff; display: flex; flex-direction: column; justify-content: flex-end; gap: 10px; }
+.fc-front .arch { position: absolute; right: -30px; top: -10px; width: 150px; opacity: .2; }
+.fc-logo { position: absolute; right: 20px; top: 20px; width: 64px; }
+.fc-title { font-family: var(--display, inherit); font-size: 15px; letter-spacing: .06em; text-transform: uppercase; opacity: .85; }
+.fc-sub { font-size: 24px; line-height: 1.15; font-weight: 700; max-width: 72%; }
+.fc-front .dots { flex-wrap: wrap; }
+.fc-status { font-size: 14px; opacity: .92; }
+.fc-hint { font-size: 12.5px; opacity: .75; text-decoration: underline; text-underline-offset: 3px; }
+.fc-back { transform: rotateY(180deg); background: #fff; color: #2b1e30; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-align: center; }
+.fc-qr { width: 178px; height: 178px; }
+.fc-qr svg { width: 100%; height: 100%; display: block; }
+.fc-code { font-weight: 700; font-size: 17px; letter-spacing: .04em; }
+.fc-back .fc-hint { color: #2b1e30; }
+@media (prefers-reduced-motion: reduce) { .flipcard .fc-inner { transition: none; } }
+
+/* Главная: шапка пониже, чтобы карта гостя была видна на первом экране */
+.hero.sign { padding: 16px 20px 14px; }
+.hero.sign .neon-sign { width: 104px; margin-bottom: 6px; }
