@@ -146,7 +146,7 @@
     card.querySelectorAll('button').forEach((b) => { b.disabled = true; });
     try {
       await call('POST', 'admin/status', { id: Number(card.dataset.id), status: button.dataset.status });
-      toast('Готово: гостю отправлено уведомление');
+      toast(state.demo ? 'Готово (демо)' : 'Готово: гостю отправлено уведомление');
       refreshOrders(true);
     } catch (err) {
       toast(err.message);
@@ -315,7 +315,7 @@
       card.querySelectorAll('button').forEach((b) => { b.disabled = true; });
       try {
         const data = await call('POST', route, { phone: g.phone, ...payload });
-        toast(label);
+        toast(state.demo ? label.replace(/. Гостю ушло сообщение/, "").replace(/, гостю ушло сообщение/i, "") : label);
         showGuest(data);
       } catch (err) {
         toast(err.message);
