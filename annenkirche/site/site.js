@@ -206,6 +206,7 @@
   function openProduct(id) {
     const p = product(id);
     const s = (pick[id] ||= { w: 0, size: 1, qty: 1 });
+    const facts = [['Происхождение', p.origin], ['Обжарка', p.roast], ['Обработка', p.process], ['Вкус', p.notes]].filter((f) => f[1]);
     const opts = p.prices
       ? `<div class="opt-label caps">Вес</div><div class="seg">${D.weights.map((w, i) => `<button class="${i === s.w ? 'on' : ''}" data-pick="w" data-v="${i}" ${p.prices[i] == null ? 'disabled' : ''}>${w}<small>${money(p.prices[i])}</small></button>`).join('')}</div>
 `
@@ -216,7 +217,7 @@
       <div class="info" data-product="${id}">
         <div class="caps">${esc(D.categories.find((c) => c.id === p.cat).title)}</div>
         <h3 class="f" style="margin-top:8px">${esc(p.name)}</h3><p class="muted" style="margin-top:6px">${esc(p.sub)}</p>
-        <div class="ph">Описание от обжарщика: вкус, происхождение, обработка — пришлите тексты</div>
+        ${facts.length ? `<dl class="facts">${facts.map(([k, v]) => `<div><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>` : '<div class="ph">Описание от обжарщика: вкус, происхождение, обработка — пришлите тексты</div>'}
         ${opts}
         <div class="opt-label caps">Количество</div>
         <div class="qty"><button data-pick="qty" data-v="-1">−</button><span>${s.qty}</span><button data-pick="qty" data-v="1">+</button></div>
@@ -468,6 +469,30 @@
     });
     document.addEventListener('visibilitychange', () => (document.hidden ? clearTimeout(slideTimer) : restartTimer()));
   }
+
+  // ——— Меню на узких экранах: пункты берём из верхней навигации ———
+
+  (function () {
+    const nav = $('.header nav');
+    const right = $('.header .right');
+    if (!nav || !right) return;
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'icon-btn burger';
+    btn.setAttribute('aria-label', 'Меню');
+    btn.setAttribute('aria-expanded', 'false');
+    btn.innerHTML = '<svg class="i" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>';
+    right.appendChild(btn);
+    const panel = document.createElement('div');
+    panel.className = 'mnav';
+    panel.hidden = true;
+    panel.innerHTML = nav.innerHTML;
+    header.appendChild(panel);
+    const set = (open) => { panel.hidden = !open; btn.setAttribute('aria-expanded', String(open)); };
+    btn.addEventListener('click', () => set(panel.hidden));
+    panel.addEventListener('click', (e) => { if (e.target.closest('a')) set(false); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') set(false); });
+  })();
 
   // ——— Тема: тёмная и светлая, выбор запоминается ———
 
