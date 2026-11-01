@@ -404,3 +404,9 @@ input[type=range] { width: 100%; accent-color: var(--orange); }
 /* Смена темы кругом из кнопки (app.js, case 'theme'). */
 ::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
 ::view-transition-new(root) { z-index: 2; }
+
+/* Карта гостя с QR */
+.card-qr { background: #fff; border-radius: 18px; padding: 14px; width: min(260px, 80%); margin: 18px auto 6px; }
+.card-qr svg { width: 100%; height: auto; display: block; }
+.card-code { text-align: center; color: var(--muted); font-size: 14px; }
+.hero .dot.on { background: #fff; color: var(--plum); }

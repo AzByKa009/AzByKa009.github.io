@@ -51,3 +51,16 @@ body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.45 'One
 .a-tile span { color: var(--muted); font-size: 13px; }
 .a-toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translate(-50%, 16px); opacity: 0; background: var(--ink); color: var(--bg); padding: 11px 18px; border-radius: 8px; transition: all .25s; pointer-events: none; max-width: calc(100% - 32px); text-align: center; z-index: 50; }
 .a-toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+/* Карта гостя, сканер, сотрудники */
+.a-find { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+.a-find input, .a-find select { flex: 1; min-width: 150px; padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--bg); color: var(--ink); font: inherit; }
+.a-find select { flex: 0 0 auto; min-width: 0; }
+.a-dots { display: flex; gap: 8px; margin: 12px 0 4px; flex-wrap: wrap; }
+.a-dots i { width: 30px; height: 30px; border-radius: 50%; border: 2px solid var(--line); display: grid; place-items: center; font-style: normal; font-size: 15px; }
+.a-dots i.on { background: var(--primary); border-color: var(--primary); }
+.a-dots i.gift { border-style: dashed; opacity: .55; }
+.a-dots i.gift.on { opacity: 1; border-style: solid; border-color: var(--primary); }
+.a-history { color: var(--muted); font-size: 13px; }
+.a-scanner { position: fixed; inset: 0; z-index: 60; background: #000; display: grid; grid-template-rows: 1fr auto; gap: 12px; padding: 12px; }
+.a-scanner video { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; min-height: 0; }

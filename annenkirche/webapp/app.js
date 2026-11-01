@@ -31,6 +31,9 @@
     checkout: { delivery: 'pickup-k', name: '', phone: '', address: '', comment: '' },
     lead: { company: '', name: '', phone: '', comment: '' },
     sub: { plan: 'duo', coffee: 'espresso-blend', freq: 1 },
+    card: null, // карта гостя с сервера
+    cardLoaded: false,
+    cardAt: 0, // когда карту спрашивали у сервера в последний раз
     role: null, // admin или staff — показываем вход в админ-панель
     consent: { offer: false, pd: false }, // отметки не сохраняем: при каждом заказе ставятся заново
   };
@@ -224,6 +227,8 @@
         ${tile('#/quiz', 'quiz', 'Найди свой кофе', '5 вопросов — и совет')}
         ${tile('#/wholesale', 'box', 'Опт', 'Для кафе и офисов')}
         ${tile('#/card', 'card', 'Моя карта', `${B.every}-й напиток бесплатно`)}
+        ${state.role ? `<a class="tile wide orange" href="admin.html#scan"><div class="ic">${icon('card')}</div>
+          <div><div class="os">Сканер карт гостей</div><div class="muted">Отметить напитки и выдать подарок</div></div></a>` : ''}
         ${state.role ? `<a class="tile wide plum" href="admin.html"><div class="ic">${icon('shield')}</div>
           <div><div class="os">Админ-панель</div><div class="muted">${state.role === 'admin' ? 'Заказы, подписки, товары и цены' : 'Заказы на самовывоз'}</div></div></a>` : ''}
         <a class="tile wide" href="#/contact"><div class="ic">${icon('send')}</div>
@@ -454,19 +459,48 @@
         </div></div>`;
   }
 
+  /**
+   * Карта гостя. На настоящем сервере показываем его реальные отметки и QR для кассы, в демо — пример.
+   * Данные приходят с сервера (/api/card), а QR рисует сервер: бариста сканирует его в своей админ-панели.
+   */
   function loyalty() {
-    return `
-      <section class="hero">${arch('#fff', 9)}<img class="logo" src="img/logo-white.png" alt="">
-        <div class="hello">Карта гостя</div>
-        <div class="title os">Каждый ${B.every}-й напиток — бесплатно</div>
-        <div class="dots">${Array.from({ length: B.every }, (_, i) =>
-          `<div class="dot ${i === B.every - 1 ? 'free' : i < 3 ? 'on' : ''}">${i + 1}</div>`).join('')}</div>
-        <div class="hint">Пример. Ваши отметки появятся, когда карта подключится к приложению</div></section>
-      <div class="section list">
-        <div class="card-row"><div class="ic">${icon('card')}</div><div><b>Покажите QR на кассе</b><span>бариста отметит напиток</span></div></div>
-        <div class="card-row"><div class="ic">${icon('gift')}</div><div><b>5 отметок — 6-й бесплатно</b><span>любой напиток из меню, любой объём</span></div></div>
-      </div>
-      ${ctaBar(`<button class="btn" data-act="link" data-url="https://t.me/${esc(B.bot)}?start=card">Открыть карту в боте</button>`)}`;
+    const c = state.card;
+    const needed = c ? c.needed : B.every - 1;
+    const cups = c ? c.cups : 3;
+    const dotsHtml = Array.from({ length: needed }, (_, i) => '<div class="dot ' + (i < cups ? 'on' : '') + '">' + (i + 1) + '</div>').join('')
+      + '<div class="dot free">' + B.every + '</div>';
+    const status = !c ? 'Пример. Ваши отметки появятся, когда карта подключится к приложению'
+      : c.giftReady ? '🎁 Подарок заработан — покажите QR на кассе' : 'До бесплатного напитка осталось ' + c.left;
+    const qr = c && c.qr
+      ? '<div class="card-qr">' + c.qr + '</div><div class="card-code">Ваш код ' + esc(c.code) + '</div>'
+      : '';
+    const guestLine = c ? '<span>' + (c.visits || 0) + ' визитов · подарков выдано ' + (c.gifts || 0) + '</span>' : '';
+    const noPhone = API.online && state.cardLoaded && !c
+      ? '<div class="card-row"><div class="ic">' + icon('card') + '</div><div><b>Карта ещё не заведена</b><span>откройте бота и поделитесь номером — карта появится здесь</span></div></div>'
+      : '';
+    return '<section class="hero">' + arch('#fff', 9) + '<img class="logo" src="img/logo-white.png" alt="">'
+      + '<div class="hello">Карта гостя</div>'
+      + '<div class="title os">Каждый ' + B.every + '-й напиток — бесплатно</div>'
+      + '<div class="dots">' + dotsHtml + '</div>'
+      + '<div class="hint">' + status + '</div></section>'
+      + qr
+      + '<div class="section list">' + noPhone
+      + '<div class="card-row"><div class="ic">' + icon('card') + '</div><div><b>Покажите QR на кассе</b><span>бариста отсканирует его и отметит напиток' + (c ? '' : '') + '</span></div></div>'
+      + '<div class="card-row"><div class="ic">' + icon('gift') + '</div><div><b>' + (B.every - 1) + ' отметок — ' + B.every + '-й бесплатно</b><span>любой напиток из меню, любой объём. ' + guestLine + '</span></div></div>'
+      + '</div>'
+      + ctaBar('<button class="btn" data-act="link" data-url="https://t.me/' + esc(B.bot) + '?start=card">Открыть карту в боте</button>');
+  }
+
+  /** Подгружает реальную карту гостя и перерисовывает страницу. Без сервера остаётся пример. */
+  async function loadCard() {
+    if (!API.online) return;
+    state.cardAt = Date.now();
+    try {
+      const data = await API.call('GET', 'card');
+      state.card = data.registered ? data : null;
+    } catch { state.card = null; }
+    state.cardLoaded = true;
+    if (location.hash === '#/card') render(true);
   }
 
   // ——— Маршруты ———
@@ -483,7 +517,7 @@
     [/^quiz$/, () => ({ html: quiz(), root: 'quiz', title: 'Главная' })],
     [/^wholesale$/, () => ({ html: wholesale(), root: 'wholesale', title: 'Главная' })],
     [/^contact$/, () => ({ html: contact(), root: 'contact', title: 'Главная' })],
-    [/^card$/, () => ({ html: loyalty(), root: 'card', title: 'Главная' })],
+    [/^card$/, () => { if (API.online && Date.now() - state.cardAt > 15000) loadCard(); return { html: loyalty(), root: 'card', title: 'Главная' }; }],
   ];
 
   function render(keepScroll = false) {
