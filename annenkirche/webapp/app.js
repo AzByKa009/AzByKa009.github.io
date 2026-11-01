@@ -176,7 +176,9 @@
 
   function tabbar(root) {
     const count = cartCount();
-    return `<nav class="tabbar"><div class="inner">${TABS.map((t) => `
+    // Сотруднику в нижнем меню добавляется пятая кнопка «Админ».
+    const tabs = isStaffUi() ? [...TABS, { href: 'admin.html', label: 'Админ', icon: 'shield', root: 'admin' }] : TABS;
+    return `<nav class="tabbar"><div class="inner" style="grid-template-columns:repeat(${tabs.length},1fr)">${tabs.map((t) => `
       <a class="tab ${t.root === root ? 'on' : ''}" href="${t.href}">${icon(t.icon)}<span>${t.label}</span>
         ${t.root === 'cart' && count ? `<span class="count">${count}</span>` : ''}</a>`).join('')}
     </div></nav>`;
@@ -184,6 +186,20 @@
 
   /** ?clean — макеты для презентации: без плашки демо, пометок «пример» и заглушек-подсказок. */
   const CLEAN = location.search.includes('clean');
+
+  /**
+   * Интерфейс сотрудника (бариста, админ). На сервере его включает роль, которую присылает сервер.
+   * В демо без сервера роли знает только бот: сотрудникам он открывает мини-приложение со ссылкой ?staff,
+   * и мы это запоминаем. Гости такой ссылки не получают и вход для сотрудников не видят.
+   */
+  const staffFlag = (() => {
+    const fromUrl = new URLSearchParams(location.search).has('staff');
+    try {
+      if (fromUrl) localStorage.setItem('ak-staff', '1');
+      return fromUrl || localStorage.getItem('ak-staff') === '1';
+    } catch { return fromUrl; }
+  })();
+  const isStaffUi = () => !!state.role || (!API.online && staffFlag);
   if (CLEAN) document.documentElement.classList.add('clean');
 
   const ribbon = () =>
@@ -214,6 +230,8 @@
         <div><div class="os">${title}</div><div class="muted">${sub}</div></div></a>`;
     return `
       ${flipCard()}
+
+      ${staffQuick()}
 
       <div class="section tiles">
         <a class="tile wide orange" href="#/shop"><div class="ic">${icon('shop')}</div>
@@ -526,10 +544,19 @@
       + '</div></div>';
   }
 
+  /** Для бариста сразу под картой: сканер QR и поле «код гостя». Результат открывается в админ-панели. */
+  function staffQuick() {
+    if (!isStaffUi()) return '';
+    return '<div class="staffq"><div class="staffq-title">Для бариста</div>'
+      + '<button class="btn orange" data-act="staff-scan">📷 Сканировать QR гостя</button>'
+      + '<form class="staffq-form" data-staff-find><input name="q" placeholder="Или код гостя (4 цифры)" inputmode="numeric" autocomplete="off" aria-label="Код гостя">'
+      + '<button class="btn" type="submit">Найти</button></form></div>';
+  }
+
   /** Плашка для сотрудников внизу главной: админ-панель и сканер карт. В демо видна всем, чтобы можно было посмотреть. */
   function staffBlock() {
     const demo = !API.online;
-    if (!state.role && !demo) return '';
+    if (!isStaffUi()) return '';
     const suffix = demo ? ' · демо' : '';
     return '<div class="section"><div class="section-head"><h2 class="os">Для сотрудников</h2></div><div class="tiles">'
       + '<a class="tile wide orange" href="admin.html#scan"><div class="ic">' + icon('card') + '</div>'
@@ -693,6 +720,15 @@
         return submit('lead', { ...l, name: l.name || firstName(), consent: consentRecord(false) }, () => { state.lead = { company: '', name: '', phone: '', comment: '' }; }, null, 'Заявка отправлена — мы свяжемся с вами');
       }
       case 'channel': return B.channel ? openLink(B.channel) : toast('Ссылку на канал пришлёт кофейня');
+      case 'staff-scan': {
+        const tg = window.Telegram && window.Telegram.WebApp;
+        if (tg && tg.initData && tg.showScanQrPopup) {
+          tg.showScanQrPopup({ text: 'Наведите камеру на QR гостя' }, (text) => { location.href = 'admin.html#find=' + encodeURIComponent(text); return true; });
+          return;
+        }
+        location.href = 'admin.html#scan';
+        return;
+      }
       case 'flip': {
         if (!el.classList.contains('can')) return;
         state.flipped = !state.flipped;
@@ -701,6 +737,15 @@
       }
       case 'link': return openLink(el.dataset.url);
     }
+  });
+
+  // Поле «код гостя» у бариста: открываем карточку гостя в админ-панели.
+  document.addEventListener('submit', (e) => {
+    const form = e.target.closest && e.target.closest('[data-staff-find]');
+    if (!form) return;
+    e.preventDefault();
+    const q = form.elements.q.value.trim();
+    if (q) location.href = 'admin.html#find=' + encodeURIComponent(q);
   });
 
   // Карта переворачивается и с клавиатуры: Enter или пробел.

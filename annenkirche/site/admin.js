@@ -73,8 +73,12 @@
         <p>У вашего аккаунта в боте нет роли админа или баристы. Попросите владельца добавить ваш номер в разделе «Сотрудники».</p>
         <a class="a-btn" href="${esc(home)}">Вернуться</a></section>`);
     }
-    state.tab = location.hash === '#scan' ? 'scan' : 'orders'; state.kind = 'order';
+    // #scan открывает сканер, #find=<код или текст из QR> сразу ищет гостя (так сюда приходят с главной мини-приложения).
+    const hash = decodeURIComponent(location.hash || '');
+    const find = hash.startsWith('#find=') ? hash.slice(6) : null;
+    state.tab = hash === '#scan' || find !== null ? 'scan' : 'orders'; state.kind = 'order';
     render();
+    if (find) { const box = document.getElementById('a-q'); if (box) box.value = find; findGuest(find); }
     state.timer = setInterval(() => { if (!document.hidden && state.tab === 'orders') refreshOrders(true); }, 20000);
   }
 

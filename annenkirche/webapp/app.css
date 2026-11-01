@@ -445,3 +445,11 @@ input[type=range] { width: 100%; accent-color: var(--orange); }
 .flipcard .fc-strip { margin-top: 10px; gap: 10px; }
 .fc-title { font-size: 12.5px; letter-spacing: .14em; text-transform: uppercase; opacity: .75; }
 .fc-sub { font-family: var(--display, inherit); font-size: 22px; font-weight: 700; line-height: 1.15; max-width: 85%; }
+
+/* Для бариста под картой */
+.staffq { margin: 0 0 14px; padding: 16px; border-radius: 22px; background: var(--card, #fff); border: 1.5px solid var(--line); display: grid; gap: 10px; }
+.staffq-title { font-size: 12.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.staffq .btn { width: 100%; }
+.staffq-form { display: grid; grid-template-columns: 1fr auto; gap: 8px; }
+.staffq-form input { min-width: 0; padding: 13px 14px; border-radius: 14px; border: 1.5px solid var(--line); background: var(--bg); color: var(--ink); font: inherit; }
+.staffq-form .btn { width: auto; padding-inline: 18px; }

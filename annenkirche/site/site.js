@@ -653,7 +653,12 @@
   // Свежий каталог с сервера — перерисовываем витрины.
   API.load().then((ok) => {
     // На GitHub Pages сервера нет: показываем админ-панель в демо, чтобы можно было посмотреть, как она выглядит.
-    if (!ok) return showAdminLink(/github\.io$/.test(location.hostname) ? 'demo' : null);
+    if (!ok) {
+      // GitHub Pages — демо без сервера. Вход в демо-панель видит только тот, кому бот дал ссылку с ?staff (сотрудникам).
+      let staff = new URLSearchParams(location.search).has('staff');
+      try { if (staff) localStorage.setItem('ak-staff', '1'); else staff = localStorage.getItem('ak-staff') === '1'; } catch { /* приватный режим */ }
+      return showAdminLink(/github\.io$/.test(location.hostname) && staff ? 'demo' : null);
+    }
     renderSlides(); renderCats(); renderRows(); renderPlans(); renderShop();
     document.querySelectorAll('.demo-ribbon').forEach((el) => { if (!D.products.some((p) => p.demo)) el.remove(); });
     // Если гость уже входил, подставляем его имя и телефон из бота.
