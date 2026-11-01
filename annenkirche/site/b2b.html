@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Golos+Text:wght@400;500;600&family=Forum&family=Onest:wght@600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="site.css?v=1793610001">
+  <link rel="stylesheet" href="site.css?v=1793620001">
 </head>
 <body>
   <div class="stage" aria-hidden="true">
@@ -59,30 +59,120 @@
 
   <main class="wrap shop-grid-wrap">
     <div class="shop-head">
-      <h1>Кофе для кафе и офисов</h1>
-      <p>Поставляем зерно и дрип-пакеты оптом. Напишите, сколько кофе уходит у вас в месяц, и мы пришлём прайс с ценой за килограмм.</p>
-      <div class="cta" style="margin-top:22px"><a class="btn orange" href="https://t.me/mrgvzd" target="_blank" rel="noopener">Запросить оптовый прайс</a></div>
+      <div class="caps" style="color:var(--accent)">Для бизнеса</div>
+      <h1 style="margin-top:10px">Кофе оптом для кафе, ресторанов и офисов</h1>
+      <p>Обжариваем сами и поставляем зерно и дрип-пакеты под ваш график. Напишите, сколько кофе уходит у вас в месяц, и мы пришлём прайс с ценой за килограмм.</p>
+      <div class="cta" style="margin-top:24px"><a class="btn orange" href="#request">Запросить прайс</a><a class="btn" href="https://t.me/mrgvzd" target="_blank" rel="noopener">Написать в Telegram</a></div>
     </div>
 
-    <section class="block" id="b2b">
-      <ul class="b2b-list">
-        <li><b>Зерно оптом</b><span>Для кофеен, ресторанов и офисов. Обжариваем под ваш график поставок.</span></li>
-        <li><b>Дрип-пакеты с вашим логотипом</b><span>Подарок гостям отеля, участникам конференции или клиентам.</span></li>
-        <li><b>Цена зависит от объёма</b><span>Чем больше берёте в месяц, тем дешевле килограмм.</span></li>
-      </ul>
+    <section class="block" id="b2b" style="padding-bottom:0">
+      <div class="aud">
+        <div class="surface"><b>Кофейни и кафе</b><span>Зерно нашей обжарки под эспрессо и фильтр. Берите то, что подходит вашему меню.</span></div>
+        <div class="surface"><b>Рестораны и отели</b><span>Постоянная поставка зерна и дрип-пакеты в подарок гостям.</span></div>
+        <div class="surface"><b>Офисы</b><span>Зерно для кофемашины и дрип-пакеты для переговорных.</span></div>
+        <div class="surface"><b>События и подарки</b><span>Дрип-пакеты с вашим логотипом для конференций и клиентов.</span></div>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="head"><h2>Что поставляем</h2><p>Объёмы и фасовку обсудим, когда вы запросите прайс.</p></div>
+      <div class="sup">
+        <div class="surface">
+          <h3 class="f">Зерно</h3>
+          <p class="muted" style="margin-top:8px">Обжариваем под ваш график поставок. Кофе только в зёрнах, без помола.</p>
+          <ul id="b2b-beans"></ul>
+        </div>
+        <div class="surface">
+          <h3 class="f">Дрип-пакеты с вашим логотипом</h3>
+          <p class="muted" style="margin-top:8px">Пакет вешается на чашку и заливается горячей водой. Подарок гостям отеля, участникам конференции или клиентам.</p>
+          <ul>
+            <li><b>Ваш бренд на упаковке</b><span>Что нужно для макета, подскажем при запросе.</span></li>
+            <li><b>Цена зависит от объёма</b><span>Чем больше берёте в месяц, тем дешевле килограмм.</span></li>
+          </ul>
+        </div>
+      </div>
     </section>
 
     <section class="block" style="padding-top:0">
-      <div class="head"><h2>Как начать</h2></div>
-      <ol class="steps">
-        <li class="surface"><b>Напишите нам</b><span>Сколько кофе уходит у вас в месяц и какой нужен: зерно или дрип-пакеты.</span></li>
+      <div class="head"><h2>Как мы работаем</h2></div>
+      <ol class="steps four">
+        <li class="surface"><b>Напишите нам</b><span>Сколько кофе уходит в месяц и что нужно: зерно или дрип-пакеты.</span></li>
         <li class="surface"><b>Получите прайс</b><span>Пришлём цену за килограмм под ваш объём.</span></li>
-        <li class="surface"><b>Согласуем поставки</b><span>Обжариваем под ваш график и привозим по договорённости.</span></li>
+        <li class="surface"><b>Согласуем график</b><span>Договоримся, как часто и в каком объёме вам привозить.</span></li>
+        <li class="surface"><b>Обжарим и привезём</b><span>Свежая обжарка под вашу поставку.</span></li>
       </ol>
-      <div class="cta" style="margin-top:28px"><a class="btn orange" href="https://t.me/mrgvzd" target="_blank" rel="noopener">Написать в Telegram</a>
-        <a class="btn" href="tel:+79219177853">+7 (921) 917-78-53</a></div>
+    </section>
+
+    <section class="block" id="request" style="padding-top:0">
+      <div class="surface rq">
+        <div>
+          <h2>Запросить оптовый прайс</h2>
+          <p class="lead">Заполните форму, и откроется Telegram с готовым сообщением. Останется нажать «Отправить».</p>
+          <p class="note" style="margin-top:16px">Ничего не уходит с сайта само: сообщение отправляете вы сами, данные на сайте не сохраняются. Предпочитаете позвонить? <a class="link" href="tel:+79219177853">+7 (921) 917-78-53</a>.</p>
+        </div>
+        <form id="rq-form" novalidate>
+          <label class="field"><input name="company" placeholder="Название компании или заведения" autocomplete="organization"></label>
+          <div>
+            <div class="opt-label caps">Что нужно</div>
+            <div class="seg" id="rq-need">
+              <button type="button" class="on" data-v="зерно">Зерно</button>
+              <button type="button" data-v="дрип-пакеты">Дрип-пакеты</button>
+              <button type="button" data-v="зерно и дрип-пакеты">И то, и другое</button>
+            </div>
+          </div>
+          <label class="field"><select name="volume" aria-label="Объём в месяц">
+            <option value="">Объём в месяц</option>
+            <option>до 10 кг</option>
+            <option>10–30 кг</option>
+            <option>30–100 кг</option>
+            <option>больше 100 кг</option>
+            <option>пока не знаю</option>
+          </select></label>
+          <label class="field"><input name="contact" placeholder="Телефон или Telegram для связи" autocomplete="tel"></label>
+          <p class="rq-err" id="rq-err" role="alert" hidden></p>
+          <button type="submit" class="btn orange" style="width:100%">Открыть Telegram с заявкой</button>
+        </form>
+      </div>
+    </section>
+
+    <section class="block" style="padding-top:0">
+      <div class="head"><h2>Вопросы</h2></div>
+      <div class="faq">
+        <details><summary>Вы мелете кофе?</summary><p>Нет, поставляем только зерно. Молотый кофе выветривается за несколько дней, а зерно в закрытой пачке сохраняет вкус гораздо дольше.</p></details>
+        <details><summary>Можно ли дрип-пакеты с нашим логотипом?</summary><p>Да, делаем дрип-пакеты под ваш бренд. Напишите, что нужно, и мы обсудим детали.</p></details>
+        <details><summary>От чего зависит цена?</summary><p>От объёма: чем больше берёте в месяц, тем дешевле килограмм. Точную цену пришлём после запроса прайса.</p></details>
+        <div class="ph" style="display:block">Минимальный объём, сроки и условия оплаты — уточнить у кофейни и добавить сюда</div>
+      </div>
     </section>
   </main>
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var D = window.AK; var ul = document.getElementById('b2b-beans');
+    if (D && ul) ul.innerHTML = D.products.filter(function (p) { return p.cat === 'coffee'; }).map(function (p) {
+      var s = [p.origin, p.notes].filter(Boolean).join(' · ');
+      return '<li><b>' + p.name + '</b><span>' + s + '</span></li>';
+    }).join('');
+    var need = 'зерно';
+    document.getElementById('rq-need').addEventListener('click', function (e) {
+      var b = e.target.closest('button'); if (!b) return;
+      need = b.dataset.v;
+      this.querySelectorAll('button').forEach(function (x) { x.classList.toggle('on', x === b); });
+    });
+    var form = document.getElementById('rq-form'), err = document.getElementById('rq-err');
+    form.addEventListener('input', function () { err.hidden = true; });
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var f = form.elements, company = f.company.value.trim(), contact = f.contact.value.trim();
+      if (!company || !contact) { err.textContent = 'Укажите название заведения и как с вами связаться.'; err.hidden = false; return; }
+      var lines = ['Здравствуйте! Хочу запросить оптовый прайс.', 'Компания: ' + company, 'Нужно: ' + need];
+      if (f.volume.value) lines.push('Объём в месяц: ' + f.volume.value);
+      lines.push('Связаться: ' + contact);
+      var a = document.createElement('a');
+      a.href = 'https://t.me/mrgvzd?text=' + encodeURIComponent(lines.join('\n'));
+      a.target = '_blank'; a.rel = 'noopener'; document.body.appendChild(a); a.click(); a.remove();
+    });
+  });
+  </script>
 
   <footer>
     <div class="wrap">
@@ -105,9 +195,9 @@
   <aside class="drawer" id="drawer"></aside>
 
   <script>window.AKAssetBase = '../webapp/';</script>
-  <script src="../webapp/data.js?v=1793610001"></script>
-  <script src="../webapp/pic.js?v=1793610001"></script>
-  <script src="../webapp/api.js?v=1793610001"></script>
-  <script src="site.js?v=1793610001"></script>
+  <script src="../webapp/data.js?v=1793620001"></script>
+  <script src="../webapp/pic.js?v=1793620001"></script>
+  <script src="../webapp/api.js?v=1793620001"></script>
+  <script src="site.js?v=1793620001"></script>
 </body>
 </html>
