@@ -20,7 +20,10 @@
     document.documentElement.dataset.theme = saved === 'light' || saved === 'dark' ? saved : matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
   } catch { document.documentElement.dataset.theme = 'dark'; }
 
-  const state = { me: null, tab: 'orders', kind: 'order', scope: 'open', timer: null };
+  // GitHub Pages — демо без сервера: панель работает на примерных данных (admin-demo.js). Больше нигде демо не включается.
+  const demoHost = /github\.io$/.test(location.hostname) && !!window.AKAdminDemo;
+  const call = (...args) => (state.demo ? window.AKAdminDemo.call(...args) : API.call(...args));
+  const state = { demo: false, me: null, tab: 'orders', kind: 'order', scope: 'open', timer: null };
 
   function toast(text) {
     let el = document.getElementById('a-toast');
@@ -30,7 +33,7 @@
   }
 
   const shell = (inner) => {
-    root.innerHTML = `<header class="a-head"><a class="a-back" href="${esc(home)}">← Назад</a><h1>Админ-панель</h1>
+    root.innerHTML = `${state.demo ? '<div class="a-demo">Демо: данные примерные, ничего не сохраняется и никуда не отправляется</div>' : ''}<header class="a-head"><a class="a-back" href="${esc(home)}">← Назад</a><h1>Админ-панель</h1>
       <span class="a-who">${state.me ? `${esc(state.me.name || 'гость')} · ${state.me.role === 'admin' ? 'админ' : 'бариста'}` : ''}</span></header>${inner}`;
   };
 
@@ -62,7 +65,8 @@
   async function start() {
     clearInterval(state.timer);
     shell('<p class="a-note a-center">Загружаем…</p>');
-    state.me = await API.me();
+    if (demoHost && !(await API.load())) { state.demo = true; state.me = { name: 'Демо', role: 'admin' }; }
+    else state.me = await API.me();
     if (!state.me) return showLogin();
     if (!state.me.role) {
       return shell(`<section class="a-card a-center"><h2>Нет доступа</h2>
@@ -124,7 +128,7 @@
     if (!body()) return;
     const admin = state.me.role === 'admin';
     try {
-      const { orders } = await API.call('GET', `admin/orders?kind=${state.kind}&scope=${state.scope}`);
+      const { orders } = await call('GET', `admin/orders?kind=${state.kind}&scope=${state.scope}`);
       if (!body()) return;
       const controls = `<div class="a-controls">
         ${admin ? `<div class="a-seg">${[['order', 'Заказы'], ['sub', 'Поставки подписок']].map(([k, t]) => `<button class="${state.kind === k ? 'on' : ''}" data-kind="${k}">${t}</button>`).join('')}</div>` : ''}
@@ -141,7 +145,7 @@
     const card = button.closest('[data-id]');
     card.querySelectorAll('button').forEach((b) => { b.disabled = true; });
     try {
-      await API.call('POST', 'admin/status', { id: Number(card.dataset.id), status: button.dataset.status });
+      await call('POST', 'admin/status', { id: Number(card.dataset.id), status: button.dataset.status });
       toast('Готово: гостю отправлено уведомление');
       refreshOrders(true);
     } catch (err) {
@@ -154,7 +158,7 @@
 
   async function loadSubs() {
     try {
-      const { subscriptions } = await API.call('GET', 'admin/subs');
+      const { subscriptions } = await call('GET', 'admin/subs');
       body().innerHTML = subscriptions.length
         ? subscriptions.map((s) => `<article class="a-card" data-sub="${s.id}">
             <div class="a-row"><b>🔁 Подписка №${s.id}</b><span class="a-badge">${SUB_STATUS[s.status]}</span></div>
@@ -168,7 +172,7 @@
         : '<p class="a-note a-center">Подписок пока нет</p>';
       body().querySelectorAll('[data-act]').forEach((b) => b.addEventListener('click', async () => {
         b.disabled = true;
-        try { await API.call('POST', 'admin/sub', { id: Number(b.closest('[data-sub]').dataset.sub), action: b.dataset.act }); toast('Готово'); loadSubs(); }
+        try { await call('POST', 'admin/sub', { id: Number(b.closest('[data-sub]').dataset.sub), action: b.dataset.act }); toast('Готово'); loadSubs(); }
         catch (err) { toast(err.message); b.disabled = false; }
       }));
     } catch (err) { failed(err); }
@@ -178,7 +182,7 @@
 
   async function loadLeads() {
     try {
-      const { orders } = await API.call('GET', 'admin/orders?kind=lead&scope=all');
+      const { orders } = await call('GET', 'admin/orders?kind=lead&scope=all');
       body().innerHTML = orders.length ? orders.map(orderCard).join('') : '<p class="a-note a-center">Заявок пока нет</p>';
     } catch (err) { failed(err); }
   }
@@ -187,7 +191,7 @@
 
   async function loadProducts() {
     try {
-      const { products, weights, categories } = await API.call('GET', 'admin/products');
+      const { products, weights, categories } = await call('GET', 'admin/products');
       body().innerHTML = categories.map((c) => {
         const items = products.filter((p) => p.cat === c.id);
         if (!items.length) return '';
@@ -207,7 +211,7 @@
         const single = card.querySelector('[data-f=single]');
         if (single) payload.price = single.value.trim();
         b.disabled = true;
-        try { await API.call('POST', 'admin/product', payload); toast('Сохранено, на сайте и в приложении уже обновилось'); }
+        try { await call('POST', 'admin/product', payload); toast('Сохранено, на сайте и в приложении уже обновилось'); }
         catch (err) { toast(err.message); }
         b.disabled = false;
       }));
@@ -218,7 +222,7 @@
 
   async function loadStats() {
     try {
-      const s = await API.call('GET', 'admin/stats');
+      const s = await call('GET', 'admin/stats');
       const tile = (n, t) => `<div class="a-tile"><b>${n}</b><span>${t}</span></div>`;
       body().innerHTML = `<div class="a-tiles">${tile(s.today, 'заказов сегодня')}${tile(s.week, 'за неделю')}${tile(money(s.revenueWeek), 'оплачено за неделю')}
         ${tile(s.open, 'в работе')}${tile(s.subscriptions, 'активных подписок')}${tile(s.paused, 'подписок на паузе')}</div>`;
@@ -281,7 +285,7 @@
     const q = String(query || '').trim();
     if (!q) return toast('Введите код гостя');
     try {
-      const data = await API.call('GET', `staff/guest?q=${encodeURIComponent(q)}`);
+      const data = await call('GET', `staff/guest?q=${encodeURIComponent(q)}`);
       showGuest(data);
     } catch (err) {
       if (err.status === 401 || err.status === 403) return failed(err);
@@ -310,7 +314,7 @@
     const act = async (route, payload, label, button) => {
       card.querySelectorAll('button').forEach((b) => { b.disabled = true; });
       try {
-        const data = await API.call('POST', route, { phone: g.phone, ...payload });
+        const data = await call('POST', route, { phone: g.phone, ...payload });
         toast(label);
         showGuest(data);
       } catch (err) {
@@ -335,7 +339,7 @@
 
   async function loadStaff() {
     try {
-      const { staff, self } = await API.call('GET', 'admin/staff');
+      const { staff, self } = await call('GET', 'admin/staff');
       renderStaff(staff, self);
     } catch (err) { failed(err); }
   }
@@ -354,7 +358,7 @@
     document.getElementById('a-staff-add').addEventListener('submit', async (e) => {
       e.preventDefault();
       try {
-        const data = await API.call('POST', 'admin/staff', { phone: document.getElementById('a-phone').value, role: document.getElementById('a-role').value });
+        const data = await call('POST', 'admin/staff', { phone: document.getElementById('a-phone').value, role: document.getElementById('a-role').value });
         toast('Добавлено');
         renderStaff(data.staff, data.self);
       } catch (err) { toast(err.message); }
@@ -364,7 +368,7 @@
       // Убирать доступ — в два нажатия.
       if (!b.dataset.armed) { b.dataset.armed = '1'; b.textContent = 'Точно убрать?'; return; }
       try {
-        const data = await API.call('POST', 'admin/staff/remove', { phone });
+        const data = await call('POST', 'admin/staff/remove', { phone });
         toast('Доступ убран');
         renderStaff(data.staff, data.self);
       } catch (err) { toast(err.message); b.dataset.armed = ''; b.textContent = 'Убрать'; }

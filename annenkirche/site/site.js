@@ -328,6 +328,11 @@
   /** Кнопка «Админ-панель» рядом с темой и корзиной: только у админа и баристы, роль присылает сервер. */
   function showAdminLink(role) {
     if (!role || document.querySelector('.admin-link')) return;
+    const demo = role === 'demo';
+    const footer = document.querySelector('footer .bottom');
+    if (footer && !footer.querySelector('.admin-plaque')) {
+      footer.insertAdjacentHTML('beforeend', `<a class="admin-plaque" href="admin">⚙ Админ-панель${demo ? ' (демо)' : ''}</a>`);
+    }
     const right = document.querySelector('.header .right');
     if (!right) return;
     const svg = '<svg class="i" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z"/><path d="M9.5 12l2 2 3.5-4"/></svg>';
@@ -335,7 +340,7 @@
     link.className = 'admin-link';
     link.href = 'admin';
     link.title = 'Админ-панель';
-    link.innerHTML = `${svg}<span>Админ-панель</span>`;
+    link.innerHTML = `${svg}<span>Админ-панель${demo ? ' (демо)' : ''}</span>`;
     right.prepend(link);
     const mobileNav = document.querySelector('.mnav');
     if (mobileNav) mobileNav.insertAdjacentHTML('beforeend', '<a href="admin">Админ-панель</a>');
@@ -647,7 +652,8 @@
   if (location.search.includes('drawer')) openDrawer();
   // Свежий каталог с сервера — перерисовываем витрины.
   API.load().then((ok) => {
-    if (!ok) return;
+    // На GitHub Pages сервера нет: показываем админ-панель в демо, чтобы можно было посмотреть, как она выглядит.
+    if (!ok) return showAdminLink(/github\.io$/.test(location.hostname) ? 'demo' : null);
     renderSlides(); renderCats(); renderRows(); renderPlans(); renderShop();
     document.querySelectorAll('.demo-ribbon').forEach((el) => { if (!D.products.some((p) => p.demo)) el.remove(); });
     // Если гость уже входил, подставляем его имя и телефон из бота.

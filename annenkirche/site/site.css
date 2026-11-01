@@ -588,3 +588,8 @@ html.splash-hold .hero-left > *, html.splash-hold .hero-right, html.splash-hold 
 .admin-link:hover { border-color: var(--ink); }
 .admin-link .i { width: 18px; height: 18px; }
 @media (max-width: 640px) { .admin-link { width: 38px; padding: 0; justify-content: center; } .admin-link span { display: none; } }
+
+/* Плашка админ-панели внизу страницы: видна только админу, баристе и в демо */
+.admin-plaque { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border: 1px solid var(--line-2); border-radius: 999px; font-size: 13px; font-weight: 600; color: var(--ink); text-decoration: none; }
+.admin-plaque:hover { border-color: var(--ink); }
+footer .bottom { flex-wrap: wrap; gap: 10px 16px; align-items: center; }

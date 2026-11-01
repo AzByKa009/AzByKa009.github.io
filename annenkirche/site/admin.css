@@ -64,3 +64,5 @@ body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.45 'One
 .a-history { color: var(--muted); font-size: 13px; }
 .a-scanner { position: fixed; inset: 0; z-index: 60; background: #000; display: grid; grid-template-rows: 1fr auto; gap: 12px; padding: 12px; }
 .a-scanner video { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; min-height: 0; }
+
+.a-demo { margin: 12px 0 0; padding: 8px 12px; border: 1px dashed var(--line); border-radius: 10px; font-size: 13px; color: var(--muted); text-align: center; }

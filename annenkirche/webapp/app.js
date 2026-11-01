@@ -213,11 +213,6 @@
       <a class="tile ${cls}" href="${href}"><div class="ic">${icon(ic)}</div>
         <div><div class="os">${title}</div><div class="muted">${sub}</div></div></a>`;
     return `
-      <section class="hero sign">
-        ${neonSign(theme === 'dark', theme === 'dark' && !signLit)}
-        <div class="hello">${name ? `Привет, ${esc(name)}!` : 'Добро пожаловать'}</div>
-      </section>
-
       ${flipCard()}
 
       <div class="section tiles">
@@ -227,10 +222,6 @@
         ${tile('#/quiz', 'quiz', 'Найди свой кофе', '5 вопросов — и совет')}
         ${tile('#/wholesale', 'box', 'Опт', 'Для кафе и офисов')}
         ${tile('#/card', 'card', 'Моя карта', `${B.every}-й напиток бесплатно`)}
-        ${state.role ? `<a class="tile wide orange" href="admin.html#scan"><div class="ic">${icon('card')}</div>
-          <div><div class="os">Сканер карт гостей</div><div class="muted">Отметить напитки и выдать подарок</div></div></a>` : ''}
-        ${state.role ? `<a class="tile wide plum" href="admin.html"><div class="ic">${icon('shield')}</div>
-          <div><div class="os">Админ-панель</div><div class="muted">${state.role === 'admin' ? 'Заказы, подписки, товары и цены' : 'Заказы на самовывоз'}</div></div></a>` : ''}
         <a class="tile wide" href="#/contact"><div class="ic">${icon('send')}</div>
           <div><div class="os">Написать нам</div><div class="muted">@${esc(B.telegram)} · ${esc(B.phone)}</div></div></a>
       </div>
@@ -245,7 +236,9 @@
         <div class="list">${B.addresses.map((a) => `
           <div class="card-row"><div class="ic">${icon('pin')}</div><div><b>${esc(a.title)}</b><span>${esc(a.note)} · ${esc(B.hours)}</span></div></div>`).join('')}
         </div>
-      </div>`;
+      </div>
+
+      ${staffBlock()}`;
   }
 
   function productCard(p) {
@@ -491,35 +484,58 @@
       + ctaBar('<button class="btn" data-act="link" data-url="https://t.me/' + esc(B.bot) + '?start=card">Открыть карту в боте</button>');
   }
 
+  /** Пример QR для демо: настоящий гость увидит свой собственный. */
+  const DEMO_QR = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"240\" height=\"240\" viewBox=\"0 0 35 35\" shape-rendering=\"crispEdges\"><path fill=\"#FFFFFF\" d=\"M0 0h35v35H0z\"/><path stroke=\"#2B1B12\" d=\"M1 1.5h7m1 0h1m2 0h1m1 0h2m2 0h2m2 0h2m3 0h7M1 2.5h1m5 0h1m1 0h1m3 0h3m3 0h3m5 0h1m5 0h1M1 3.5h1m1 0h3m1 0h1m1 0h7m6 0h3m2 0h1m1 0h3m1 0h1M1 4.5h1m1 0h3m1 0h1m2 0h1m2 0h1m1 0h1m1 0h1m1 0h1m1 0h2m1 0h1m2 0h1m1 0h3m1 0h1M1 5.5h1m1 0h3m1 0h1m1 0h1m1 0h2m3 0h3m3 0h4m1 0h1m1 0h3m1 0h1M1 6.5h1m5 0h1m2 0h1m2 0h1m1 0h3m1 0h2m2 0h3m1 0h1m5 0h1M1 7.5h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7M12 8.5h3m1 0h2m5 0h1m1 0h1M1 9.5h1m2 0h6m1 0h1m3 0h1m1 0h2m2 0h1m3 0h2m2 0h1m1 0h3M3 10.5h2m3 0h1m2 0h1m2 0h3m1 0h3m1 0h4m3 0h3M1 11.5h1m1 0h5m3 0h1m1 0h2m1 0h1m7 0h1m2 0h1m1 0h5M2 12.5h4m2 0h3m2 0h2m1 0h1m2 0h1m4 0h1m1 0h1m1 0h1m2 0h1m1 0h1M1 13.5h1m1 0h2m2 0h1m4 0h1m1 0h1m1 0h1m1 0h1m3 0h1m1 0h1m2 0h2m3 0h2M1 14.5h1m2 0h2m3 0h2m1 0h1m1 0h2m2 0h5m2 0h1m2 0h1m1 0h1M1 15.5h2m1 0h4m1 0h2m2 0h4m2 0h3m5 0h4M1 16.5h1m2 0h1m4 0h2m1 0h2m1 0h1m1 0h1m1 0h1m1 0h1m1 0h2m1 0h1m1 0h4m1 0h1M3 17.5h1m2 0h3m1 0h1m2 0h2m1 0h1m4 0h1m1 0h7M3 18.5h1m2 0h1m2 0h1m1 0h2m1 0h1m1 0h1m1 0h4m1 0h1m2 0h2m1 0h1m1 0h1m1 0h1M1 19.5h1m2 0h2m1 0h1m1 0h2m1 0h1m2 0h2m1 0h3m1 0h3m1 0h3m1 0h2m1 0h1M2 20.5h1m2 0h1m2 0h1m1 0h1m1 0h1m1 0h4m3 0h1m4 0h1m2 0h3M1 21.5h8m3 0h1m2 0h1m1 0h1m1 0h1m2 0h4m4 0h1m2 0h1M1 22.5h2m2 0h2m1 0h1m1 0h1m1 0h2m1 0h1m6 0h3m1 0h1m1 0h4M1 23.5h1m2 0h2m1 0h1m3 0h2m2 0h1m2 0h1m1 0h2m1 0h2m1 0h2m1 0h5M1 24.5h1m1 0h1m1 0h2m1 0h3m3 0h1m1 0h1m1 0h1m1 0h2m1 0h2m4 0h5M1 25.5h2m4 0h2m3 0h1m2 0h1m1 0h2m2 0h1m3 0h5m2 0h1M9 26.5h1m3 0h1m2 0h3m3 0h1m2 0h1m3 0h1m1 0h1m1 0h1M1 27.5h7m1 0h1m1 0h4m1 0h1m1 0h1m1 0h1m3 0h2m1 0h1m1 0h1m1 0h1M1 28.5h1m5 0h1m1 0h1m3 0h1m2 0h5m1 0h4m3 0h5M1 29.5h1m1 0h3m1 0h1m1 0h2m1 0h1m3 0h3m1 0h1m1 0h8m2 0h2M1 30.5h1m1 0h3m1 0h1m1 0h1m1 0h1m1 0h3m1 0h1m1 0h1m3 0h2m3 0h1m4 0h1M1 31.5h1m1 0h3m1 0h1m2 0h4m1 0h2m3 0h1m1 0h1m3 0h1m1 0h2m2 0h2M1 32.5h1m5 0h1m5 0h2m5 0h2m1 0h2m2 0h7M1 33.5h7m1 0h2m1 0h2m2 0h3m1 0h1m4 0h2m1 0h3\"/></svg>";
+
   /**
-   * Карта на главном экране: лицо с прогрессом, по нажатию переворачивается и показывает QR с кодом гостя.
-   * Без сервера (демо) QR нет, карта остаётся примером.
+   * Первая плашка главной — это и есть карта гостя. Лицо: вывеска и приветствие, прогресс и подсказка.
+   * Нажатие переворачивает её: на обратной стороне QR-код и код гостя. Без сервера (демо) там пример.
    */
   function flipCard() {
     const c = state.card;
+    const name = firstName();
+    const registered = !!(c && c.qr);
+    const demo = !API.online;
+    const canFlip = registered || demo;
     const needed = c ? c.needed : B.every - 1;
-    const cups = c ? c.cups : 3;
+    const cups = c ? c.cups : 0;
     const dotsHtml = Array.from({ length: needed }, (_, i) => '<div class="dot ' + (i < cups ? 'on' : '') + '">' + (i + 1) + '</div>').join('')
       + '<div class="dot free">' + B.every + '</div>';
-    const registered = !!(c && c.qr);
-    const status = !API.online ? 'Пример: так будет выглядеть ваша карта'
-      : !registered ? 'Карты пока нет: откройте бота и поделитесь номером'
+    const status = demo ? 'Так будет выглядеть ваша карта'
+      : !registered ? 'Откройте бота и поделитесь номером — и здесь появится ваша карта'
       : c.giftReady ? '🎁 Подарок заработан — покажите QR на кассе'
       : 'До бесплатного напитка осталось ' + c.left;
-    const hint = registered ? 'Нажмите, чтобы показать QR-код' : '';
-    const back = registered
-      ? '<div class="fc-qr">' + c.qr + '</div><div class="fc-code">Ваш код ' + esc(c.code) + '</div><div class="fc-hint">Нажмите, чтобы вернуть карту</div>'
-      : '<div class="fc-code">QR появится, когда карта подключится к боту</div>';
-    return '<div class="flipcard ' + (state.flipped && registered ? 'flipped' : '') + (registered ? ' can' : '') + '" data-act="flip" role="button" tabindex="0" aria-label="Карта гостя. Нажмите, чтобы показать QR-код">'
+    const backCode = registered ? c.code : '1234';
+    const qr = registered ? c.qr : DEMO_QR;
+    const flipIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 0 1 13.7-5.6L20 8.5"/><path d="M20 4v4.5h-4.5"/><path d="M20 12a8 8 0 0 1-13.7 5.6L4 15.5"/><path d="M4 20v-4.5h4.5"/></svg>';
+    return '<div class="flipcard ' + (state.flipped && canFlip ? 'flipped' : '') + (canFlip ? ' can' : '') + '" data-act="flip" role="button" tabindex="0" aria-label="Карта гостя. Нажмите, чтобы показать QR-код">'
       + '<div class="fc-inner">'
-      + '<div class="fc-face fc-front">' + arch('#fff', 9) + '<img class="fc-logo" src="img/logo-white.png" alt="">'
-      + '<div class="fc-title">Карта гостя</div>'
-      + '<div class="fc-sub">Каждый ' + B.every + '-й напиток — бесплатно</div>'
-      + '<div class="dots">' + dotsHtml + '</div>'
+      + '<section class="hero sign fc-face fc-front">'
+      + (canFlip ? '<span class="fc-flip-btn" aria-hidden="true">' + flipIcon + '</span>' : '')
+      + neonSign(theme === 'dark', theme === 'dark' && !signLit)
+      + '<div class="hello">' + (name ? 'Привет, ' + esc(name) + '!' : 'Добро пожаловать') + '</div>'
+      + '<div class="fc-strip"><div class="dots">' + dotsHtml + '</div>'
       + '<div class="fc-status">' + status + '</div>'
-      + (hint ? '<div class="fc-hint">' + hint + '</div>' : '')
-      + '</div>'
-      + '<div class="fc-face fc-back">' + back + '</div>'
+      + (canFlip ? '<div class="fc-hint">↻ Нажмите на карту, чтобы показать QR-код</div>' : '') + '</div>'
+      + '</section>'
+      + '<div class="fc-face fc-back">'
+      + '<div class="fc-qr">' + qr + '</div>'
+      + '<div class="fc-code">Ваш код ' + esc(backCode) + '</div>'
+      + (demo ? '<div class="fc-demo">Пример. Настоящий QR появится, когда приложение подключится к боту</div>' : '')
+      + '<div class="fc-hint">↻ Нажмите, чтобы вернуть карту</div></div>'
+      + '</div></div>';
+  }
+
+  /** Плашка для сотрудников внизу главной: админ-панель и сканер карт. В демо видна всем, чтобы можно было посмотреть. */
+  function staffBlock() {
+    const demo = !API.online;
+    if (!state.role && !demo) return '';
+    const suffix = demo ? ' · демо' : '';
+    return '<div class="section"><div class="section-head"><h2 class="os">Для сотрудников</h2></div><div class="tiles">'
+      + '<a class="tile wide orange" href="admin.html#scan"><div class="ic">' + icon('card') + '</div>'
+      + '<div><div class="os">Сканер карт гостей</div><div class="muted">Отметить напитки и выдать подарок' + suffix + '</div></div></a>'
+      + '<a class="tile wide plum" href="admin.html"><div class="ic">' + icon('shield') + '</div>'
+      + '<div><div class="os">Админ-панель</div><div class="muted">' + (state.role === 'staff' ? 'Заказы на самовывоз' : 'Заказы, подписки, товары, цены, сотрудники') + suffix + '</div></div></a>'
       + '</div></div>';
   }
 
