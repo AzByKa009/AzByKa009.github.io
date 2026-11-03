@@ -698,4 +698,6 @@
   });
   const openId = (location.search.match(/product=([\w-]+)/) || [])[1];
   if (openId) openProduct(openId);
+  // Для новых страниц: карточка с выбором веса кладёт товар в корзину сама, без окна товара.
+  window.AKSite = { addToCart: (id, w = 0) => addToCart(product(id), { w, size: 1, qty: 1 }), openProduct, money };
 })();

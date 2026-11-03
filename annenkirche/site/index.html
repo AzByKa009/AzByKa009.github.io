@@ -8,40 +8,31 @@
   <meta name="description" content="Анненкирхе кофе: обжариваем кофе сами. Зерно 200 г, 500 г и 1 кг, дрип-пакеты, чай, какао. Подписка на кофе, опт, две кофейни в Петербурге.">
   <meta name="theme-color" content="#1F1623">
   <link rel="icon" href="../webapp/img/emblem.png">
-  <!-- Тема до первой отрисовки: выбор гостя, иначе — как в системе. Без мигания. -->
   <script>(function () { var t; try { t = localStorage.getItem('ak-site-theme'); } catch (e) {}
     if (t !== 'light' && t !== 'dark') t = window.matchMedia && matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-    document.documentElement.dataset.theme = t; document.documentElement.classList.add('js');
-    // Заставка: один раз за визит и только если человек не просил уменьшить движение.
-    var seen; try { seen = sessionStorage.getItem('ak-splash'); sessionStorage.setItem('ak-splash', '1'); } catch (e) {}
-    var calm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (!seen && !calm && location.search.indexOf('clean') < 0) document.documentElement.classList.add('splash', 'splash-hold'); })();</script>
+    document.documentElement.dataset.theme = t; document.documentElement.classList.add('js'); })();</script>
   <link rel="stylesheet" href="fonts.css?v=1795200001">
-  <link rel="stylesheet" href="site.css?v=1795200001">
+  <link rel="stylesheet" href="site.css?v=1795200004">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="preconnect" href="https://tile.openstreetmap.org">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+  <link rel="stylesheet" href="new.css?v=1795200004">
 </head>
-<body>
-  <div class="stage" aria-hidden="true">
-    <div class="marks" id="marks"><div class="marks-in">
-      <img class="mark mark-dark" src="../webapp/img/emblem-white.png" alt="">
-      <img class="mark mark-light" src="../webapp/img/emblem.png" alt="">
-    </div></div>
-  </div>
-  <div id="splash" aria-hidden="true">
-    <div class="sign"><div class="glass"></div><div class="glow"></div><div class="tube"></div><div class="core"></div></div>
-  </div>
+<body class="n">
   <div class="demo-ribbon"><b>Демо-версия:</b> товары, цены и тексты пока примерные</div>
 
   <header class="header">
-    <div class="wrap in">
+    <div class="in">
       <a class="logo" href="./">
         <img class="logo-dark" src="../webapp/img/emblem-white.png" alt=""><img class="logo-light" src="../webapp/img/emblem.png" alt="">
         <span>Анненкирхе кофе</span>
       </a>
       <nav>
         <a href="shop">Магазин</a>
-        <a href="subscription">Подписка</a>
+        <a href="#subscription">Подписка</a>
+        <a href="menu">Меню</a>
         <a href="wholesale">Опт</a>
-        <a href="coffee-shops">Кофейни</a>
+        <a href="#shops">Кофейни</a>
       </nav>
       <div class="right">
         <button class="icon-btn theme-btn" type="button" data-theme-toggle aria-label="Сменить тему">
@@ -58,120 +49,121 @@
   </header>
 
   <main>
-    <section class="hero">
+    <section class="n-hero">
+      <div class="wrap n-hero-g">
+        <div>
+          <span class="n-pill n-reveal"><b>Своя обжарка</b> Две кофейни в центре Петербурга</span>
+          <h1 class="n-reveal">Обжариваем кофе сами и привозим его вам домой</h1>
+          <p class="n-lead n-reveal">Зерно в пачках 200 г, 500 г и 1 кг, дрип-пакеты, чай и какао. Заберите заказ в кофейне на Кожевенной или Кирочной, закажите курьера или СДЭК.</p>
+          <div class="n-cta n-reveal"><a class="btn orange" href="#coffee">Выбрать кофе</a><a class="btn" href="#subscription">Оформить подписку</a></div>
+        </div>
+        <div class="n-visual">
+          <div class="arch"><img src="img/photo/photo-1509042239860-f550ce710b93.jpg" alt="Чашка кофе в кофейне" width="600" height="750" fetchpriority="high"></div>
+          <div class="n-stamp"><div><b>6-й</b>напиток в подарок</div></div>
+          <button type="button" class="n-float" data-open="espresso-blend">
+            <small>Для кофемашины и турки</small>
+            <b>Эспрессо-смесь</b>
+            <span class="row"><span class="muted">200 г, в зёрнах</span><strong>690 ₽</strong></span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="n-sec" style="padding-top:64px">
       <div class="wrap">
-        <div class="hero-cols">
-          <div class="hero-left">
-            <h1>Обжариваем кофе сами и привозим его вам домой</h1>
-            <p class="lead">Зерно в пачках 200 г, 500 г и 1 кг, дрип-пакеты, чай и какао. Заберите заказ в одной из двух наших кофеен в центре Петербурга или закажите курьера.</p>
-            <div class="cta">
-              <a class="btn orange" href="shop#coffee">Выбрать кофе</a>
-              <a class="btn" href="#how">Как получить заказ</a>
-            </div>
+        <div class="n-bento">
+          <a class="n-tile photo n-t1" href="shop#coffee">
+            <img src="img/photo/photo-1447933601403-0c6688de566e.jpg" alt="" loading="lazy">
+            <h3>Кофе нашей обжарки</h3>
+            <p>Для эспрессо, воронки, френч-пресса и турки. Пачки 200 г, 500 г и 1 кг.</p>
+          </a>
+          <a class="n-tile n-t2" href="#subscription">
+            <h3>Подписка</h3>
+            <p>Свежая пачка к вашей дате. Пауза и смена сорта одним сообщением.</p>
+            <div class="big">от 690 ₽</div>
+          </a>
+          <a class="n-tile n-t3" href="https://t.me/annenkirche_coffee_bot?start=card" target="_blank" rel="noopener">
+            <h3>Карта гостя в Telegram</h3>
+            <p>Отметки за напитки копятся сами, каждый 6-й в подарок.</p>
+            <div class="n-cups"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i class="gift">6</i></div>
+          </a>
+          <a class="n-tile n-t4" href="wholesale">
+            <h3>Кофе для кафе и офисов</h3>
+            <p>Зерно и дрип-пакеты оптом, в том числе с вашим логотипом.</p>
+            <span class="go">Узнать про опт</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="n-sec" id="coffee">
+      <div class="wrap">
+        <div class="n-hd"><div><h2>Выберите, что вам подходит</h2><p>Кофе в зёрнах, дрип-пакеты, чай и какао. Выберите вес и положите в корзину прямо здесь.</p></div>
+          <a class="btn n-btn-soft" href="shop">Весь магазин</a></div>
+        <nav class="n-chips" id="n-pick-tabs" aria-label="Что показать"></nav>
+        <div class="n-grid" id="n-pick" style="margin-top:20px"></div>
+      </div>
+    </section>
+
+    <section class="n-sec" id="subscription">
+      <div class="wrap n-sub">
+        <div class="n-sub-l">
+          <h2>Подписка: кофе приезжает сам</h2>
+          <ul>
+            <li><svg viewBox="0 0 24 24"><path d="m5 12 5 5 9-10"/></svg>Платите за каждую поставку, без договора и предоплаты</li>
+            <li><svg viewBox="0 0 24 24"><path d="m5 12 5 5 9-10"/></svg>Сменить сорт — одним сообщением</li>
+            <li><svg viewBox="0 0 24 24"><path d="m5 12 5 5 9-10"/></svg>Пауза и отмена в любой момент</li>
+            <li><svg viewBox="0 0 24 24"><path d="m5 12 5 5 9-10"/></svg>Обжариваем к дате отправки</li>
+          </ul>
+          <p class="when">Подробно об условиях — на странице <a href="subscription" style="text-decoration:underline">подписки</a>.</p>
+        </div>
+        <div class="n-plans" id="n-plans" role="radiogroup" aria-label="Тариф подписки"></div>
+      </div>
+    </section>
+
+    <section class="n-sec" id="menu">
+      <div class="wrap">
+        <div class="n-board">
+          <div class="n-board-head">
+            <img class="mark-dark" src="../webapp/img/emblem-white.png" alt=""><img class="mark-light" src="../webapp/img/emblem.png" alt="">
+            <h2 class="n-neon">Меню кофейни</h2>
+            <p>Кожевенная линия, 30а и Кирочная, 8а. Каждый 6-й напиток бесплатно по карте гостя</p>
           </div>
-          <div class="hero-right">
-            <div class="hero-arches">
-              <div class="arch ha"><img src="img/photo/photo-1509042239860-f550ce710b93.jpg" alt="" loading="eager"></div>
-              <div class="arch ha"><img src="img/photo/photo-1461023058943-07fcbe16d735.jpg" alt="" loading="eager"></div>
-            </div>
+          <div class="n-board-cols" id="n-menu-short"></div>
+          <div class="n-board-foot"><a class="btn orange" href="menu">Всё меню</a></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="n-sec" id="shops">
+      <div class="wrap">
+        <div class="n-hd"><div><h2>Попробуйте у нас в кофейне</h2><p>Выпейте чашку и заберите зерно домой. Ежедневно с 10:00 до 22:00, самовывоз заказов бесплатный.</p></div></div>
+        <div class="n-map">
+          <div id="n-map-canvas" role="region" aria-label="Карта: две кофейни в Петербурге"></div>
+          <div class="n-map-cards">
+            <div class="n-shop" data-pin="0"><small>Васильевский остров</small><h3>Кожевенная линия, 30а</h3><p>«Брусницын», 1 этаж. Ежедневно 10:00–22:00</p>
+              <div class="row"><a class="btn small orange" target="_blank" rel="noopener" href="https://yandex.ru/maps/?rtext=~59.922188%2C30.251317&amp;rtt=auto">Маршрут</a><a class="btn small" target="_blank" rel="noopener" href="https://2gis.ru/spb/search/%D0%9A%D0%BE%D0%B6%D0%B5%D0%B2%D0%B5%D0%BD%D0%BD%D0%B0%D1%8F%20%D0%BB%D0%B8%D0%BD%D0%B8%D1%8F%2C%2030%D0%B0">2ГИС</a></div></div>
+            <div class="n-shop" data-pin="1"><small>Центр</small><h3>Кирочная улица, 8а</h3><p>Цокольный этаж. Ежедневно 10:00–22:00</p>
+              <div class="row"><a class="btn small orange" target="_blank" rel="noopener" href="https://yandex.ru/maps/?rtext=~59.944848%2C30.353259&amp;rtt=auto">Маршрут</a><a class="btn small" target="_blank" rel="noopener" href="https://2gis.ru/spb/search/%D0%9A%D0%B8%D1%80%D0%BE%D1%87%D0%BD%D0%B0%D1%8F%20%D1%83%D0%BB%D0%B8%D1%86%D0%B0%2C%208%D0%B0">2ГИС</a></div></div>
           </div>
         </div>
+      </div>
+    </section>
 
-        <div class="slider" id="slider" aria-roledescription="карусель">
-          <div class="slides" id="slides"></div>
-          <div class="nav">
-            <div class="dots" id="dots"></div>
-            <div class="arrows">
-              <button type="button" data-slide="-1" aria-label="Предыдущий слайд"><svg class="i" viewBox="0 0 24 24"><path d="M15 5 8 12l7 7"/></svg></button>
-              <button type="button" data-slide="1" aria-label="Следующий слайд"><svg class="i" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg></button>
-            </div>
-          </div>
-        </div>
-
-        <div class="trust">
-          <div><svg class="i" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg><b>Самовывоз бесплатно</b><span>Кожевенная линия, 30а и Кирочная, 8а</span></div>
-          <div><svg class="i" viewBox="0 0 24 24"><circle cx="6" cy="17" r="3"/><circle cx="18" cy="17" r="3"/><path d="M6 17l4-8h5l3 8M10 9 8 5H5"/></svg><b>Курьер по Петербургу</b><span>350 ₽, время согласуем по телефону</span></div>
-          <div><svg class="i" viewBox="0 0 24 24"><path d="m12 3 8 4.5v9L12 21l-8-4.5v-9z"/><path d="m4 7.5 8 4.5 8-4.5M12 12v9"/></svg><b>СДЭК по России</b><span>Доставка по тарифу СДЭК</span></div>
-          <div><svg class="i" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h4"/></svg><b>Оплата картой</b><span>На сайте или в Telegram-боте</span></div>
+    <section class="n-sec" id="faq">
+      <div class="wrap n-faq">
+        <div><h2>Частые вопросы</h2><p class="muted" style="margin-top:14px">Не нашли ответ? Напишите в Telegram <a href="https://t.me/mrgvzd" target="_blank" rel="noopener">@mrgvzd</a> или позвоните <a href="tel:+79219177853">+7 (921) 917-78-53</a>.</p></div>
+        <div class="n-acc">
+          <details><summary>Вы мелете кофе?<svg class="i" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></summary><p>Нет, продаём только в зёрнах. Молотый кофе выветривается за несколько дней, а зерно в закрытой пачке сохраняет вкус гораздо дольше. Если нужна кофемолка, подскажем в кофейне, какую взять.</p></details>
+          <details><summary>Как быстро привезёте заказ?<svg class="i" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></summary><p>Курьер по Петербургу привозит в течение 1–2 дней после подтверждения, время согласуем по телефону. СДЭК везёт в зависимости от города. Самовывоз можно забрать в день, когда напишем, что заказ готов.</p></details>
+          <details><summary>Как хранить кофе дома?<svg class="i" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></summary><p>В закрытой пачке, в тёмном месте при комнатной температуре. Холодильник не нужен: зерно впитывает запахи и влагу.</p></details>
+          <details><summary>Как отменить подписку?<svg class="i" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></summary><p>Напишите нам в Telegram @mrgvzd или позвоните: +7 (921) 917-78-53. Следующую поставку не отправим и оплату за неё не возьмём.</p></details>
+          <details><summary>Можно ли вернуть кофе?<svg class="i" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></summary><p>Если с пачкой что-то не так, свяжитесь с нами, и мы заменим её или вернём деньги. Подробные условия в <a href="offer">оферте</a>.</p></details>
         </div>
       </div>
     </section>
 
-    <section class="block" id="coffee">
-      <div class="wrap">
-        <div class="head"><h2>Кофе нашей обжарки</h2>
-          <p>Для эспрессо, воронки, френч-пресса и турки. Не знаете, какой взять? Ответьте на пять вопросов ниже, и мы подскажем.</p></div>
-        <div class="products" data-row="coffee" data-limit="3"></div>
-        <p style="margin-top:26px"><a class="link" href="shop#coffee">Весь кофе в магазине →</a></p>
-      </div>
-    </section>
-
-    <section class="block" id="how" style="padding-top:0">
-      <div class="wrap">
-        <div class="head"><h2>Как получить заказ</h2></div>
-        <ol class="steps">
-          <li class="surface"><b>Выберите кофе и вес</b><span>На сайте или в нашем Telegram-боте, как удобнее.</span></li>
-          <li class="surface"><b>Оплатите картой</b><span>Оплата проходит через Робокассу, чек придёт на почту или телефон.</span></li>
-          <li class="surface"><b>Заберите или дождитесь курьера</b><span>Напишем, когда заказ будет готов. Самовывоз из обеих кофеен бесплатный.</span></li>
-        </ol>
-      </div>
-    </section>
-
-    <section class="block" style="padding-top:0">
-      <div class="wrap">
-        <div class="surface quiz" id="quiz">
-          <div><h2>Подберём кофе под ваш вкус</h2>
-            <p class="lead">Пять вопросов: как вы завариваете кофе, пьёте ли с молоком, какие вкусы любите. В конце покажем сорт, который подойдёт.</p></div>
-          <div id="quiz-body"></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="block" id="subscription">
-      <div class="wrap">
-        <div class="sub-head">
-          <div>
-            <h2>Подписка: кофе приезжает сам</h2>
-            <ul class="sub-perks">
-              <li>Без договора и предоплаты</li>
-              <li>Сменить сорт — одним сообщением</li>
-              <li>Пауза в любой момент</li>
-              <li>Свежеобжаренный кофе к вашей дате</li>
-            </ul>
-          </div>
-          <a class="btn orange" href="https://t.me/annenkirche_coffee_bot?start=shop" target="_blank" rel="noopener">Оформить в боте</a>
-        </div>
-        <div class="plans" id="plans"></div>
-        <p style="margin-top:26px"><a class="link" href="subscription">Подробнее о подписке →</a></p>
-      </div>
-    </section>
-
-    <section class="block" id="drip" style="padding-top:0">
-      <div class="wrap">
-        <div class="head"><h2>Дрип-пакеты</h2>
-          <p>Пакет вешается на чашку и заливается горячей водой. Кофе без кофемашины в дороге, на работе и в гостях.</p></div>
-        <div class="products" data-row="drip" data-limit="3"></div>
-        <p style="margin-top:26px"><a class="link" href="shop#drip">Все дрип-пакеты в магазине →</a></p>
-      </div>
-    </section>
-
-    <section class="block" id="shops" style="padding-top:0">
-      <div class="wrap">
-        <div class="head"><h2>Попробуйте у нас в кофейне</h2>
-          <p>Заходите выпить чашку и выбрать зерно домой. Ежедневно с 10:00 до 22:00, каждый 6-й напиток бесплатно по <a class="link" href="https://t.me/annenkirche_coffee_bot?start=card" target="_blank" rel="noopener">карте в Telegram-боте</a>.</p></div>
-        <div class="shops" id="shops-list"></div>
-        <p style="margin-top:26px"><a class="link" href="coffee-shops">Подробнее о кофейнях →</a></p>
-      </div>
-    </section>
-
-    <section class="block reviews-block" style="padding-top:0">
-      <div class="wrap">
-        <div class="head"><h2>Что говорят гости</h2></div>
-        <div class="ph">Сюда 3–4 настоящих отзыва из 2ГИС или Яндекс Карт с именами. Пришлите, вставим.</div>
-      </div>
-    </section>
-
-    <section class="block" style="padding-top:0">
+    <section>
       <div class="wrap">
         <div class="surface app">
           <div>
@@ -192,45 +184,6 @@
         </div>
       </div>
     </section>
-
-    <section class="block b2b" id="b2b">
-      <div class="wrap b2b-cols">
-        <div><h2>Кофе для кафе и офисов</h2>
-          <p class="lead">Поставляем зерно и дрип-пакеты оптом. Напишите, сколько кофе уходит у вас в месяц, и мы пришлём прайс с ценой за килограмм.</p>
-          <div class="cta">
-            <a class="btn orange" href="https://t.me/mrgvzd" target="_blank" rel="noopener">Запросить оптовый прайс</a>
-            <a class="btn" href="wholesale">Подробнее об опте</a>
-          </div></div>
-        <ul class="b2b-list">
-          <li><b>Зерно оптом</b><span>Для кофеен, ресторанов и офисов. Обжариваем под ваш график поставок.</span></li>
-          <li><b>Дрип-пакеты с вашим логотипом</b><span>Подарок гостям отеля, участникам конференции или клиентам.</span></li>
-          <li><b>Цена зависит от объёма</b><span>Чем больше берёте в месяц, тем дешевле килограмм.</span></li>
-        </ul>
-      </div>
-    </section>
-
-    <section class="block" id="faq" style="padding-top:0">
-      <div class="wrap">
-        <div class="head"><h2>Частые вопросы</h2></div>
-        <div class="faq">
-          <details><summary>Вы мелете кофе?</summary><p>Нет, продаём только в зёрнах. Молотый кофе выветривается за несколько дней, а зерно в закрытой пачке сохраняет вкус гораздо дольше. Если нужна кофемолка, подскажем в кофейне, какую взять.</p></details>
-          <details><summary>Как быстро привезёте заказ?</summary><p>Курьер по Петербургу привозит в течение 1–2 дней после подтверждения, время согласуем по телефону. СДЭК везёт в зависимости от города. Самовывоз можно забрать в день, когда напишем, что заказ готов.</p></details>
-          <details><summary>Как хранить кофе дома?</summary><p>В закрытой пачке, в тёмном месте при комнатной температуре. Холодильник не нужен: зерно впитывает запахи и влагу.</p></details>
-          <details><summary>Как отменить подписку?</summary><p>Напишите нам в Telegram @mrgvzd или позвоните: +7 (921) 917-78-53. Следующую поставку не отправим и оплату за неё не возьмём.</p></details>
-          <details><summary>Можно ли вернуть кофе?</summary><p>Если с пачкой что-то не так, свяжитесь с нами, и мы заменим её или вернём деньги. Подробные условия в <a class="link" href="offer">оферте</a>.</p></details>
-        </div>
-      </div>
-    </section>
-
-    <section class="block" style="padding-top:0">
-      <div class="wrap">
-        <div class="surface final">
-          <h2>Закажите первую пачку</h2>
-          <p>Начните с эспрессо-смеси на 200 г: подходит и для кофемашины, и для турки.</p>
-          <div class="cta"><a class="btn orange" href="shop#coffee">Выбрать кофе</a><a class="btn" href="#quiz">Подобрать по вкусу</a></div>
-        </div>
-      </div>
-    </section>
   </main>
 
   <footer>
@@ -238,7 +191,7 @@
       <div class="top">
         <div class="brand"><img class="mark-dark" src="../webapp/img/logo-white.png" alt="Анненкирхе кофе"><img class="mark-light" src="../webapp/img/logo.png" alt="Анненкирхе кофе">
           <p>Своя обжарка и две кофейни в Петербурге.</p></div>
-        <div><h4>Магазин</h4><ul><li><a href="shop#coffee">Кофе</a></li><li><a href="shop#drip">Дрип-пакеты</a></li><li><a href="shop#tea">Чай</a></li><li><a href="shop#cocoa">Какао</a></li><li><a href="shop#merch">Мерч</a></li><li><a href="subscription">Подписка</a></li><li><a href="coffee-shops">Кофейни</a></li></ul></div>
+        <div><h4>Магазин</h4><ul><li><a href="shop#coffee">Кофе</a></li><li><a href="shop#drip">Дрип-пакеты</a></li><li><a href="shop#tea">Чай</a></li><li><a href="shop#cocoa">Какао</a></li><li><a href="shop#merch">Мерч</a></li><li><a href="subscription">Подписка</a></li><li><a href="menu">Меню кофейни</a></li></ul></div>
         <div><h4>Бизнесу</h4><ul><li><a href="wholesale">Кофе оптом</a></li><li><a href="wholesale">Дрип-пакеты под ваш бренд</a></li></ul>
           <h4 style="margin-top:24px">Покупателям</h4><ul><li><a href="delivery">Доставка и оплата</a></li><li><a href="offer">Оферта</a></li><li><a href="privacy">Персональные данные</a></li><li><a href="consent">Согласие на обработку данных</a></li></ul></div>
         <div class="contacts"><h4>Контакты</h4>
@@ -257,6 +210,8 @@
   <script src="../webapp/data.js?v=1795200001"></script>
   <script src="../webapp/pic.js?v=1795200001"></script>
   <script src="../webapp/api.js?v=1795200001"></script>
-  <script src="site.js?v=1795200001"></script>
+  <script src="site.js?v=1795200004"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  <script src="new.js?v=1795200004"></script>
 </body>
 </html>

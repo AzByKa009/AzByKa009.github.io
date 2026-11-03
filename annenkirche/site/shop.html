@@ -4,44 +4,32 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="robots" content="noindex">
-  <title>Магазин · Анненкирхе кофе</title>
-  <meta name="description" content="Анненкирхе кофе: обжариваем кофе сами. Зерно 200 г, 500 г и 1 кг, дрип-пакеты, чай, какао. Подписка на кофе, опт, две кофейни в Петербурге.">
+  <title>Магазин — Анненкирхе кофе</title>
+  <meta name="description" content="Кофе обжарки «Анненкирхе» в зёрнах 200 г, 500 г и 1 кг, дрип-пакеты, чай, какао и мерч. Самовывоз из двух кофеен в Петербурге, курьер, СДЭК.">
   <meta name="theme-color" content="#1F1623">
   <link rel="icon" href="../webapp/img/emblem.png">
-  <!-- Тема до первой отрисовки: выбор гостя, иначе — как в системе. Без мигания. -->
   <script>(function () { var t; try { t = localStorage.getItem('ak-site-theme'); } catch (e) {}
     if (t !== 'light' && t !== 'dark') t = window.matchMedia && matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-    document.documentElement.dataset.theme = t; document.documentElement.classList.add('js');
-    // Заставка: один раз за визит и только если человек не просил уменьшить движение.
-    var seen; try { seen = sessionStorage.getItem('ak-splash'); sessionStorage.setItem('ak-splash', '1'); } catch (e) {}
-    var calm = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (!seen && !calm && location.search.indexOf('clean') < 0) document.documentElement.classList.add('splash', 'splash-hold'); })();</script>
+    document.documentElement.dataset.theme = t; document.documentElement.classList.add('js'); })();</script>
   <link rel="stylesheet" href="fonts.css?v=1795200001">
-  <link rel="stylesheet" href="site.css?v=1795200001">
+  <link rel="stylesheet" href="site.css?v=1795200004">
+  <link rel="stylesheet" href="new.css?v=1795200004">
 </head>
-<body>
-  <div class="stage" aria-hidden="true">
-    <div class="marks" id="marks"><div class="marks-in">
-      <img class="mark mark-dark" src="../webapp/img/emblem-white.png" alt="">
-      <img class="mark mark-light" src="../webapp/img/emblem.png" alt="">
-    </div></div>
-  </div>
-  <div id="splash" aria-hidden="true">
-    <div class="sign"><div class="glass"></div><div class="glow"></div><div class="tube"></div><div class="core"></div></div>
-  </div>
+<body class="n">
   <div class="demo-ribbon"><b>Демо-версия:</b> товары, цены и тексты пока примерные</div>
 
   <header class="header">
-    <div class="wrap in">
+    <div class="in">
       <a class="logo" href="./">
         <img class="logo-dark" src="../webapp/img/emblem-white.png" alt=""><img class="logo-light" src="../webapp/img/emblem.png" alt="">
         <span>Анненкирхе кофе</span>
       </a>
       <nav>
-        <a href="shop">Магазин</a>
-        <a href="subscription">Подписка</a>
+        <a href="shop" aria-current="page">Магазин</a>
+        <a href="./#subscription">Подписка</a>
+        <a href="menu">Меню</a>
         <a href="wholesale">Опт</a>
-        <a href="coffee-shops">Кофейни</a>
+        <a href="./#shops">Кофейни</a>
       </nav>
       <div class="right">
         <button class="icon-btn theme-btn" type="button" data-theme-toggle aria-label="Сменить тему">
@@ -57,13 +45,14 @@
     </div>
   </header>
 
-  <main class="wrap shop-grid-wrap">
-    <div class="shop-head">
-      <h1>Магазин</h1>
-      <p>Кофе нашей обжарки, дрип-пакеты, чай, какао и мерч. Самовывоз из обеих кофеен или доставка.</p>
-    </div>
-    <div class="toolbar" id="shop-chips"></div>
-    <div class="products" id="shop-grid"></div>
+  <main>
+    <section class="n-sec" style="padding-top:48px">
+      <div class="wrap">
+        <div class="n-hd"><div><h1 style="font-size:clamp(44px,7vw,84px)">Магазин</h1><p>Кофе нашей обжарки в зёрнах, дрип-пакеты, чай, какао и мерч. Самовывоз из обеих кофеен бесплатно, курьер по Петербургу, СДЭК по России.</p></div></div>
+        <nav class="n-chips" id="n-chips" aria-label="Категории"></nav>
+        <div class="n-grid" id="n-shop-grid" style="margin-top:24px"></div>
+      </div>
+    </section>
   </main>
 
   <footer>
@@ -71,7 +60,7 @@
       <div class="top">
         <div class="brand"><img class="mark-dark" src="../webapp/img/logo-white.png" alt="Анненкирхе кофе"><img class="mark-light" src="../webapp/img/logo.png" alt="Анненкирхе кофе">
           <p>Своя обжарка и две кофейни в Петербурге.</p></div>
-        <div><h4>Магазин</h4><ul><li><a href="shop#coffee">Кофе</a></li><li><a href="shop#drip">Дрип-пакеты</a></li><li><a href="shop#tea">Чай</a></li><li><a href="shop#cocoa">Какао</a></li><li><a href="shop#merch">Мерч</a></li><li><a href="subscription">Подписка</a></li><li><a href="coffee-shops">Кофейни</a></li></ul></div>
+        <div><h4>Магазин</h4><ul><li><a href="shop#coffee">Кофе</a></li><li><a href="shop#drip">Дрип-пакеты</a></li><li><a href="shop#tea">Чай</a></li><li><a href="shop#cocoa">Какао</a></li><li><a href="shop#merch">Мерч</a></li><li><a href="subscription">Подписка</a></li><li><a href="menu">Меню кофейни</a></li></ul></div>
         <div><h4>Бизнесу</h4><ul><li><a href="wholesale">Кофе оптом</a></li><li><a href="wholesale">Дрип-пакеты под ваш бренд</a></li></ul>
           <h4 style="margin-top:24px">Покупателям</h4><ul><li><a href="delivery">Доставка и оплата</a></li><li><a href="offer">Оферта</a></li><li><a href="privacy">Персональные данные</a></li><li><a href="consent">Согласие на обработку данных</a></li></ul></div>
         <div class="contacts"><h4>Контакты</h4>
@@ -90,6 +79,7 @@
   <script src="../webapp/data.js?v=1795200001"></script>
   <script src="../webapp/pic.js?v=1795200001"></script>
   <script src="../webapp/api.js?v=1795200001"></script>
-  <script src="site.js?v=1795200001"></script>
+  <script src="site.js?v=1795200004"></script>
+  <script src="new.js?v=1795200004"></script>
 </body>
 </html>
